@@ -1,0 +1,182 @@
+﻿@model Domain.ModelView.UsuarioModelView
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+        //load
+        $(document).ready(function () {
+            var id = $("#repreid").val();
+
+            if (id == 0) {
+                $("#divrepre").css("display", "");
+            }
+        });
+    </script>
+}
+
+@{
+    ViewBag.Title = "Adarana";
+}
+
+@using (Html.BeginForm("Usuario", "User", FormMethod.Post, new { autocomplete = "on", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    
+    <div class="main-content">
+        <h2>Adicionar Usuário</h2>
+
+        @*<div style="color: #ff6a00; font-size: large; padding: 20px 20px 20px 20px;">
+            @ViewBag.erro
+        </div>*@
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UsuariosTipos)
+        </div>
+        <div class="inputgrande">
+            @Html.DropDownListFor(x => x.usuariotipoid, new SelectList(Model.UsuariosTipos, "usuariotipoid", "descricao"))
+            @Html.ValidationMessageFor(model => model.usuariotipoid)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.nome)
+        </div>
+        <div class="inputgrande">
+            @Html.EditorFor(model => model.nome)
+            @Html.ValidationMessageFor(model => model.nome)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.apelido)
+        </div>
+        <div class="inputgrande">
+            @Html.EditorFor(model => model.apelido)
+            @Html.ValidationMessageFor(model => model.apelido)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.imagem)
+        </div>
+        <div class="inputgrande">
+            @Html.TextBoxFor(model => Model.imagem, new { type = "file", accept = "image/*", css = "botao01" })
+            @Html.ValidationMessageFor(model => model.imagem)<br />
+            <div style="font-size: small; color: #999">Dimensões: 160 x 160 (procure usar fotos de no máximo 100k)</div>
+            <p>&nbsp;</p>
+
+            @if (!string.IsNullOrEmpty(Model.arquivoimagem))
+            {
+                <img src="@Domain.Util.config.UrlImg/usuario/@Model.arquivoimagem" width="160" height="160" />
+                <br />
+                <div style="font-size: small; color: #999">Foto Atual</div>
+            }
+            else
+            {
+                <div style="font-size: small; color: #999">Nenhuma</div>
+            }
+
+
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.email)
+        </div>
+        <div class="inputgrande">
+            @Html.EditorFor(model => model.email)
+            @Html.ValidationMessageFor(model => model.email)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.senha)
+        </div>
+        <div class="inputgrande">
+            @Html.PasswordFor(model => model.senha)
+            @Html.ValidationMessageFor(model => model.senha, String.Empty, new { style = "color:red;font-size:12px!important" })
+        </div>
+        <div class="editor-label">
+            Ativo
+        </div>
+        <div class="inputgrande">
+            @if (Model.status == 1)
+            {
+                Model.statusb = true;
+            }
+            else
+            {
+                Model.statusb = false;
+            }
+            @Html.CheckBoxFor(model => model.statusb)
+            @Html.ValidationMessageFor(model => model.status)
+        </div>
+        <table>
+            <tr>
+                <td>
+                    <button name="button" class="botao01" value="register">Salvar</button>
+                    @Html.Hidden("userid", Model.userid)
+                    @Html.Hidden("dataincl", Model.dataincl)
+                    @Html.Hidden("arquivoimagem", Model.arquivoimagem)
+                    @Html.Hidden("Menuid", Model.menuid)
+                    @Html.Hidden("MenuSubId", Model.menusubid)
+                    <input id="repreid" value="@ViewBag.repreid" type="hidden" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <p>&nbsp;</p>
+   
+    <div class="row">
+        <!-- Left col -->
+        <div class="col-md-12">
+            <!-- TABLE: LATEST ORDERS -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Cadastros</h3>
+                    <div class="box-tools pull-right">@Model.Usuarios.Count registro(s) listado(s)</div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin" id="ajax">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Apelido</th>
+                                    <th>Email/Login</th>
+                                    <th>Tipo</th>
+                                    <th class="ico">Status</th>
+                                    <th class="ico">Editar</th>
+                                    <th class="ico">Excluir</th>
+                                </tr>
+
+                            </thead>
+                            @{
+            var st = "Inativo";
+                            }
+                            @foreach (var item in Model.Usuarios)
+                            {
+                                st = "Inativo";
+
+                                if (item.Status == 1)
+                                {
+                                    st = "Ativo";
+                                }
+                                <tr id="sumir" style="visibility: visible">
+                                    <td class="minimo">@item.UserId</td>
+                                    <td class="pequeno">@item.Nome</td>
+                                    <td class="pequeno">@item.Apelido</td>
+                                    <td class="pequeno">@item.Email</td>
+                                    <td class="pequeno">@item.UsuarioTipo.descricao</td>
+                                    <td class="ico">
+                                        <img src="@Domain.Util.config.UrlImg/icone/ico-@st-.png" width="18" title="@st">
+                                    </td>
+                                    <td class="ico"><a href="@Domain.Util.config.UrlSite/User/Usuario/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.UserId">
+                                        <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" width="30" /></a></td>
+                                    <td class="ico"><a href="@Domain.Util.config.UrlSite/Delete/Deletar/@item.UserId?ac=UsuarioDelete&cr=User&txt=@item.Apelido">
+                                        <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" width="30" /></a></td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="box-footer clearfix">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+       
+}

@@ -1,0 +1,226 @@
+﻿@{
+    ViewBag.Title = "Adarana";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@section Scripts {
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,300,600|Open+Sans+Condensed:300,700" rel="stylesheet" />
+    <script src="@Domain.Util.config.UrlSite/Content/csslogin/js2/jquery-1.8.1.min.js"></script>
+    <script src="@Domain.Util.config.UrlSite/Content/csslogin/5grid/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI.theme=none&amp;mobileUI.titleBarOverlaid=1&amp;mobileUI.openerWidth=70"></script>
+    <script src="@Domain.Util.config.UrlSite/Content/csslogin/js2/jquery.dropotron-1.1.js"></script>
+    <script src="@Domain.Util.config.UrlSite/Content/csslogin/js2/jquery.slidertron-1.2.js"></script>
+    <script src="@Domain.Util.config.UrlSite/Content/csslogin/js2/init.js"></script>
+
+    <link rel="stylesheet" href="@Domain.Util.config.UrlSite/Content/csslogin/csslogin/5grid/core.css" />
+    <link rel="stylesheet" href="@Domain.Util.config.UrlSite/Content/csslogin/css/5grid/core-desktop.css" />
+    <link rel="stylesheet" href="@Domain.Util.config.UrlSite/Content/csslogin/css/5grid/core-1200px.css" />
+    <link rel="stylesheet" href="@Domain.Util.config.UrlSite/Content/csslogin/css/5grid/core-noscript.css" />
+    <link rel="stylesheet" href="@Domain.Util.config.UrlSite/Content/csslogin/css/style.css" />
+    <link rel="stylesheet" href="@Domain.Util.config.UrlSite/Content/csslogin/css/style-desktop.css" />
+
+}
+
+@using (Html.BeginForm("Login", "Account"))
+{
+    <!-- Header Wrapper -->
+    <div id="header-wrapper">
+        <header id="page-header">
+            <div class="captions">
+                <p style="font-family: Tahoma; font-size: 35px; color: #fff">
+                    <div style="font-size: 18px; color: #333; font-family: Tahoma; padding-top: 5px">
+                        <span style="font-size: 17px; color: #CD3333; font-family: Verdana; padding-top: 0px">@ViewBag.msg</span><br />
+                        <span class="csslogin">&nbsp;&nbsp;&nbsp;Email</span> <span style="padding-left: 3px;">@Html.TextBox("email")</span><br />
+                        <br />
+                        <span class="csslogin">&nbsp;&nbsp;Senha</span> <span style="padding-left: 3px;">@Html.Password("senha")</span><br />
+                        <br />
+                        <button name="button" class="botao01" value="register" tabindex="50">Entrar</button>
+                        @Html.Hidden("eventoid")
+                    </div>
+                </p>
+            </div>
+        </header>
+    </div>
+		
+   <div id="senha-wrapper" style="background-color: #f3f3f3; text-align: center;">
+        <a href="@Domain.Util.config.UrlSite/Contact/Contato/@ViewBag.eventoid">
+            <img src="@Domain.Util.config.UrlImg/icone/ico-ajuda.png" title="Ajuda" width="50" /></a>
+        <p>&nbsp;</p>
+    </div>
+    <!-- Main -->
+@*<div id="main-wrapper">
+        <div class="5grid-layout">
+
+            <!-- Features -->
+            <div class="row">
+                <div class="3u">
+                    <div class="feature-title">
+                        <h2>Amet veroeros feugiat et dolor?</h2>
+                        <p>Sem et vestibulum lorem blandit consequat et ultrices nullam et nisl lorem feugiat consequat:</p>
+                    </div>
+                    <ul class="style2">
+                        <li class="search">Lorem ipsum dolor amet</li>
+                        <li class="social">Nulla vel nisl consequat</li>
+                        <li class="email">Feugiat veroeros lorem</li>
+                    </ul>
+                </div>
+                <div class="3u">
+                    <section class="box-secondary">
+                        <a href="#" class="image image-fit">
+                            <img src="~/images/pic01.jpg" alt="" /></a>
+                        <div>
+                            <h2>Nullam arcu consequat</h2>
+                            <p>
+                                Phasellus dapibus convallis scelerisque. Donec tesque turpis ultrices. Vestibulum ut nulla 
+										sem, vel iaculis arcu. Nulla vel lorem nisl, quis ultricies tellus. Nunc imperdiet elit sed dolore lacus.
+                            </p>
+                            <a href="#" class="button">Magna et feugiat</a>
+                        </div>
+                    </section>
+                </div>
+                <div class="3u">
+                    <section class="box-secondary">
+                        <a href="#" class="image image-fit">
+                            <img src="~/images/pic02.jpg" alt="" /></a>
+                        <div>
+                            <h2>Dapibus etiam lorem</h2>
+                            <p>
+                                Phasellus dapibus convallis scelerisque. Donec tesque turpis ultrices. Vestibulum ut nulla 
+										sem, vel iaculis arcu. Nulla vel lorem nisl, quis ultricies tellus. Nunc imperdiet elit sed dolore lacus.
+                            </p>
+                            <a href="#" class="button">Magna et feugiat</a>
+                        </div>
+                    </section>
+                </div>
+                <div class="3u">
+                    <section class="box-secondary last">
+                        <a href="#" class="image image-fit">
+                            <img src="~/images/pic03.jpg" alt="" /></a>
+                        <div>
+                            <h2>Sed imperdiet adipiscing</h2>
+                            <p>
+                                Phasellus dapibus convallis scelerisque. Donec tesque turpis ultrices. Vestibulum ut nulla 
+										sem, vel iaculis arcu. Nulla vel lorem nisl, quis ultricies tellus. Nunc imperdiet elit sed dolore lacus.
+                            </p>
+                            <a href="#" class="button">Magna et feugiat</a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="row">
+                <hr />
+            </div>
+
+            <!-- Posts -->
+            <div class="row">
+                <div class="6u">
+                    <section>
+                        <a href="#" class="image image-fit">
+                            <img src="~/images/pic04.jpg" alt="" /></a>
+                        <header class="title">
+                            <h2>Feugiat phasellus sed consequat</h2>
+                            <span class="byline">Posted 8 hours ago by Someone</span>
+                        </header>
+                        <p>
+                            Phasellus dapibus convallis scelerisque. Donec tempus augue id tortor ultricies eget pellentesque 
+									turpis ultrices. Vestibulum ut nulla sem, vel iaculis arcu. Nulla vel lorem nisl, quis ultricies tellus. 
+									Nunc imperdiet elit sed dolore lacus venenatis rutrum. Vivamus vulputate urna dolor est sagittis purus, 
+									in laoreet. Nunc imperdiet elit sed dolore lacus venenatis rutrum. Vivamus vulputate eros et non nisl 
+									dapibus eu aliquet diam luctus phasellus consequat lorem ipsum dolore sit amet.
+                        </p>
+                        <footer class="meta">
+                            <a href="#" class="button">Continue Reading</a>
+                            <span class="info">
+                                <span class="tags">Posted in <a href="#">News</a>, <a href="#">Technology</a>, <a href="#">Business</a></span>
+                                <a href="#" class="comments">128</a>
+                            </span>
+                        </footer>
+                    </section>
+                </div>
+                <div class="6u">
+                    <section class="last">
+                        <a href="#" class="image image-fit">
+                            <img src="~/images/pic05.jpg" alt="" /></a>
+                        <header class="title">
+                            <h2>Dapibus lorem luctus volutpat rutrum</h2>
+                            <span class="byline">Posted 8 hours ago by Someone</span>
+                        </header>
+                        <p>
+                            Phasellus dapibus convallis scelerisque. Donec tempus augue id tortor ultricies eget pellentesque 
+									turpis ultrices. Vestibulum ut nulla sem, vel iaculis arcu. Nulla vel lorem nisl, quis ultricies tellus. 
+									Nunc imperdiet elit sed dolore lacus venenatis rutrum. Vivamus vulputate urna dolor est sagittis purus, 
+									in laoreet. Nunc imperdiet elit sed dolore lacus venenatis rutrum. Vivamus vulputate eros et non nisl 
+									dapibus eu aliquet diam luctus phasellus consequat lorem ipsum dolore sit amet.
+                        </p>
+                        <footer class="meta">
+                            <a href="#" class="button">Continue Reading</a>
+                            <span class="info">
+                                <span class="tags">Posted in <a href="#">News</a>, <a href="#">Technology</a>, <a href="#">Business</a></span>
+                                <a href="#" class="comments">128</a>
+                            </span>
+                        </footer>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="row">
+                <hr />
+            </div>
+
+            <!-- More Posts -->
+            <div class="row">
+                <div class="12u">
+                    <section>
+                        <h2>Dolore rutrum arcu nullam ultricies</h2>
+                        <div class="5grid">
+                            <div class="row">
+                                <div class="3u">
+                                    <section class="box-secondary">
+                                        <a href="#" class="image image-fit">
+                                            <img src="~/images/pic06.jpg" alt="" /></a>
+                                        <div>
+                                            <p><strong>Phasellus dapibus convallis?</strong> Scelerisque et amet donec tellus. Nunc imperdiet elit sed.</p>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="3u">
+                                    <section class="box-secondary">
+                                        <a href="#" class="image image-fit">
+                                            <img src="~/images/pic07.jpg" alt="" /></a>
+                                        <div>
+                                            <p><strong>Phasellus dapibus convallis?</strong> Scelerisque et amet donec tellus. Nunc imperdiet elit sed.</p>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="3u">
+                                    <section class="box-secondary">
+                                        <a href="#" class="image image-fit">
+                                            <img src="~/images/pic08.jpg" alt="" /></a>
+                                        <div>
+                                            <p><strong>Phasellus dapibus convallis?</strong> Scelerisque et amet donec tellus. Nunc imperdiet elit sed.</p>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="3u">
+                                    <section class="box-secondary last">
+                                        <a href="#" class="image image-fit">
+                                            <img src="~/images/pic09.jpg" alt="" /></a>
+                                        <div>
+                                            <p><strong>Phasellus dapibus convallis?</strong> Scelerisque et amet donec tellus. Nunc imperdiet elit sed.</p>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+        </div>
+    </div>*@
+
+    
+
+}

@@ -1,0 +1,42 @@
+﻿@model Domain.ModelView.DeleteModelView
+
+@{
+    ViewBag.Title = "Adarana";
+}
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+@{
+    Model.Act = Request.Params["ac"];
+    Model.Control = Request.Params["cr"];
+    Model.Descricao = Request.Params["txt"];
+    //Model.Id2 = Request.Params["id2"];
+    //Model.Id3 = Request.Params["id3"];
+    //Model.Id4 = Request.Params["id4"];
+     }
+
+    
+    <div class="main-content">
+        <h2>Excluir Registro</h2>
+        <p>&nbsp;</p>
+        Tem certeja que deseja excluir <span class="site-title-question">@Model.Descricao</span>?
+        <p>&nbsp;</p>
+        <table>
+            <tr>
+                <td>
+                    <a href="@Domain.Util.config.UrlSite/@Model.Control/@Model.Act/@Model.Id/@Model.Id2/@Model.Id3/@Model.Id4"><span class="botao01">Excluir</span></a>
+                    <a href="@Domain.Util.config.UrlSite/@Model.Control/@Model.Act/0/@Model.Id2/@Model.Id3/@Model.Id4"><span class="botao01">Cancelar</span></a>
+                </td>
+            </tr>
+        </table>
+
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+    </div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

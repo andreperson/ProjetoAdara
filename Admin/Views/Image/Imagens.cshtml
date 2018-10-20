@@ -1,0 +1,69 @@
+﻿@model Domain.ModelView.ImageModelView
+
+@{
+    ViewBag.Title = "Adarana";
+}
+
+
+
+@using (Html.BeginForm("Imagens", "Image", FormMethod.Post, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div class="main-content">
+        <h2>Imagens @Model.modelo</h2>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.imagem)
+        </div>
+        <div class="fileUpload btn btn-primary">
+
+            @Html.TextBoxFor(model => model.imagem, new { type = "file", accept = "image/*", css = "upload" })
+            @Html.ValidationMessageFor(model => model.imagem)
+            <br />
+        </div>
+
+        <p>
+            <a href="@Domain.Util.config.UrlSite/Product/Produto/@Model.produtoid" class="botao01maior">Voltar</a>
+            &nbsp;&nbsp;
+            <button name="button" class="botao01" value="register">Inserir</button>
+                @Html.Hidden("Produtoid", Model.produtoid)
+                @Html.Hidden("Modelo", Model.modelo)
+        </p>
+
+
+
+
+        <p>&nbsp;</p>
+        <table class="tablelist">
+        <tr>
+            <td>
+                <table class="tablelist int">
+                    <tr class="tablelist int tit">
+                        <td>ID</td>
+                        <td>Arquivo</td>
+                        <td>Imagem</td>
+                        <td class="ico">Excluir</td>
+                    </tr>
+
+                    @foreach (var item in Model.Images)
+                    {
+                          
+                        <tr class="tablelist int linha">
+                            <td class="minimo">@item.imageid</td>
+                            <td class="pequeno">@item.imagem</td>
+                            <td class="pequeno">
+                                <img src="@Domain.Util.config.UrlImgProdutos/@Model.modelo/@item.imagem" width="50" /></td>
+                            <td class="ico"><a href="@Domain.Util.config.UrlSite/Image/ImagemDelete/@item.produtoid/@item.imageid/@Model.modelo">
+                                <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" width="30" /></a></td>
+                        </tr>
+                    }
+                    <tr class="tablelist int footer">
+                        <td colspan="7">&nbsp;</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+        <p>&nbsp;</p>
+    </div>
+}

@@ -1,0 +1,110 @@
+﻿@model Domain.ModelView.ProjetoTipoModelView
+
+
+@section Scripts {}
+
+@{
+    ViewBag.Title = "Adarana";
+}
+
+
+@*<div id="submenu_tab">
+    <a href="@Domain.Util.config.UrlSite/Project/Projeto" class="btn btn-sm btn-default btn-flat">Projeto</a>
+    <a href="@Domain.Util.config.UrlSite/ProjectType/ProjetoTipo" class="btn btn-sm btn-default btn-flat">Projeto Tipo</a>
+</div>*@
+
+@using (Html.BeginForm("ProjetoTipo", "ProjectType", FormMethod.Post, new { autocomplete = "on" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    
+    <div class="main-content">
+        <h2>Adicionar Projeto Tipo</h2>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.descricao)
+        </div>
+        <div class="inputgrande">
+            @Html.EditorFor(model => model.descricao)
+            @Html.ValidationMessageFor(model => model.descricao)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.status)
+        </div>
+        <div class="inputgrande">
+            @if (Model.status == 1)
+            {
+                Model.statusb = true;
+            }
+            else
+            {
+                Model.statusb = false;
+            }
+            @Html.CheckBoxFor(model => model.statusb)
+            @Html.ValidationMessageFor(model => model.status)
+        </div>
+        <table>
+            <tr>
+                <td>
+                    <button name="button" class="botao01" value="register">Salvar</button>
+                    @Html.Hidden("Projetotipoid", Model.Projetotipoid)
+                    @Html.Hidden("Menuid", Model.menuid)
+                    @Html.Hidden("MenuSubId", Model.menusubid)
+                </td>
+            </tr>
+        </table>
+    </div>
+    <p>&nbsp;</p>
+    <div class="row">
+        <!-- Left col -->
+        <div class="col-md-12">
+            <!-- TABLE: LATEST ORDERS -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Cadastros</h3>
+                    <div class="box-tools pull-right">@Model.ProjetosTipos.Count registro(s) listado(s)</div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin" id="ajax">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Descrição</th>
+                                    <th class="ico">Status</th>
+                                    <th class="ico">Editar</th>
+                                    <th class="ico">Excluir</th>
+                                </tr>
+                            </thead>
+                            @{
+            var st = "Inativo";
+                            }
+                            @foreach (var item in Model.ProjetosTipos)
+                            {
+                                st = "Inativo";
+
+                                if (item.Status == 1)
+                                {
+                                    st = "Ativo";
+                                }
+                                <tr id="sumir" style="visibility: visible">
+                                    <td class="minimo">@item.projetotipoid</td>
+                                    <td class="grande">@item.descricao</td>
+                                    <td class="ico">
+                                        <img src="@Domain.Util.config.UrlImg/icone/ico-@st-.png" width="18" title="@st"></td>
+                                    <td class="ico"><a href="@Domain.Util.config.UrlSite/ProjectType/ProjetoTipo/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.projetotipoid">
+                                        <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" width="30" /></a></td>
+                                    <td class="ico"><a href="@Domain.Util.config.UrlSite/Delete/Deletar/@item.projetotipoid?ac=ProjetoTipoDelete&cr=ProjectType&txt=@item.descricao">
+                                        <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" width="30" /></a></td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="box-footer clearfix">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+       
+}

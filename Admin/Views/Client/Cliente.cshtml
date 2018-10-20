@@ -1,0 +1,172 @@
+﻿@model Domain.ModelView.ClienteModelView
+
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+
+    </script>
+
+}
+
+
+@{
+    ViewBag.Title = "Adara";
+}
+
+@*<div id="submenu_tab">
+    <a href="@Domain.Util.config.UrlSite/Client/Cliente" class="btn btn-sm btn-default btn-flat">Cliente</a>
+    <a href="@Domain.Util.config.UrlSite/ClientType/ClienteTipo" class="btn btn-sm btn-default btn-flat">Cliente Tipo</a>
+</div>*@
+
+
+@using (Html.BeginForm("Cliente", "Client", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+
+    <div class="main-content">
+        <h2>Adicionar Cliente</h2>
+
+        <div style="color: #ff6a00; font-size: large; padding: 20px 20px 20px 20px;">
+            @ViewBag.erro
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ClientesTipos)
+        </div>
+        <div class="inputgrande">
+            @Html.DropDownListFor(x => x.clientetipoid, new SelectList(Model.ClientesTipos, "clientetipoid", "descricao"))
+            @Html.ValidationMessageFor(model => model.clientetipoid)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Fantasia)
+        </div>
+        <div class="inputgrande">
+            @Html.EditorFor(model => model.Fantasia)
+            @Html.ValidationMessageFor(model => model.Fantasia)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Fone)
+        </div>
+        <div class="editor-participante">
+            <input type="text" name="ddd" id="ddd" value="@Model.DDD" style="width:50px!important" />
+            <input type="text" value="@Model.Fone" name="fone" id="fone" style="width:250px!important" />
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="inputgrande">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Nome)
+        </div>
+        <div class="inputgrande">
+            @Html.EditorFor(model => model.Nome)
+            @Html.ValidationMessageFor(model => model.Nome)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.obs)
+        </div>
+        <div class="inputgrande">
+            @Html.TextAreaFor(model => model.obs)
+            @Html.ValidationMessageFor(model => model.obs)
+        </div>
+        <div class="editor-label">
+            Ativo
+        </div>
+        <div class="inputgrande">
+            @if (Model.status == 1)
+            {
+                Model.statusb = true;
+            }
+            else
+            {
+                Model.statusb = false;
+            }
+            @Html.CheckBoxFor(model => model.statusb)
+            @Html.ValidationMessageFor(model => model.status)
+        </div>
+        <p>&nbsp;</p>
+        <table>
+            <tr>
+                <td>
+                    <button name="button" class="botao01" value="register">Salvar</button>
+                    @Html.Hidden("clienteid", Model.clienteid)
+                    @Html.Hidden("dataincl", Model.DataIncl)
+                    @Html.Hidden("Menuid", Model.menuid)
+                    @Html.Hidden("MenuSubId", Model.menusubid)
+                    <input id="repreid" value="@ViewBag.repreid" type="hidden" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <p>&nbsp;</p>
+    <div class="row">
+        <!-- Left col -->
+        <div class="col-md-12">
+            <!-- TABLE: LATEST ORDERS -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Cadastros</h3>
+                    <div class="box-tools pull-right">@Model.Clientes.Count registro(s) listado(s)</div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin" id="ajax">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Nome Contato</th>
+                                    <th>Telefone</th>
+                                    <th class="ico">Status</th>
+                                    <th class="ico">Editar</th>
+                                    <th class="ico">Excluir</th>
+                                </tr>
+                            </thead>
+                            @{
+                                var st = "Inativo";
+                            }
+                            @foreach (var item in Model.Clientes)
+                            {
+                                st = "Inativo";
+
+                                if (item.Status == 1)
+                                {
+                                    st = "Ativo";
+                                }
+                                <tr id="sumir" style="visibility: visible" class="tablelist int">
+                                    <td class="minimo">@item.clienteid</td>
+                                    <td class="medio">@item.Fantasia</td>
+                                    <td class="pequeno">@item.Nome</td>
+                                    <td class="pequeno">@item.DDD @item.Fone</td>
+                                    <td class="ico">
+                                        <img src="@Domain.Util.config.UrlImg/icone/ico-@st-.png" width="18" title="@st">
+                                    </td>
+                                    <td class="ico">
+                                        <a href="@Domain.Util.config.UrlSite/Client/Cliente/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.clienteid">
+                                            <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" width="30" />
+                                        </a>
+                                    </td>
+                                    <td class="ico">
+                                        <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@item.clienteid/0/@item.Fantasia?ac=ClienteDelete&cr=Client&txt=@item.Fantasia">
+                                            <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" width="30" />
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="box-footer clearfix">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+
+                                    }

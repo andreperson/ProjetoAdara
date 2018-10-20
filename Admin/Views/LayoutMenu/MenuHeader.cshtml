@@ -1,0 +1,17 @@
+﻿@{
+    var img = "";
+}
+
+@if (ViewData["result"] != null)
+{
+    foreach (var menuitem in ViewData["result"] as List<Data.Entities.Menu>)
+    {
+        img = Domain.Util.config.UrlImg + "menu/ico-" + menuitem.descricao.ToLower() + ".png";
+        <li><a  href='@Url.Action(menuitem.view, menuitem.controller)/@menuitem.menuid'>
+            @*<i class="fa fa-@menuitem.icone.ToLower()"></i>*@<img src="@img" width="60" style="margin-left:20px"/></a></li>
+    }
+}
+
+
+
+

@@ -1,0 +1,220 @@
+﻿@model Domain.ModelView.UsuarioMenuModelView
+
+@section Scripts {
+
+    <script src="@Domain.Util.config.UrlSite/Scripts/jsmask/lib/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="@Domain.Util.config.UrlSite/Scripts/jsmask/dist/jquery.maskedinput.min.js" type="text/javascript"></script>
+    <script src="@Domain.Util.config.UrlSite/Scripts/jqueryenterdesable.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        $('input:checkbox').change(function () {
+            //tipoid
+            if (this.checked == false) {
+                var ckname = this.name;
+                var tpindex = ckname.indexOf("&_")
+                var tpid = this.name.substr(3, tpindex - 3);
+
+                //menuid
+                var mnid = this.name.substr(tpindex + 2, 10);
+
+                if (mnid == "1") {
+                    this.checked = true;
+                }
+
+            }
+
+        });
+
+        //*****************
+        //valida o form
+        $(document).submit(function (e) {
+            e.preventDefault();
+            var lista = [];
+            var tpid = "";
+            var tpindex = "";
+            var mnid = "";
+            var mnindex = "";
+            var ckname = "";
+
+            $.each($('input:checkbox'), function (i, el) {
+                //pega o nome do controle
+                ckname = el.name;
+
+                //validações
+                if (ckname.indexOf("ck_") >= 0) {
+                    //tipoid
+                    tpindex = ckname.indexOf("&_")
+                    tpid = el.name.substr(3, tpindex - 3);
+
+                    //menuid
+                    mnid = el.name.substr(tpindex + 2, 10);
+
+                    atvid = el.name.replace("ckat", "");
+                    if (el.checked) {
+                        lista.push(tpid + ":" + mnid)
+                    }
+                }
+            });
+
+            //submit form
+
+            $.post('@Url.Action("InsertAjax")', $.param({ data: lista }, true), function (data) { });
+
+            redir();
+            //$.get('@Url.Action("InsertAjax")', $.param({ data: lista }, true), function (data) { });
+        });
+
+
+        function redir() {
+            function explode() {
+                var url = "/UserMeni/UsuarioMenu/";
+                //alert(url);
+                $(location).attr("href", url);
+            }
+            setTimeout(explode, 2000);
+        }
+
+
+        //**********************************************
+        //fim submit
+
+
+
+        //load
+        $(document).ready(function () {
+            //limpa os controles
+            $.each($('input'), function (i, el) {
+                el.checked = false;
+            });
+
+            //carrega os checks
+            listaPersmissoes();
+        });
+
+
+        function listaPersmissoes() {
+            $.getJSON('@Url.Action("ListaPermissoes/")', listaPermissoesCallBack);
+        }
+
+        function listaPermissoesCallBack(json) {
+            var i = 0;
+            var ckname = ""
+            $.each(json, function (key, data) {
+                $.each($('input:checkbox'), function (i, el) {
+                    $.each(json, function (key, data) {
+                        ckname = "ck_" + data.usuariotipoid + "&_" + data.menuid
+                        if (el.name == ckname) {
+                            el.checked = true;
+                        }
+                    })
+
+                });
+            })
+        }
+
+
+    </script>
+}
+
+
+@{
+    ViewBag.Title = "Adarana";
+}
+
+<div id="submenu_tab">
+    <a href="@Domain.Util.config.UrlSite/Meni/Menu" class="btn btn-sm btn-default btn-flat">Menu</a>
+    <a href="@Domain.Util.config.UrlSite/User/Usuario" class="btn btn-sm btn-default btn-flat">Usuário</a>
+    <a href="@Domain.Util.config.UrlSite/UserMeni/UsuarioMenu" class="btn btn-sm btn-default btn-flat">Permissão</a>
+    <a href="@Domain.Util.config.UrlSite/UserType/UsuarioTipo" class="btn btn-sm btn-default btn-flat">Usuário Tipo</a>
+</div>
+
+
+@using (Html.BeginForm("UsuarioMenu", "UserMeni", FormMethod.Post, new { autocomplete = "on" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+
+    <div class="main-content">
+        <div class="row">
+            <!-- Left col -->
+            <div class="col-md-12">
+                <!-- TABLE: LATEST ORDERS -->
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Cadastros</h3>
+                        <div class="box-tools pull-right">@Model.Menus.Count registro(s) listado(s)</div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table no-margin" id="ajax">
+                                <thead>
+                                    <tr>
+                                        <th>Menu</th>
+                                        <th>Permissões</th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in Model.Menus)
+                                {
+                                    var itemdescr = item.descricao + ".png";
+                                    <tr id="sumir" style="padding: 10px 10px 10px 10px !important">
+                                        <td class="minimo" style="border-color: #f7f7f7">
+                                            <img src="@Domain.Util.config.UrlImg/menu/ico-@itemdescr" width="65" />
+                                        </td>
+                                        <td class="grande" style="padding: 30px 10px 30px 10px !important">
+                                            @foreach (var tipoitem in Model.UsuariosTipos)
+                                            {
+                                                <span style="padding-right: 40px">
+                                                    <input type="checkbox" id="ck_@tipoitem.usuariotipoid&_@item.menuid" name="ck_@tipoitem.usuariotipoid&_@item.menuid" />@tipoitem.descricao
+                                                </span>
+                                            }
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><img src='@Url.Action("GetMenuSub", "UserMeni")?id=@item.menuid' /></td>
+                                    </tr>
+
+                                  
+
+                                
+
+
+
+                                    @*foreach (var itemsub in Model.MenusSubs)
+                                                {
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="minimo" style="border-color: #f7f7f7">
+                                                <img src="@Domain.Util.config.UrlImg/menusub/ico-@itemdescr" width="65" />
+                                                @itemsub.descricao
+
+                                                @foreach (var tipoitem in Model.UsuariosTipos)
+                                        {
+                                                    <span style="padding-right: 40px; margin-left:10px;">
+                                                        <input type="checkbox" id="ck_@tipoitem.usuariotipoid&_@item.menuid" name="ck_@tipoitem.usuariotipoid&_@item.menuid" />@tipoitem.descricao
+                                                    </span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }*@
+
+                                    }
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box-footer clearfix">
+                        <button name="button" class="botao01" value="register">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Hidden("UsuarioMenuid", Model.menuid)
+}
+
+

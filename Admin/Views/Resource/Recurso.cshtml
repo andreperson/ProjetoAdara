@@ -1,0 +1,138 @@
+﻿@model Domain.ModelView.RecursoModelView
+
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+
+        //load
+        $(document).ready(function () {
+            listaAtividades(@ViewBag.userid)
+        });
+
+
+        //****************************************
+        //no clique o evento  - carrega os combos
+        $("#userid").change(function () {
+            listaAtividades($(this).val());
+        });
+
+
+        function listaAtividades(userid) {
+            $.getJSON('@Url.Action("ListaRecursosPorUser/")' + userid, ListaRecursosPorUserCallBack);
+        }
+
+        function ListaRecursosPorUserCallBack(json) {
+            $("#ajaxfind").find("tr:gt(0)").remove();
+            var i = 0;
+            $.each(json, function (key, data) {
+                $(function () {
+                    i += 1;
+                    var index = 1;
+                    newRow = "<tr id='trajax'>" +
+                        "<td class='minimo'>" + data.competenciaid + "</td>" +
+                        "<td class='medio'>" + data.Competencia.Descricao + "</td>" +
+                         "<td class='medio'>" + data.User.Nome + "</td>" +
+                        "<td class='ico'><img style='cursor:pointer' onclick='ExcluirRecurso(" + data.userid + "," + data.competenciaid + ")' id='" + data.competenciaid + "' src='@Domain.Util.config.UrlImg/icone/ico-delete.png' width='30' title='Excluir'></td>" +
+                        "</tr>";
+                    $('#ajaxfind > tbody > tr:last').eq(index - 1).after(newRow);
+                });
+            })
+        }
+
+
+
+        function ExcluirRecurso(userid, atvid) {
+            $.getJSON('@Url.Action("ExcluirRecurso/")' + userid + "/" + atvid, ListaRecursosPorUserCallBack);
+        }
+
+
+    </script>
+
+}
+
+
+@{
+    ViewBag.Title = "Adara";
+}
+@*<div id="submenu_tab">
+
+        <a href="@Domain.Util.config.UrlSite/Resource_User/Recurso_User" class="btn btn-sm btn-default btn-flat">Atribuição</a>
+        <a href="@Domain.Util.config.UrlSite/Resource/Recurso" class="btn btn-sm btn-default btn-flat">Recurso</a>
+
+    </div>*@
+
+
+@using (Html.BeginForm("Recurso", "Resource", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+
+    <div class="main-content">
+        <h2>Adicionar Recurso</h2>
+
+        <div style="color: #ff6a00; font-size: large; padding: 20px 20px 20px 20px;">
+            @ViewBag.erro
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Usuarios)
+        </div>
+        <div class="inputgrande">
+            @Html.DropDownListFor(x => x.userid, new SelectList(Model.Usuarios, "userid", "nome"))
+            @Html.ValidationMessageFor(model => model.userid)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Competencias)
+        </div>
+        <div class="inputgrande">
+            @Html.DropDownListFor(x => x.competenciaid, new SelectList(Model.Competencias, "competenciaid", "Descricao"))
+            @Html.ValidationMessageFor(model => model.competenciaid)
+        </div>
+
+        <p>&nbsp;</p>
+        <table>
+            <tr>
+                <td>
+                    <button name="button" class="botao01maior" value="register">Adicionar</button>
+                    @Html.Hidden("Recursoid", Model.recursoid)
+                    @Html.Hidden("userid", Model.userid)
+                    @Html.Hidden("Menuid", Model.menuid)
+                    @Html.Hidden("MenuSubId", Model.menusubid)
+                    <input id="repreid" value="@ViewBag.repreid" type="hidden" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <p>&nbsp;</p>
+    <div class="row">
+        <!-- Left col -->
+        <div class="col-md-12">
+            <!-- TABLE: LATEST ORDERS -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Cadastros</h3>
+                    <div class="box-tools pull-right">@Model.Recursos.Count registro(s) listado(s)</div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="tablelist int" id="ajaxfind">
+                            <tr>
+                                <th>ID</th>
+                                <th>Competencia</th>
+                                <th>Recurso</th>
+                                <th class="ico">Excluir</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="box-footer clearfix">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+
+}

@@ -1,0 +1,421 @@
+﻿@model Domain.ModelView.ProjetoModelView
+
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $("#all").click(function () {
+            //verifica se o check está marcado
+            if (this.checked) {
+                //marca todos
+                $('input[type=checkbox]').each(function () {
+                    $(this).prop("checked", true);
+                    $("#all").prop("title", "Desmarcar Todos");
+                });
+            }
+            else {
+                //desmarca todos
+                $('input[type=checkbox]').each(function () {
+                    $(this).prop("checked", false);
+                    $("#all").prop("title", "Marcar Todos");
+                });
+            }
+        });
+
+
+        $("#clienteid").change(function () {
+            var id = $("#clienteid").val();
+            if (id != 0) {
+                $("#tdcompet").css('display', 'block');
+            }
+        });
+
+        $("#imp").click(function () {
+            var divContents = $("#conteudoprint").html();
+            var printWindow = window.open('', '', 'height=400,width=800');
+            printWindow.document.write('<html><head><title>Print</title>');
+            printWindow.document.write('</head><body><div style="font-size:10px">');
+            printWindow.document.write(divContents);
+            printWindow.document.write('</div></body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        });
+
+
+        $("#continuar").click(function () {
+            e.preventDefault();
+            $("#obmsg-escolha").css('visibility', 'hidden');
+            var dtprev = $("#dtprevisao").val()
+            var repreid = $("#representanteid").val()
+            var lstFechar = [];
+            lstFechar.push(repreid);//guarda repreid
+            lstFechar.push(dtprev);//guarda a data de vencimento
+            $('input[type=checkbox]').each(function () {
+                if (this.checked) {
+                    var vcompraid = $(this).val();
+                    if (vcompraid != "on") {
+                        lstFechar.push(vcompraid);
+                    }
+                }
+            });
+
+            //caso a lista esteja vazia, informa para que ao menos 1 compra seja escolhida
+            if (dtprev == "") {
+                //informa para que ao menos 1 compra seja escolhida
+                $("#obmsg-escolha").css('visibility', 'visible');
+                $('#obmsg-escolha').html("Informe a data de vencimento!");
+            }
+            else if (repreid == 0) {
+                //informa para que ao menos 1 compra seja escolhida
+                $("#obmsg-escolha").css('visibility', 'visible');
+                $('#obmsg-escolha').html("Representante Inválido, por favor contate o Administrador!");
+            }
+            else if (lstFechar.length <= 2) {
+                //informa para que ao menos 1 compra seja escolhida
+                $("#obmsg-escolha").css('visibility', 'visible');
+                $('#obmsg-escolha').html("Selecione uma compra!");
+            }
+            else {
+
+                $("#continuar").css("visibility", "hidden")
+                $("#imgload").css("visibility", "visible")
+
+                $.post('@Domain.Util.config.UrlSite/Closing/FechamentoTempInsere', $.param({ data: lstFechar }, true), function (data) { });
+
+                redir(repreid);
+
+            }
+
+
+            function redir(repreid) {
+                function explode() {
+                    var url = "/Closing/FechamentoTemp/" + repreid;
+                    //alert(url);
+                    $(location).attr("href", url);
+                }
+                setTimeout(explode, 2000);
+            }
+
+        });
+
+
+
+        $(function () {
+            $("#ValorPardeIdiomas").maskMoney({ showSymbol: true, symbol: "R$", decimal: ",", thousands: "." });
+            $("#valorcomissao").maskMoney({ showSymbol: true, symbol: "R$", decimal: ",", thousands: "." });
+        })
+
+
+        //load
+        $(document).ready(function () {
+            //$.mask.definitions['~'] = "[+-]";
+            $('#dataentregaprev').mask('99/99/9999');
+            $('#dataentrega').mask('99/99/9999');
+
+
+            //carrega as atividades desse projeto
+
+            var wprojetoid = $("#Projetoid").val();
+            InsereAtv(wprojetoid, 0, "");
+
+
+
+            var dt = new Date();
+            var mes = dt.getMonth() + 1;
+            var dia = dt.getDate();
+            var ano = dt.getFullYear();
+            $('#dataentregaprev').val(dia + "/" + mes + "/" + ano);
+            $('#dataentrega').val(dia + "/" + mes + "/" + ano);
+
+            var msg = $("#erromsg").html();
+            if (msg.trim() != "") {
+                $("#container").css("display", "none");
+            }
+
+            var id = $("#repreid").val();
+            if (id == 0) {
+                $("#divrepre").css("display", "");
+            }
+
+            //formatando o campo de valor
+            $('input[type=text]').each(function () {
+                var ct = $(this).prop("id");
+                var ctname = ct.substring(0, 3);
+                if (ctname == "pg_") {
+                    $("#" + ct).maskMoney({ showSymbol: true, symbol: "", decimal: ",", thousands: "." });
+                }
+
+
+            });
+        });
+
+
+
+        function stcheck(st, fechamentoid) {
+            var vl = $("#pg_" + fechamentoid).val();
+            if (vl != "") {
+                $.getJSON('@Url.Action("StCheck/")' + st + "/" + fechamentoid + "/" + vl, StCheckCallBack);
+            }
+            else {
+                $("#obmsg-escolha").css('visibility', 'visible');
+                $('#obmsg-escolha').html("Informe o Valor Pago!");
+            }
+        }
+        function StCheckCallBack(json) {
+            //Limpar os itens que são maiores que 0
+            //Ou seja: não retirar o primeiro item
+            $(json).each(function () {
+                var dtpagto = "-";
+                var st = this.fechamentostatusid;
+                var stat = this.FechamentoStatus.Descricao;
+                var alt = "Marcar Pago";
+
+                if (this.fechamentostatusid == 2) {
+                    alt = "Marcar Não Pago";
+                }
+
+                var newtd = "<img src='@Domain.Util.config.UrlImg/icone/ico-" + st + "-.png' width='28' title='" + stat + " - " + alt + "' id='fec_" + this.boletoid + "' style='cursor:pointer;' onclick='stcheck(" + this.fechamentostatusid + "," + this.fechamentoid + ")'>"
+                $("#ico_" + this.fechamentoid).html(newtd);
+
+                //if (this.datapagto.substring(0, 10) == "01/01/2001") {
+                //    dtpagto = "-";
+                //}
+                //else {
+                //    dtpagto = item.datapagto.substring(0, 10);
+                //}
+
+                //$("#pgto_" + this.fechamentoid).html(dtpagto);
+
+            });
+        }
+
+        function ExcluirAtv(projetoid, atvid) {
+            $.getJSON('@Url.Action("ExcluirAtividade/")' + projetoid + "/" + atvid, InsereAtvCallBack);
+        }
+
+
+
+
+
+
+        function moeda(valor, casas, separdor_decimal, separador_milhar) {
+
+            var valor_total = parseInt(valor * (Math.pow(10, casas)));
+            var inteiros = parseInt(parseInt(valor * (Math.pow(10, casas))) / parseFloat(Math.pow(10, casas)));
+            var centavos = parseInt(parseInt(valor * (Math.pow(10, casas))) % parseFloat(Math.pow(10, casas)));
+
+
+            if (centavos % 10 == 0 && centavos + "".length < 2) {
+                centavos = centavos + "0";
+            } else if (centavos < 10) {
+                centavos = "0" + centavos;
+            }
+
+            var milhares = parseInt(inteiros / 1000);
+            inteiros = inteiros % 1000;
+
+            var retorno = "";
+
+            if (milhares > 0) {
+                retorno = milhares + "" + separador_milhar + "" + retorno
+                if (inteiros == 0) {
+                    inteiros = "000";
+                } else if (inteiros < 10) {
+                    inteiros = "00" + inteiros;
+                } else if (inteiros < 100) {
+                    inteiros = "0" + inteiros;
+                }
+            }
+            retorno += inteiros + "" + separdor_decimal + "" + centavos;
+
+
+            return retorno;
+
+        }
+
+
+    </script>
+}
+
+
+@{
+    ViewBag.Title = "Adara";
+}
+@*<div id="submenu_tab">
+        <a href="@Domain.Util.config.UrlSite/Project/Projeto" class="btn btn-sm btn-default btn-flat">Projeto</a>
+        <a href="@Domain.Util.config.UrlSite/ProjectType/ProjetoTipo" class="btn btn-sm btn-default btn-flat">Projeto Tipo</a>
+    </div>*@
+
+
+
+
+@using (Html.BeginForm("Projeto", "Project", FormMethod.Post, new { autocomplete = "on", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+
+    <div class="main-content">
+        <h2>Adicionar Projeto: Cálculos</h2>
+
+        <div style="color: #ff6a00; font-size: large; padding: 3px 3px 3px 3px;">
+            @ViewBag.erro
+        </div>
+        <table style="width:100%;">
+            <tr>
+                <td style="width:40%; vertical-align:top;">
+                    <div class="row">
+                        <!-- Left col -->
+                        <div class="col-md-12">
+                            <!-- TABLE: LATEST ORDERS -->
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">@Html.LabelFor(model => model.projetoid)</h3>
+                                    <div class="box-tools pull-right">@Model.projetoid</div>
+                                </div>
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">@Html.LabelFor(model => model.titulo)</h3>
+                                    <div class="box-tools pull-right">@Model.titulo</div>
+                                </div>
+                                <div class="box-header with-border">
+                                    @{
+
+                                        string palavrasformat = String.Format(@"{0:###,000}", @Model.numeropalavras); //Formatar de Long para CNPJ
+                                    }
+                                    <h3 class="box-title">@Html.LabelFor(model => model.numeropalavras)</h3>
+                                    <div class="box-tools pull-right">@palavrasformat</div>
+                                </div>
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">@Html.LabelFor(model => model.ListaPrecos) @ViewBag.ListaPorCliente</h3>
+                                    <div class="box-tools pull-right">@ViewBag.Cliente</div>
+                                </div>
+                                <div class="box-footer clearfix">&nbsp;</div>
+                            </div>
+
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Competências do Projeto</h3>
+                                    <div class="box-tools pull-right"></div>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="table-responsive">
+                                        <table class="table no-margin">
+                                            @foreach (var item in Model.ListaPrecos)
+                                            {
+                                                <thead>
+                                                    <tr>
+                                                        <th>@item.competenciaid</th>
+                                                        <th>@item.Descricao</th>
+                                                        <th>@item.Precopalavra</th>
+                                                        <th>@item.Precolinha</th>
+                                                        <th>@item.Precohora</th>
+                                                    </tr>
+                                                </thead>
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="box-footer clearfix">&nbsp;</div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </td>
+                <td style="width:5%">&nbsp;</td>
+                <td style="width:55%; vertical-align:top;">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.prazohoras)
+                    </div>
+                    <div class="inputgrande">
+                        @Html.TextBoxFor(model => model.prazohoras, new { style = "width:200px" })
+                        @Html.ValidationMessageFor(model => model.prazohoras)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.valorcalculado)
+                    </div>
+                    <div class="inputgrande">
+                        @Html.TextBoxFor(model => model.valorcalculado, new { style = "width:200px" })
+                        @Html.ValidationMessageFor(model => model.valorcalculado)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.valorprojeto)
+                    </div>
+                    <div class="inputgrande">
+                        @Html.TextBoxFor(model => model.valorprojeto, new { style = "width:200px" })
+                        @Html.ValidationMessageFor(model => model.valorprojeto)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.dataentregaprev)
+                    </div>
+                    <div class="inputgrande">
+                        @Html.TextBoxFor(model => model.dataentregaprev, new { style = "width:200px" })
+                        @Html.ValidationMessageFor(model => model.dataentregaprev)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.dataentrega)
+                    </div>
+                    <div class="inputgrande">
+                        @Html.TextBoxFor(model => model.dataentrega, new { style = "width:200px" })
+                        @Html.ValidationMessageFor(model => model.dataentrega)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.obs)
+                    </div>
+                    <div class="inputgrande">
+                        @Html.TextBoxFor(model => model.obs, new { style = "width:200px" })
+                        @Html.ValidationMessageFor(model => model.obs)
+                    </div>
+
+                    <div class="editor-label">
+                        Ativo
+                    </div>
+                    <div class="inputgrande">
+                        @if (Model.status == 1)
+                        {
+                            Model.statusb = true;
+                        }
+                        else
+                        {
+                            Model.statusb = false;
+                        }
+                        @Html.CheckBoxFor(model => model.statusb)
+                        @Html.ValidationMessageFor(model => model.status)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.documento)
+                    </div>
+                    <div class="inputgrande">
+                        @Html.TextBoxFor(model => Model.documento, new { type = "file", css = "botao01" })
+                        @Html.ValidationMessageFor(model => model.documento)<br />
+                        <div style="font-size: small; color: #999">Dimensões: 160 x 160 (procure usar fotos de no máximo 100k)</div>
+                        <p>&nbsp;</p>
+
+                        @if (!string.IsNullOrEmpty(Model.documentoanexo))
+                        {
+                            <img src="@Domain.Util.config.UrlImg/usuario/@Model.documentoanexo" width="160" height="160" />
+                            <br />
+                            <div style="font-size: small; color: #999">Arquivo Atual</div>
+                        }
+                        else
+                        {
+                            <div style="font-size: small; color: #999">Nenhuma</div>
+                        }
+                    </div>
+
+                    <button name="button" class="botao01" value="register">Salvar</button>
+                    @Html.Hidden("Projetoid", Model.projetoid)
+                    @Html.Hidden("dataincl", Model.DataIncl)
+                    @Html.Hidden("MenuId", Model.menuid)
+                    @Html.Hidden("MenuSubId", Model.menusubid)
+                    <input id="repreid" value="@ViewBag.repreid" type="hidden" />
+                </td>
+                <td style="width:5%">&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+    <p>&nbsp;</p>
+                                        }

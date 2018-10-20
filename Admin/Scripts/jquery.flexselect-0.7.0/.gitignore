@@ -1,0 +1,7 @@
+pkg
+.DS_Store
+notes.txt
+.bundle
+vendor/ruby
+vendor/cache
+.project

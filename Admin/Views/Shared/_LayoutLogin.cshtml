@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="@Domain.Util.config.UrlImg/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="@Domain.Util.config.UrlImg/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="@Domain.Util.config.UrlImg/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="@Domain.Util.config.UrlImg/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="@Domain.Util.config.UrlImg/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="@Domain.Util.config.UrlImg/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="@Domain.Util.config.UrlImg/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="@Domain.Util.config.UrlImg/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="@Domain.Util.config.UrlImg/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="@Domain.Util.config.UrlImg/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="@Domain.Util.config.UrlImg/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="@Domain.Util.config.UrlImg/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="@Domain.Util.config.UrlImg/favicon/favicon-16x16.png">
+    <link rel="manifest" href="@Domain.Util.config.UrlImg/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="@Domain.Util.config.UrlImg/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+   
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <header></header>
+    <div id="body">
+        @RenderSection("featured", required: false)
+        <section class="content-wrapper main-content clear-fix">
+            @RenderBody()
+        </section>
+    </div>
+     <footer>
+        @*<div class="footer" style="color: #fff;background-color:#666">
+        <table style="width: 100%; vertical-align: top; color: #b5b3b3">
+            <tr>
+                <td>&nbsp;</td>
+                <td style="vertical-align: top; width: 30%;"><span style="vertical-align: top; font-size: medium; color: #fff; font-weight: bold;">Pré e Pós Evento</span>
+                    <ul>
+                        <li>Cadastramento de participantes;</li>
+                        <li>Impressão de credenciais;</li>
+                        <li>Confecção de Certificados;</li>
+                        <li>Relatórios em tempo real e diários, fluxo, presença em auditórios e quantidades de inscritos;</li>
+                        <li>Padronização de banco de dados;</li>
+                        <li>Programa para controle de inscrições centro de apoio ao expositor;</li>
+                        <li>Manuseio de malas diretas;</li>
+                        <li>Montagem de Material para divulgação e didático;</li>
+                        <li>Controle de acesso e presencial em exposições e salas de palestras e cursos;</li>
+                        <li>Envio de mailing de registros do evento para organizadores e expositores (coletor de dados);</li>
+                    </ul>
+                </td>
+                <td style="vertical-align: top; width: 30%"><span style="vertical-align: top; font-size: medium; color: #fff; font-weight: bold;">Equipamentos e Colaboradores</span>
+                    <ul>
+                        <li>Equipamentos (computadores, note books, impressoras, coletores de dados);</li>
+                        <li>Equipes de digitadores e recepcionistas (para estandes, salas, entradas e direcionamento);</li>
+                        <li>Coordenadores e técnicos para suporte;</li>
+                    </ul>
+                </td>
+                <td style="vertical-align: top; width: 10%"><span style="font-size: medium; color: #fff; font-weight: bold;">Sistemas</span>
+                    <ul>
+                        <li>Sites;</li>
+                        <li>Sistemas;</li>
+                        <li>Logotipos;</li>
+                        <li>Layouts;</li>
+                    </ul>
+                </td>
+                <td style="vertical-align: top; width: 30%"><span style="font-size: medium; color: #fff; font-weight: bold;">Contato</span>
+                    <ul class="contact" style="padding:0px 0px 2px 24px">
+                        <li class="address" style="padding-left:20px; vertical-align: middle"> &nbsp;&nbsp;&nbsp;Av. Diógenes Ribeiro de Lima <br /> &nbsp;&nbsp;&nbsp;Lapa - São Paulo-SP</li><br />
+                        <li class="mail" style="padding-left:20px; vertical-align: middle"> &nbsp;&nbsp;&nbsp;atendimento@pulsoeventos.com.br</li><br />
+                        <li class="fone" style="padding-left:20px; vertical-align: middle"> &nbsp;&nbsp;&nbsp;(11) 2883-5664</li><br />
+                        <li class="fone" style="padding-left:20px; vertical-align: middle"> &nbsp;&nbsp;&nbsp;(11) 9 7110-8210</li><br />
+                        <li class="fale" style="padding-left:20px; vertical-align: middle"> &nbsp;&nbsp;&nbsp;(11) 9 6622-9040</li><br />
+                        <li class="fale" style="padding-left:20px; vertical-align: middle"> &nbsp;&nbsp;&nbsp;(11) 9 9976-6885</li><br />
+                    </ul>
+                    <span style="vertical-align: bottom; float: right; position: relative;">&copy; @DateTime.Now.Year - Pulso</span>
+                </td>
+            </tr>
+        </table>
+    </div>*@
+    </footer>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

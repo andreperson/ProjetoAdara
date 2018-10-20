@@ -1,0 +1,195 @@
+﻿@model Domain.ModelView.Competencia_UsuarioModelView
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+
+
+        $("#multfind").click(function () {
+            var word = $("#wfind").val();
+            if (word != "") {
+                //mostra a imagem
+                $("#findload").css('visibility', 'visible');
+                getUsuario(word);
+            }
+            else {
+                $("#findmsg").html("Digite nome ou empresa!")
+            }
+        });
+
+        function getUsuario(word) {
+            $.getJSON('@Url.Action("GetUsuarioFind/")' + word + "/" + "0", GetUsuarioFindCallBack);
+        }
+
+
+        //função que irá ser chamada quando terminar
+        //a chamada ajax
+        //função que irá ser chamada quando terminar
+        //a chamada ajax
+        function GetUsuarioFindCallBack(json) {
+            var i = 0;
+            $("#ajaxfind").find("tr:gt(0)").remove();
+            $("#multfindresult").css('display', '');
+            $.each(json, function (key, data) {
+                $(function () {
+                    i += 1;
+                    var index = 1;
+                    newRow = "<tr id='trajaxfind'>" +
+                         "<td class='minimo' style='font-size:11px'>" + data.UserId + "</td>" +
+                         "<td class='pequeno' style='font-size:11px'>" + data.Nome + "</td>" +
+                         "<td class='pequeno' style='font-size:11px'>" + data.Apelido + "</td>" +
+                         "<td class='pequeno' style='font-size:11px'>" + data.Email + "</td>" +
+                         "<td class='ico'><a href='@Domain.Util.config.UrlSite/EditParticipant/EditaParticipante/" + data.Userid + "/0'><img src='@Domain.Util.config.UrlImg/icone/ico-edit.png' width='40' alt='Editar'></a></td>" +
+                        "</tr>";
+                    $('#ajaxfind > tbody > tr:last').eq(index - 1).after(newRow);
+                });
+            })
+            $("#findload").css('visibility', 'hidden');
+        }
+
+
+    </script>
+
+}
+
+
+@{
+    ViewBag.Title = "Adara";
+}
+
+@*<div id="submenu_tab">
+    <a href="@Domain.Util.config.UrlSite/Competence_User/Competencia_Usuario" class="btn btn-sm btn-default btn-flat">Atribuição</a>
+    <a href="@Domain.Util.config.UrlSite/Competence/Competencia" class="btn btn-sm btn-default btn-flat">Competencia</a>
+</div>*@
+
+
+@using (Html.BeginForm("Competencia_Usuario", "Competence_User", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+
+    <div class="main-content">
+        <h2>Atribuir Competencia</h2>
+
+        <div style="color: #ff6a00; font-size: large; padding: 20px 20px 20px 20px;">
+            @ViewBag.erro
+        </div>
+
+        <table>
+            <tr>
+
+                <td style="width: 100%; vertical-align: top;">
+                    <table class="tablelist" style="float: right">
+                        <tr>
+                            <td>
+                                <div id="findload" style="visibility: visible; position: absolute;">
+                                    <img src="@Domain.Util.config.UrlImg/icone/ico-finder-usuarios.png" width="140" />
+                                </div>
+                                <br />
+                                <div id="findmsg" class="site-msg"></div>
+                                <input type="text" id="wfind" name="wfind" style="width: 300px; height: 40px; background-color: #f7f7f7; color: #0d4276" />
+                                <img src="@Domain.Util.config.UrlImg/icone/ico-find.png" title="Click to Find" alt="Click to Find" style="width:50px; vertical-align:middle; cursor:pointer" id="multfind" />
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <table class="tablelist" id="multfindresult" style="float: right; display: none; border:1px solid #ccc">
+                        <tr>
+                            <td>
+                                <table class="tablelist" id="ajaxfind">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Apelido</th>
+                                        <th>Email</th>
+                                        <th class="ico">Editar</th>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+        </table>
+
+       
+        <p>&nbsp;</p>
+        <table>
+            <tr>
+                <td>
+                    <button name="button" class="botao01" value="register">Salvar</button>
+                    @Html.Hidden("Competenciaid", Model.competenciaid)
+                    @Html.Hidden("dataincl", Model.DataIncl)
+                    @Html.Hidden("Menuid", Model.menuid)
+                    @Html.Hidden("MenuSubId", Model.menusubid)
+                    <input id="repreid" value="@ViewBag.repreid" type="hidden" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <p>&nbsp;</p>
+    <div class="row">
+        <!-- Left col -->
+        <div class="col-md-12">
+            <!-- TABLE: LATEST ORDERS -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Cadastros</h3>
+                    <div class="box-tools pull-right">@Model.Competencias_Usuarios.Count registro(s) listado(s)</div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin" id="ajax">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuário</th>
+                                    <th>Competências</th>
+                                    <th class="ico">Status</th>
+                                    <th class="ico">Editar</th>
+                                    <th class="ico">Excluir</th>
+                                </tr>
+                            </thead>
+                            @{
+                                var st = "Inativo";
+                            }
+                            @foreach (var item in Model.Competencias_Usuarios)
+                            {
+                                st = "Inativo";
+
+                                if (item.Status == 1)
+                                {
+                                    st = "Ativo";
+                                }
+                                <tr id="sumir" style="visibility: visible" class="tablelist int">
+                                    <td class="minimo">@item.competencia_userid</td>
+                                    <td class="medio">@item.User.Nome</td>
+                                    <td class="medio">@item.Competencia.Descricao</td>
+                                    <td class="ico">
+                                        <a href="@Domain.Util.config.UrlSite/Competence/Competencia/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.competencia_userid">
+                                            <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" width="30" />
+                                        </a>
+                                    </td>
+                                    <td class="ico">
+                                        <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@item.competenciaid/0/@item.competencia_userid?ac=Competencia_UsuarioDelete&cr=Competence&txt=@item.competencia_userid">
+                                            <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" width="30" />
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="box-footer clearfix">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+
+}
