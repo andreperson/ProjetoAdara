@@ -55,11 +55,14 @@ namespace Admin.Controllers
         public ActionResult Projeto(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
             var model = new ProjetoModelView();
+            ViewBag.PageTopInformation = "Project Form";
+            ViewBag.Acao = "Project Add";
 
             if (id3 != 0)
             {
                 //busca as informações para edição
                 model = ServiceProjeto.GetProjetoId(id3);
+                ViewBag.Acao = "Project Edit";
             }
 
 

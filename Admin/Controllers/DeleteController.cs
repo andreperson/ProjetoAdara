@@ -37,12 +37,16 @@ namespace Admin.Controllers
             model.Id = id;
             model.Id2 = id2.ToString();
             model.Id3 = id3.ToString();
-            model.Descricao = id3.ToString();
+            model.Descricao = id4.ToString();
             model.MenuId = id;
             model.MenuSubId = id2;
             ViewBag.MenuId = id;
             ViewBag.MenuSubId = id2;
-            
+
+            ViewBag.PageTopInformation = "Delete Form";
+            ViewBag.Acao = "Removing Record";
+
+
             return View(model);
         }
 

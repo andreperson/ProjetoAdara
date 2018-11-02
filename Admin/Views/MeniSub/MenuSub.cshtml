@@ -2,6 +2,8 @@
 
 
 @section Scripts {
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
+
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -13,166 +15,219 @@
 }
 
 @{
-    ViewBag.Title = "Adarana";
+    ViewBag.Title = @Domain.Util.config.Title;
 }
 
-@*<div id="submenu_tab">
-        <a href="@Domain.Util.config.UrlSite/Meni/Menu" class="btn btn-sm btn-default btn-flat">Menu</a>
-        <a href="@Domain.Util.config.UrlSite/MeniSub/MenuSub" class="btn btn-sm btn-default btn-flat">Sub Menu</a>
-        <a href="@Domain.Util.config.UrlSite/User/Usuario" class="btn btn-sm btn-default btn-flat">Usuário</a>
-        <a href="@Domain.Util.config.UrlSite/UserMeni/UsuarioMenu" class="btn btn-sm btn-default btn-flat">Permissão Menu</a>
-        <a href="@Domain.Util.config.UrlSite/UserMeniSub/UsuarioMenuSub" class="btn btn-sm btn-default btn-flat">Permissão Sub Menu</a>
-        <a href="@Domain.Util.config.UrlSite/UserType/UsuarioTipo" class="btn btn-sm btn-default btn-flat">Usuário Tipo</a>
-    </div>*@
 
 @using (Html.BeginForm("MenuSub", "MeniSub", FormMethod.Post, new { autocomplete = "on" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-8 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">@ViewBag.PageTopInformation</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <h6 class="heading-small text-muted mb-4">@ViewBag.Acao</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.menus)</label>
+                                            @Html.DropDownListFor(x => x.menuid, new SelectList(Model.menus, "menuid", "descricao"), new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.menuid)
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.descricao)</label>
+                                            @Html.TextBoxFor(model => model.descricao, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.descricao)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.view)</label>
+                                            @Html.TextBoxFor(model => model.view, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.view)
+                                        </div>
+                                    </div>
 
-    <div class="main-content">
-        <h2>Adicionar Sub Menu</h2>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.controller)</label>
+                                            @Html.TextBoxFor(model => model.controller, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.controller)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.icone)</label>
+                                            @Html.TextBoxFor(model => model.icone, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.icone)
+                                        </div>
+                                    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.menus)
-        </div>
-        <div class="inputgrande">
-            @Html.DropDownListFor(x => x.menuid, new SelectList(Model.menus, "menuid", "descricao"))
-            @Html.ValidationMessageFor(model => model.menuid)
-        </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.ordem)</label>
+                                            @Html.TextBoxFor(model => model.ordem, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.ordem)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.descricao)
-        </div>
-        <div class="inputgrande">
-            @Html.EditorFor(model => model.descricao)
-            @Html.ValidationMessageFor(model => model.descricao)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.icone)
-        </div>
-        <div class="inputgrande">
-            @Html.EditorFor(model => model.icone)
-            @Html.ValidationMessageFor(model => model.icone)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.controller)
-        </div>
-        <div class="inputgrande">
-            @Html.EditorFor(model => model.controller)
-            @Html.ValidationMessageFor(model => model.controller)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.view)
-        </div>
-        <div class="inputgrande">
-            @Html.EditorFor(model => model.view)
-            @Html.ValidationMessageFor(model => model.view)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ordem)
-        </div>
-        <div class="inputgrande">
-            @Html.EditorFor(model => model.ordem)
-            @Html.ValidationMessageFor(model => model.ordem)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.status)
-        </div>
-        <div class="inputgrande">
-            @if (Model.status == 1)
-            {
-                Model.statusb = true;
-            }
-            else
-            {
-                Model.statusb = false;
-            }
-            @Html.CheckBoxFor(model => model.statusb)
-            @Html.ValidationMessageFor(model => model.status)
-        </div>
-        <table>
-            <tr>
-                <td>
-                    <button name="button" class="botao01" value="register">Salvar</button>
-                    @Html.Hidden("Menuid", Model.menuid)
-                    @Html.Hidden("MenuSubid", Model.menusubid)
-                    @Html.Hidden("Menuid_menu", Model.menuid_menu)
-                </td>
-            </tr>
-        </table>
-
-        <p>&nbsp;</p>
-    </div>
-
-    <div class="row">
-        <!-- Left col -->
-        <div class="col-md-12">
-            <!-- TABLE: LATEST ORDERS -->
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Cadastros</h3>
-                    <div class="box-tools pull-right">@Model.menussubs.Count registro(s) listado(s)</div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <div class="table-responsive">
-                        <table class="table no-margin" id="ajax">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>ID</th>
-                                    <th>Descrição</th>
-                                    <th>Ícone</th>
-                                    <th>URL</th>
-                                    <th>Ordem</th>
-                                    <th class="ico">Status</th>
-                                    <th class="ico">Editar</th>
-                                    <th class="ico">Excluir</th>
-                                </tr>
-                            </thead>
-                            @{
-                                var st = "Inativo";
-                            }
-                            @foreach (var item in Model.menussubs)
-                            {
-                                st = "Inativo";
-
-                                if (item.status == 1)
-                                {
-                                    st = "Ativo";
-                                }
-                                var itemdescr = item.icone + ".png";
-                                <tr id="sumir" style="visibility: visible">
-
-                                    <td class="ico"><img src="@Domain.Util.config.UrlImg/menu/ico-@itemdescr" width="40" /></td>
-                                    <td class="minimo">@item.menusubid</td>
-                                    <td class="pequeno">@item.descricao</td>
-                                    <td class="pequeno">@item.icone</td>
-                                    <td class="grande">@item.view + "/" +  @item.controller</td>
-                                    <td class="minimo">@item.ordem</td>
-                                    <td class="minimo">
-                                        <img src="@Domain.Util.config.UrlImg/icone/ico-@st-.png" width="18" title="@st">
-                                    </td>
-                                    <td class="ico">
-                                        <a href="@Domain.Util.config.UrlSite/MeniSub/MenuSub/@ViewBag.MenuId/@item.menusubid/@item.menuid">
-                                            <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" width="30" />
-                                        </a>
-                                    </td>
-                                    <td class="ico">
-                                        <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@item.menusubid/@item.menuid?ac=MenuSubDelete&cr=MeniSub&txt=@item.descricao">
-                                            <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" width="30" />
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </table>
+                            <div class="text-right">
+                                <button name="button" class="btn btn-primary mt-4" value="register">Salvar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="box-footer clearfix">&nbsp;</div>
             </div>
         </div>
+        @Html.Hidden("Menuid", Model.menuid)
+        @Html.Hidden("MenuSubid", Model.menusubid)
+        @Html.Hidden("menuid_click", Model.menuid_click)
+        @Html.Hidden("menusubid_click", Model.menusubid_click)
+        <!-- Table -->
+        <div class="row mt-5">
+            <div class="col-xl-12 mb-5 mb-xl-0">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Register</h3>
+                            </div>
+                            <div class="col text-right">
+                                <span class="heading-small text-muted mb-4">@Model.menussubs.Count record(s) listed</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Description</th>
+                                    <th>View / Controller</th>
+                                    <th>Icon</th>
+                                    <th>Order</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.menussubs)
+                                {
+                                    <tr>
+                                        <th scope="row">
+                                            @item.menusubid
+                                        </th>
+                                        <td>
+                                            @item.descricao
+                                        </td>
+                                        <td>
+                                            @item.view / @item.controller
+                                        </td>
+                                        <td>
+                                            @item.icone
+                                        </td>
+                                        <td>
+                                            @item.ordem
+                                        </td>
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/MeniSub/MenuSub/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.menusubid">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="edit Sub Menu" width="30" />
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.menusubid/@item.descricao?ac=MenuSubDelete&cr=MeniSub&txt=Sub Menu @item.descricao">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="delete Sub Menu" width="30" />
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <div class="card-footer py-4">
+                            <nav aria-label="...">
+                                @*<ul class="pagination justify-content-end mb-0">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">
+                                                <i class="fas fa-angle-left"></i>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active">
+                                            <a class="page-link" href="#">1</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">
+                                                <i class="fas fa-angle-right"></i>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    </ul>*@
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p></p><p></p>
+        @*<!-- End Table -->
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="row align-items-center justify-content-xl-between">
+                    <div class="col-xl-6">
+                        <div class="copyright text-center text-xl-left text-muted">
+                            &copy; 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>*@
     </div>
 
-                                }
+
+}

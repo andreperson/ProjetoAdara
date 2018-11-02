@@ -25,12 +25,10 @@ namespace Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.user = User.Identity.Name;
-                model.status = Convert.ToInt16(model.statusb);
-
+                model.status = 1;
                 //busca o nome do menu para ser usado na action;
                 MenuModelView menumd = ServiceMenu.GetMenuId(model.menuid);
                 model.menuact = menumd.descricao;
-
 
                 if (model.menusubid != 0) //update
                 {
@@ -40,7 +38,8 @@ namespace Admin.Controllers
                 {
                     ServiceMenuSub.InsertMenuSub(model);
                 }
-                return Redirect(Domain.Util.config.UrlSite + "MeniSub/MenuSub/" + model.menuid_menu + "/" + model.menusubid);
+                return Redirect(Domain.Util.config.UrlSite + "MeniSub/MenuSub/" + model.menuid_click + "/" + model.menusubid_click
+                    );
 
             }
 
@@ -58,13 +57,23 @@ namespace Admin.Controllers
             if (id3 != 0)
             {
                 //busca as informações para edição
-                model = ServiceMenuSub.GetMenuSubId(id2);  
+                model = ServiceMenuSub.GetMenuSubId(id3);
+               
             }
 
             model.menus = ServiceMenu.getMenu();
             model.menussubs = GetMenuSubByMenuid(model.menus);
             ViewBag.MenuId = id;
-            model.menuid_menu = id;
+            ViewBag.MenuSubId = id2;
+            model.menuid_click = id;
+            model.menusubid_click = id2;
+
+
+            //o menu que esta sendo editado fica em model.menuid
+            //o submenu que esta sendo editado fica em model.submenuid
+
+            //o menu do click fica em viewbag menuid e submenuid
+
 
             return View(model);
         }

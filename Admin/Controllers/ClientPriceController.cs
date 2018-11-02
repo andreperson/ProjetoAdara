@@ -25,7 +25,7 @@ namespace Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.user = User.Identity.Name;
-                model.status = Convert.ToInt16(model.statusb);
+                model.status = 1;
                 model.Precopalavra = model.Precopalavra.Replace(".", "");
                 model.Precolinha = model.Precolinha.Replace(".", "");
                 model.Precohora = model.Precohora.Replace(".", "");
@@ -51,11 +51,14 @@ namespace Admin.Controllers
         public ActionResult ClientePreco(Int16 id = 0, Int16 id2=0, Int16 id3 =0)
         {
             var model = new ClientePrecoModelView();
-            
+            ViewBag.PageTopInformation = "Client Price Form";
+            ViewBag.Acao = "Price Type Add";
+
             if (id3 != 0)
             {
                 //busca as informações para edição
-                model = ServiceClientePreco.GetClientePrecoId(id3);  
+                model = ServiceClientePreco.GetClientePrecoId(id3);
+                ViewBag.Acao = "Client Price Edit";
             }
 
             //model.ClientePrecosTipos = ServiceClientePrecoTipo.getClientePrecoTipoCombo();
@@ -78,7 +81,6 @@ namespace Admin.Controllers
 
             model.menuid = id;
             model.menusubid = id2;
-
             ViewBag.MenuId = id;
             ViewBag.MenuSubId = id2;
             return View(model);
@@ -93,7 +95,7 @@ namespace Admin.Controllers
                 ServiceClientePreco.DeleteClientePrecoId(id3); 
             }
 
-            return Redirect(Domain.Util.config.UrlSite + "ClientPrice/ClientePreco/" + id + "/" + id2 + "/" + id3);
+            return Redirect(Domain.Util.config.UrlSite + "ClientPrice/ClientePreco/" + id + "/" + id2 + "/");
         }
     }
 } 

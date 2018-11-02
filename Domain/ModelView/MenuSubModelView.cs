@@ -10,12 +10,13 @@ namespace Domain.ModelView
 {
     public class MenuSubModelView
     {
-        public Int16 menusubid { get; set; }
-        public Int16 menuid { get; set; }
+        public int menusubid { get; set; }
+        public int menuid { get; set; }
 
-        public Int16 menuid_menu { get; set; }
+        public int menuid_click { get; set; }
+        public int menusubid_click { get; set; }
         public string menuact { get; set; }
-        
+
         [Display(Name = "Descrição")]
         [Required(ErrorMessage = "Por favor informe a Descrição.")]
         public string descricao { get; set; }

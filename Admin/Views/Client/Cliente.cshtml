@@ -2,171 +2,230 @@
 
 
 @section Scripts {
-
-
-    <script type="text/javascript">
-
-    </script>
-
+    <!-- Argon CSS -->
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
 }
-
 
 @{
-    ViewBag.Title = "Adara";
+    ViewBag.Title = @Domain.Util.config.Title;
 }
-
-@*<div id="submenu_tab">
-    <a href="@Domain.Util.config.UrlSite/Client/Cliente" class="btn btn-sm btn-default btn-flat">Cliente</a>
-    <a href="@Domain.Util.config.UrlSite/ClientType/ClienteTipo" class="btn btn-sm btn-default btn-flat">Cliente Tipo</a>
-</div>*@
 
 
 @using (Html.BeginForm("Cliente", "Client", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+   
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-8 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">@ViewBag.PageTopInformation</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <h6 class="heading-small text-muted mb-4">@ViewBag.Acao</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.ClientesTipos)</label>
+                                            @Html.DropDownListFor(x => x.clientetipoid, new SelectList(Model.ClientesTipos, "clientetipoid", "descricao"), new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.clientetipoid)
 
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.Fantasia)</label>
+                                            @Html.TextBoxFor(model => model.Fantasia, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.Fantasia)
+                                        </div>
+                                    </div>
+                                </div>
 
-    <div class="main-content">
-        <h2>Adicionar Cliente</h2>
-
-        <div style="color: #ff6a00; font-size: large; padding: 20px 20px 20px 20px;">
-            @ViewBag.erro
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ClientesTipos)
-        </div>
-        <div class="inputgrande">
-            @Html.DropDownListFor(x => x.clientetipoid, new SelectList(Model.ClientesTipos, "clientetipoid", "descricao"))
-            @Html.ValidationMessageFor(model => model.clientetipoid)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Fantasia)
-        </div>
-        <div class="inputgrande">
-            @Html.EditorFor(model => model.Fantasia)
-            @Html.ValidationMessageFor(model => model.Fantasia)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Fone)
-        </div>
-        <div class="editor-participante">
-            <input type="text" name="ddd" id="ddd" value="@Model.DDD" style="width:50px!important" />
-            <input type="text" value="@Model.Fone" name="fone" id="fone" style="width:250px!important" />
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Email)
-        </div>
-        <div class="inputgrande">
-            @Html.EditorFor(model => model.Email)
-            @Html.ValidationMessageFor(model => model.Email)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Nome)
-        </div>
-        <div class="inputgrande">
-            @Html.EditorFor(model => model.Nome)
-            @Html.ValidationMessageFor(model => model.Nome)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.obs)
-        </div>
-        <div class="inputgrande">
-            @Html.TextAreaFor(model => model.obs)
-            @Html.ValidationMessageFor(model => model.obs)
-        </div>
-        <div class="editor-label">
-            Ativo
-        </div>
-        <div class="inputgrande">
-            @if (Model.status == 1)
-            {
-                Model.statusb = true;
-            }
-            else
-            {
-                Model.statusb = false;
-            }
-            @Html.CheckBoxFor(model => model.statusb)
-            @Html.ValidationMessageFor(model => model.status)
-        </div>
-        <p>&nbsp;</p>
-        <table>
-            <tr>
-                <td>
-                    <button name="button" class="botao01" value="register">Salvar</button>
-                    @Html.Hidden("clienteid", Model.clienteid)
-                    @Html.Hidden("dataincl", Model.DataIncl)
-                    @Html.Hidden("Menuid", Model.menuid)
-                    @Html.Hidden("MenuSubId", Model.menusubid)
-                    <input id="repreid" value="@ViewBag.repreid" type="hidden" />
-                </td>
-            </tr>
-        </table>
-    </div>
-    <p>&nbsp;</p>
-    <div class="row">
-        <!-- Left col -->
-        <div class="col-md-12">
-            <!-- TABLE: LATEST ORDERS -->
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Cadastros</h3>
-                    <div class="box-tools pull-right">@Model.Clientes.Count registro(s) listado(s)</div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <div class="table-responsive">
-                        <table class="table no-margin" id="ajax">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Cliente</th>
-                                    <th>Nome Contato</th>
-                                    <th>Telefone</th>
-                                    <th class="ico">Status</th>
-                                    <th class="ico">Editar</th>
-                                    <th class="ico">Excluir</th>
-                                </tr>
-                            </thead>
-                            @{
-                                var st = "Inativo";
-                            }
-                            @foreach (var item in Model.Clientes)
-                            {
-                                st = "Inativo";
-
-                                if (item.Status == 1)
-                                {
-                                    st = "Ativo";
-                                }
-                                <tr id="sumir" style="visibility: visible" class="tablelist int">
-                                    <td class="minimo">@item.clienteid</td>
-                                    <td class="medio">@item.Fantasia</td>
-                                    <td class="pequeno">@item.Nome</td>
-                                    <td class="pequeno">@item.DDD @item.Fone</td>
-                                    <td class="ico">
-                                        <img src="@Domain.Util.config.UrlImg/icone/ico-@st-.png" width="18" title="@st">
-                                    </td>
-                                    <td class="ico">
-                                        <a href="@Domain.Util.config.UrlSite/Client/Cliente/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.clienteid">
-                                            <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" width="30" />
-                                        </a>
-                                    </td>
-                                    <td class="ico">
-                                        <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@item.clienteid/0/@item.Fantasia?ac=ClienteDelete&cr=Client&txt=@item.Fantasia">
-                                            <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" width="30" />
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </table>
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.DDD)</label>
+                                            @Html.TextBoxFor(model => model.DDD, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.DDD)
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.Fone)</label>
+                                            @Html.TextBoxFor(model => model.Fone, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.Fone)
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.Email)</label>
+                                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.Email)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.Nome)</label>
+                                            @Html.TextBoxFor(model => model.Nome, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.Nome)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Description -->
+                            <div class="pl-lg-4">
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.obs)</label>
+                                    @Html.TextAreaFor(model => model.obs, new { @class = "form-control form-control-alternative" })
+                                    @Html.ValidationMessageFor(model => model.obs)
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button name="button" class="btn btn-primary mt-4" value="register">Save</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="box-footer clearfix">&nbsp;</div>
             </div>
         </div>
+        @Html.Hidden("clienteid", Model.clienteid)
+        @Html.Hidden("dataincl", Model.DataIncl)
+        @Html.Hidden("Menuid", Model.menuid)
+        @Html.Hidden("MenuSubId", Model.menusubid)
+
+        <!-- Table -->
+        <div class="row mt-5">
+            <div class="col-xl-12 mb-5 mb-xl-0">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Register</h3>
+                            </div>
+                            <div class="col text-right">
+                                <span class="heading-small text-muted mb-4">@Model.Clientes.Count record(s) listed</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Client</th>
+                                    <th scope="col">Contact Name</th>
+                                    <th scope="col">Telephone</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Clientes)
+                                {
+                                    <tr>
+                                        <th scope="row">
+                                            @item.clienteid
+                                        </th>
+                                        <td>
+                                            @item.Fantasia
+                                        </td>
+                                        <td>
+                                            @item.Nome
+                                        </td>
+                                        <td>
+                                            (@item.DDD) @item.Fone
+                                        </td>
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/Client/Cliente/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.clienteid">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="edit client" width="30" />
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.clienteid/@item.Fantasia?ac=ClienteDelete&cr=Client&txt=Client @item.Fantasia">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="delete client" width="30" />
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <div class="card-footer py-4">
+                            <nav aria-label="...">
+                                @*<ul class="pagination justify-content-end mb-0">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">
+                                            <i class="fas fa-angle-left"></i>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">
+                                            <i class="fas fa-angle-right"></i>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>*@
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p></p><p></p>
+        @*<!-- End Table -->
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="row align-items-center justify-content-xl-between">
+                <div class="col-xl-6">
+                    <div class="copyright text-center text-xl-left text-muted">
+                        &copy; 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                        <li class="nav-item">
+                            <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </footer>*@
     </div>
 
-                                    }
+
+}

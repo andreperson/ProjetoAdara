@@ -12,14 +12,14 @@ namespace Domain.ModelView
 {
     public class RecursoModelView
     {
-        public Int16 recursoid { get; set; }
+        public int recursoid { get; set; }
         [Display(Name = "Recurso")]
-        public Int16 userid { get; set; }
-        public Int16 competenciaid { get; set; }
+        public int userid { get; set; }
+        public int competenciaid { get; set; }
 
         [Display(Name = "Obs")]
-        public Int16 menuid { get; set; }
-        public Int16 menusubid { get; set; }
+        public int menuid { get; set; }
+        public int menusubid { get; set; }
         public int status { get; set; }
         public bool statusb { get; set; }
         public DateTime? dataalt { get; set; }

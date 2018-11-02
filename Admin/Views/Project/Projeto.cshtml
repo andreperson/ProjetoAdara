@@ -1,6 +1,9 @@
 ﻿@model Domain.ModelView.ProjetoModelView
 
 
+@{
+    ViewBag.Title = @Domain.Util.config.Title;
+}
 
 @section Scripts {
     <script type="text/javascript">
@@ -229,185 +232,244 @@
 }
 
 
-@{
-    ViewBag.Title = "Adara";
-}
-@*<div id="submenu_tab">
-        <a href="@Domain.Util.config.UrlSite/Project/Projeto" class="btn btn-sm btn-default btn-flat">Projeto</a>
-        <a href="@Domain.Util.config.UrlSite/ProjectType/ProjetoTipo" class="btn btn-sm btn-default btn-flat">Projeto Tipo</a>
-    </div>*@
-
-
-
-
 @using (Html.BeginForm("Projeto", "Project", FormMethod.Post, new { autocomplete = "on", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-
-    <div class="main-content">
-        <h2>Adicionar Projeto</h2>
-
-        <div style="color: #ff6a00; font-size: large; padding: 20px 20px 20px 20px;">
-            @ViewBag.erro
-        </div>
-        <table style="width:100%;">
-            <tr>
-                <td style="width:30%">
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.numeroprojeto)
-                    </div>
-                    <div class="inputgrande">
-                        @Html.TextBoxFor(model => model.numeroprojeto, new { style = "width:200px" })
-                        @Html.ValidationMessageFor(model => model.numeroprojeto)
-                    </div>
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.titulo)
-                    </div>
-                    <div class="inputgrande">
-                        @Html.TextBoxFor(model => model.titulo, new { style = "width:200px" })
-                        @Html.ValidationMessageFor(model => model.titulo)
-                    </div>
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.Clientes)
-                    </div>
-                    <div class="inputgrande">
-                        @Html.DropDownListFor(x => x.clienteid, new SelectList(Model.Clientes, "clienteid", "fantasia"), new { style = "width:200px" })
-                        @Html.ValidationMessageFor(model => model.clienteid)
-                    </div>
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.ParIdiomas)
-                    </div>
-                    <div class="inputgrande">
-                        @Html.DropDownListFor(x => x.paridiomaid, new SelectList(Model.ParIdiomas, "paridiomaid", "descricao"), new { style = "width:200px" })
-                        @Html.ValidationMessageFor(model => model.paridiomaid)
-                    </div>
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.tipolistapreco)
-                    </div>
-                    <div class="inputgrande">
-                        @Html.RadioButtonFor(m => m.tipolistapreco, "Cliente") Cliente 
-                        @Html.RadioButtonFor(m => m.tipolistapreco, "Padrao") Padrão
-                        <div class="text-blue">@Html.ValidationMessageFor(model => model.tipolistapreco)</div>
-                    </div>
-                </td>
-                <td style="width:1%">&nbsp;</td>
-                <td style="width:50%; vertical-align:top;">
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.userid)
-                    </div>
-                    <div class="inputgrande">
-                        @Html.DropDownListFor(x => x.userid, new SelectList(Model.Usuarios, "userid", "Apelido"), new { style = "width:200px" })
-                        <div class="text-blue">
-                            @Html.ValidationMessageFor(model => model.userid)
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-8 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">@ViewBag.PageTopInformation</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                            </div>
                         </div>
                     </div>
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.moedaidrecebe)
-                    </div>
-                    <div class="inputgrande">
-                        @Html.DropDownListFor(x => x.moedaidrecebe, new SelectList(Model.Moedas, "moedaid", "descricao"), new { style = "width:200px" })
-                        <div class="text-blue">
-                            @Html.ValidationMessageFor(model => model.moedaidrecebe)
-                        </div>
-                    </div>
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.moedaidpaga)
-                    </div>
-                    <div class="inputgrande">
-                        @Html.DropDownListFor(x => x.moedaidpaga, new SelectList(Model.Moedas, "moedaid", "descricao"), new { style = "width:200px" })
-                        <div class="text-blue">
-                            @Html.ValidationMessageFor(model => model.moedaidpaga)
-                        </div>
-                    </div>
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.numeropalavras)
-                    </div>
-                    <div class="inputgrande">
-                        @Html.TextBoxFor(model => model.numeropalavras, new { style = "width:200px" })
-                        <div class="text-blue">
-                            @Html.ValidationMessageFor(model => model.numeropalavras)
-                        </div>
-                    </div>
+                    <div class="card-body">
+                        <form>
+                            <h6 class="heading-small text-muted mb-4">@ViewBag.Acao</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.numeroprojeto)</label>
+                                            @Html.TextBoxFor(model => model.numeroprojeto, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.numeroprojeto)
 
-                </td>
-            </tr>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.titulo)</label>
+                                            @Html.TextBoxFor(model => model.titulo, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.titulo)
+                                        </div>
+                                    </div>
+                                </div>
 
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>
-                    <button name="button" class="botao01maior" value="register">Continuar</button>
-                    @Html.Hidden("Projetoid", Model.projetoid)
-                    @Html.Hidden("dataincl", Model.DataIncl)
-                    @Html.Hidden("menuid", Model.menuid)
-                    @Html.Hidden("menusubid", Model.menusubid)
-                </td>
-            </tr>
-        </table>
-    </div>
-    <p>&nbsp;</p>
-    <div class="row">
-        <!-- Left col -->
-        <div class="col-md-12">
-            <!-- TABLE: LATEST ORDERS -->
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Cadastros</h3>
-                    <div class="box-tools pull-right">@Model.Projetos.Count registro(s) listado(s)</div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <div class="table-responsive">
-                        <table class="table no-margin" id="ajax">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Descrição</th>
-                                    <th>Cliente</th>
-                                    <th>Responsável</th>
-                                    <th class="ico">Status</th>
-                                    <th class="ico">Editar</th>
-                                    <th class="ico">Excluir</th>
-                                </tr>
-                            </thead>
-                            @{
-                                var st = "Inativo";
-                            }
-                            @foreach (var item in Model.Projetos)
-                            {
-                                st = "Inativo";
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.Clientes)</label>
+                                            @Html.DropDownListFor(x => x.clienteid, new SelectList(Model.Clientes, "clienteid", "fantasia"), new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.clienteid)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.ParIdiomas)</label>
+                                            @Html.DropDownListFor(x => x.paridiomaid, new SelectList(Model.ParIdiomas, "paridiomaid", "descricao"), new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.paridiomaid)
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.tipolistapreco)</label>
+                                            <div class="custom-control custom-radio mb-3">
+                                                <input name="tipolistapreco" class="custom-control-input" id="cliente" type="radio" value="Cliente">
+                                                <label class="custom-control-label" for="cliente">Lista Cliente</label>
+                                            </div>
+                                            <div class="custom-control custom-radio mb-3">
+                                                <input name="tipolistapreco" class="custom-control-input" id="padrao" checked="checked" type="radio" value="Padrao">
+                                                <label class="custom-control-label" for="padrao">Lista Padrão</label>
+                                            </div>
 
-                                if (item.status == 1)
-                                {
-                                    st = "Ativo";
-                                }
-                                <tr id="sumir" style="visibility: visible" class="tablelist int">
-                                    <td class="minimo">@item.projetoid</td>
-                                    <td class="medio">@item.descricao</td>
-                                    <td class="pequeno">@item.Cliente.Fantasia</td>
-                                    <td class="pequeno">@item.User.Nome</td>
-                                    <td class="ico">
-                                        <img src="@Domain.Util.config.UrlImg/icone/ico-@st-.png" width="18" title="@st">
-                                    </td>
-                                    <td class="ico">
-                                        <a href="@Domain.Util.config.UrlSite/Project/Projeto/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.projetoid">
-                                            <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" width="30" />
-                                        </a>
-                                    </td>
-                                    <td class="ico">
-                                        <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@item.projetoid/0/@item.descricao?ac=ProjetoDelete&cr=Project&txt=@item.descricao">
-                                            <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" width="30" />
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Gerente</label>
+                                            @Html.DropDownListFor(x => x.userid, new SelectList(Model.Usuarios, "userid", "Apelido"), new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.userid)
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.numeropalavras)</label>
+                                            @Html.TextBoxFor(model => model.numeropalavras, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.numeropalavras)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.moedaidrecebe)</label>
+                                            @Html.DropDownListFor(x => x.moedaidrecebe, new SelectList(Model.Moedas, "moedaid", "descricao"), new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.moedaidrecebe)
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.moedaidpaga)</label>
+                                            @Html.DropDownListFor(x => x.moedaidpaga, new SelectList(Model.Moedas, "moedaid", "descricao"), new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.moedaidpaga)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button name="button" class="btn btn-primary mt-4" value="register">Next</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="box-footer clearfix">&nbsp;</div>
             </div>
         </div>
-    </div>
+        @Html.Hidden("Projetoid", Model.projetoid)
+        @Html.Hidden("dataincl", Model.DataIncl)
+        @Html.Hidden("menuid", Model.menuid)
+        @Html.Hidden("menusubid", Model.menusubid)
+
+        <!-- Table -->
+        <div class="row mt-5">
+            <div class="col-xl-12 mb-5 mb-xl-0">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Register</h3>
+                            </div>
+                            <div class="col text-right">
+                                <span class="heading-small text-muted mb-4">@Model.Projetos.Count record(s) listed</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Client</th>
+                                    <th scope="col">Contact Name</th>
+                                    <th scope="col">Telephone</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Projetos)
+                                {
+                                
+                                    <tr>
+                                        <th scope="row">
+                                            @item.projetoid
+                                        </th>
+                                        <td>
+                                            @item.descricao
+                                        </td>
+                                        <td>
+                                            @item.Cliente.Fantasia
+                                        </td>
+                                        <td>
+                                            @item.User.Nome
+                                        </td>
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/Project/Projeto/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.projetoid">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="edit project" width="30" />
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.projetoid/@item.descricao?ac=ProjetoDelete&cr=Project&txt=Project @item.descricao">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="delete project" width="30" />
+                                            </a>
+                                        </td>
+
+                                    </tr>
                                 }
+
+                            </tbody>
+                        </table>
+                        <div class="card-footer py-4">
+                            <nav aria-label="...">
+                                @*<ul class="pagination justify-content-end mb-0">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">
+                                                <i class="fas fa-angle-left"></i>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active">
+                                            <a class="page-link" href="#">1</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">
+                                                <i class="fas fa-angle-right"></i>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    </ul>*@
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p></p><p></p>
+        @*<!-- End Table -->
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="row align-items-center justify-content-xl-between">
+                    <div class="col-xl-6">
+                        <div class="copyright text-center text-xl-left text-muted">
+                            &copy; 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>*@
+    </div>
+
+
+}

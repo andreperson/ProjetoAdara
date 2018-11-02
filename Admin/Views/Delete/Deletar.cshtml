@@ -1,7 +1,13 @@
 ﻿@model Domain.ModelView.DeleteModelView
 
+
+@section Scripts {
+    <!-- Argon CSS -->
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
+}
+
 @{
-    ViewBag.Title = "Adarana";
+    ViewBag.Title = @Domain.Util.config.Title;
 }
 
     @Html.AntiForgeryToken()
@@ -13,30 +19,44 @@
     Model.Descricao = Request.Params["txt"];
     //Model.Id2 = Request.Params["id2"];
     //Model.Id3 = Request.Params["id3"];
-    //Model.Id4 = Request.Params["id4"];
      }
 
     
-    <div class="main-content">
-        <h2>Excluir Registro</h2>
-        <p>&nbsp;</p>
-        Tem certeja que deseja excluir <span class="site-title-question">@Model.Descricao</span>?
-        <p>&nbsp;</p>
-        <table>
-            <tr>
-                <td>
-                    <a href="@Domain.Util.config.UrlSite/@Model.Control/@Model.Act/@Model.Id/@Model.Id2/@Model.Id3/@Model.Id4"><span class="botao01">Excluir</span></a>
-                    <a href="@Domain.Util.config.UrlSite/@Model.Control/@Model.Act/0/@Model.Id2/@Model.Id3/@Model.Id4"><span class="botao01">Cancelar</span></a>
-                </td>
-            </tr>
-        </table>
+   <div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col-xl-8 order-xl-1">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">@ViewBag.PageTopInformation</h3>
+                        </div>
+                        <div class="col-4 text-right">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <h6 class="heading-small text-muted mb-4">@ViewBag.Acao</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
 
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <span class="alert-inner--icon"><i class="ni ni-scissors"></i></span>
+                                    <span class="alert-inner--text"> You will delete <strong> @Model.Descricao, </strong> Are you sure?</span>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email"></label><br />
+                                            <a href="@Domain.Util.config.UrlSite/@Model.Control/@Model.Act/@Model.Id/@Model.Id2/@Model.Id3/"><span class="btn btn-primary mt-4">Delete</span></a>
+                                            <a href="@Domain.Util.config.UrlSite/@Model.Control/@Model.Act/@Model.Id/@Model.Id2/@Model.Id4"><span class="btn btn-info mt-4">Cancel</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

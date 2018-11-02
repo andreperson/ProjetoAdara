@@ -34,7 +34,7 @@ namespace Admin.Controllers
                 {
                     ServiceRecurso.InsertRecurso(model);
                 }
-                return Redirect(Domain.Util.config.UrlSite + "Resource/Recurso/" + model.menuid + "/" + model.menusubid + "/" + model.userid);
+                return Redirect(Domain.Util.config.UrlSite + "Resource/Recurso/" + model.menuid + "/" + model.menusubid);
 
             }
            
@@ -45,21 +45,24 @@ namespace Admin.Controllers
         public ActionResult Recurso(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
             var model = new RecursoModelView();
+            ViewBag.PageTopInformation = "Resource Form";
+            ViewBag.Acao = "Resource Add";
             List<Recurso> lst = new List<Data.Entities.Recurso>();
 
-            //if (id3 != 0)
-            //{
-            //    //busca as informações do usuario
-            //    lst = ServiceRecurso.getRecurso(id3);
+            if (id3 != 0)
+            {
+                //busca as informações do usuario
+                lst = ServiceRecurso.getRecurso(id3);
 
-            //    foreach (var item in lst)
-            //    {
-            //        model.competenciaid = item.competenciaid;
-            //        model.recursoid = item.RecursoId;
-            //        model.userid = item.userid;
-            //    }
+                foreach (var item in lst)
+                {
+                    model.competenciaid = item.competenciaid;
+                    model.recursoid = item.RecursoId;
+                    model.userid = item.userid;
+                }
 
-            //}
+                ViewBag.Acao = "Resource Edit";
+            }
 
             ViewBag.userid = id3;
             ViewBag.MenuId = id;
@@ -82,7 +85,7 @@ namespace Admin.Controllers
                 ServiceRecurso.DeleteRecursoId(id3); 
             }
 
-            return Redirect(Domain.Util.config.UrlSite + "Resource/Recurso" + id + "/" + id2 + "/" + id3);
+            return Redirect(Domain.Util.config.UrlSite + "Resource/Recurso/" + id + "/" + id2);
         }
 
 

@@ -25,7 +25,7 @@ namespace Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.user = User.Identity.Name;
-                model.status = Convert.ToInt16(model.statusb);
+                model.status = 1;
                 if (model.clientetipoid != 0) //update
                 {
                     ServiceClienteTipo.UpdateClienteTipo(model);
@@ -47,10 +47,14 @@ namespace Admin.Controllers
         {
             var model = new ClienteTipoModelView();
 
+            ViewBag.PageTopInformation = "Client Type Form";
+            ViewBag.Acao = "Client Type Add";
+
             if (id3 != 0)
             {
                 //busca as informações para edição
-                model = ServiceClienteTipo.GetClienteTipoId(id3);  
+                model = ServiceClienteTipo.GetClienteTipoId(id3);
+                ViewBag.Acao = "Client Type Edit";
             }
 
             model.ClienteTipos = ServiceClienteTipo.getClienteTipo();
@@ -70,7 +74,7 @@ namespace Admin.Controllers
                 ServiceClienteTipo.DeleteClienteTipoId(id3); 
             }
 
-            return Redirect(Domain.Util.config.UrlSite + "ClientType/ClienteTipo" + id + "/" + id2 + "/" + id3);
+            return Redirect(Domain.Util.config.UrlSite + "ClientType/ClienteTipo/" + id + "/" + id2);
         }
     }
 }

@@ -2,8 +2,7 @@
 {
     foreach (var menuitem in ViewData["result"] as List<Data.Entities.MenuSub>)
     {
-       <a  href='@Url.Action(menuitem.view, menuitem.controller)/@menuitem.menuid/@menuitem.menusubid' class="btn btn-sm btn-default btn-flat">@menuitem.descricao.Trim()</a>
-           
+       <a  href='@Url.Action(menuitem.view, menuitem.controller)/@menuitem.menuid/@menuitem.menusubid' style="margin-right:0px;margin-top:10px;" title="@menuitem.descricao.Trim()" class="btn btn-primary">@menuitem.descricao.Trim()</a>
     }
 }
 

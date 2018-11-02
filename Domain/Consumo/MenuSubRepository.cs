@@ -44,7 +44,7 @@ namespace Domain.Consumo
                       select new
                       {
                           DESCRICAOSUB = sub.descricao,
-                          ICONE = "",
+                          ICONE = sub.icone,
                           SUBMENUID = sub.menusubid,
                           MENUID = sub.menuid,
                           DESCRICAOMENU = menu.descricao,

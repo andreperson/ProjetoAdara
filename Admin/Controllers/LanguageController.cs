@@ -25,7 +25,7 @@ namespace Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.user = User.Identity.Name;
-                model.status = Convert.ToInt16(model.statusb);
+                model.status = 1;
                 if (model.idiomaid != 0) //update
                 {
                     ServiceIdioma.UpdateIdioma(model);
@@ -45,11 +45,15 @@ namespace Admin.Controllers
         public ActionResult Idioma(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
             var model = new IdiomaModelView();
+            ViewBag.PageTopInformation = "Language Form";
+            ViewBag.Acao = "Language Add";
+
 
             if (id3 != 0)
             {
                 //busca as informações para edição
-                model = ServiceIdioma.GetIdiomaId(id3);  
+                model = ServiceIdioma.GetIdiomaId(id3);
+                ViewBag.Acao = "Language Edit";
             }
             ViewBag.MenuId = id;
             ViewBag.MenuSubId = id2;

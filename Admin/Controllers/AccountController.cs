@@ -25,7 +25,7 @@ namespace Admin.Controllers
             }
             else
             {
-                ViewBag.msg = "Usuário não encontrado!";
+                ViewBag.msg = "User not found!";
             }
 
             return View();

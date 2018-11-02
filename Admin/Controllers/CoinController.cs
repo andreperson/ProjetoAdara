@@ -25,7 +25,7 @@ namespace Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.user = User.Identity.Name;
-                model.status = Convert.ToInt16(model.statusb);
+                model.status = 1;
                 if (model.Moedaid != 0) //update
                 {
                     ServiceMoeda.UpdateMoeda(model);
@@ -34,7 +34,7 @@ namespace Admin.Controllers
                 {
                     ServiceMoeda.InsertMoeda(model);
                 }
-                return Redirect(Domain.Util.config.UrlSite + "Coin/Moeda/" + model.menuid + "/" + model.menusubid + "/" + model.Moedaid);
+                return Redirect(Domain.Util.config.UrlSite + "Coin/Moeda/" + model.menuid + "/" + model.menusubid);
 
             }
            
@@ -45,11 +45,14 @@ namespace Admin.Controllers
         public ActionResult Moeda(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
             var model = new MoedaModelView();
+            ViewBag.PageTopInformation = "Coin Form";
+            ViewBag.Acao = "Coin Add";
 
             if (id3 != 0)
             {
                 //busca as informações para edição
-                model = ServiceMoeda.GetMoedaId(id3);  
+                model = ServiceMoeda.GetMoedaId(id3);
+                ViewBag.Acao = "Coin Edit";
             }
             ViewBag.MenuId = id;
             ViewBag.MenuSubId = id2;
@@ -69,7 +72,7 @@ namespace Admin.Controllers
                 ServiceMoeda.DeleteMoedaId(id3); 
             }
 
-            return Redirect(Domain.Util.config.UrlSite + "Coin/Moeda" + id + "/" + id2 + "/" + id3);
+            return Redirect(Domain.Util.config.UrlSite + "Coin/Moeda/" + id + "/" + id2);
         }
     }
 }

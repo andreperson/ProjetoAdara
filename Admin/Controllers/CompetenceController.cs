@@ -25,7 +25,7 @@ namespace Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.user = User.Identity.Name;
-                model.status = Convert.ToInt16(model.statusb);
+                model.status = 1;
                 if (model.competenciaid != 0) //update
                 {
                     ServiceCompetencia.UpdateCompetencia(model);
@@ -45,12 +45,14 @@ namespace Admin.Controllers
         public ActionResult Competencia(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
             var model = new CompetenciaModelView();
-            
+            ViewBag.PageTopInformation = "Competence Form";
+            ViewBag.Acao = "Competence Add";
 
             if (id3 != 0)
             {
                 //busca as informações para edição
-                model = ServiceCompetencia.GetCompetenciaId(id3);  
+                model = ServiceCompetencia.GetCompetenciaId(id3);
+                ViewBag.Acao = "Competence Edit";
             }
             ViewBag.MenuId = id;
             ViewBag.MenuSubId = id2;
@@ -69,7 +71,7 @@ namespace Admin.Controllers
                 ServiceCompetencia.DeleteCompetenciaId(id3); 
             }
 
-            return Redirect(Domain.Util.config.UrlSite + "Competence/Competencia" + id + "/" + id2 + "/" + id3);
+            return Redirect(Domain.Util.config.UrlSite + "Competence/Competencia/" + id + "/" + id2);
         }
     }
 }

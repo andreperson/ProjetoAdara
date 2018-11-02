@@ -13,10 +13,13 @@ namespace Domain.ModelView
     public class ClienteModelView
     {
         public Int16 clienteid { get; set; }
+
+        [Required(ErrorMessage = "Client Type")]
+        [Display(Name = "Client Type")]
         public Int16 clientetipoid { get; set; }
 
-        [Required(ErrorMessage = "Nome do Contato")]
-        [Display(Name = "Nome do Contato")]
+        [Required(ErrorMessage = "Contact Name")]
+        [Display(Name = "Contact Name")]
         public string Nome { get; set; }
 
         [Display(Name = "DDD")]

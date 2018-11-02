@@ -25,9 +25,11 @@ namespace Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.user = User.Identity.Name;
-                model.status = Convert.ToInt16(model.statusb);
+                model.status = 1;
+                int menuid = model.menuid;
                 if (model.menuidedit != 0) //update
                 {
+                    model.menuid = model.menuidedit;
                     ServiceMenu.UpdateMenu(model);
                 }
                 else //insert
@@ -35,16 +37,8 @@ namespace Admin.Controllers
                     ServiceMenu.InsertMenu(model);
                 }
 
-                //pega o menuid para o redirectd
-                int menuclique = 0;
-                List<Menu> lstmn = ServiceMenu.getMenuStr("Admin");
-                foreach (Menu item in lstmn)
-                {
-                    menuclique = item.menuid;
-                }
 
-
-                return Redirect(Domain.Util.config.UrlSite + "Meni/Menu/" + menuclique + "/" + model.menusubid);
+                return Redirect(Domain.Util.config.UrlSite + "Meni/Menu/" + menuid + "/" + model.menusubid);
 
             }
 
@@ -57,12 +51,14 @@ namespace Admin.Controllers
         public ActionResult Menu(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
             var model = new MenuModelView();
-
+            ViewBag.PageTopInformation = "Menu";
+            ViewBag.Acao = "Menu Add";
             if (id3 != 0)
             {
                 //busca as informações para edição
                 model = ServiceMenu.GetMenuId(id3);
                 model.menuidedit = id3;
+                ViewBag.Acao = "Menu Edit";
             }
 
             model.menus = ServiceMenu.getMenu("Delete");

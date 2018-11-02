@@ -56,7 +56,7 @@ namespace Domain.Service
         {
             //busca no banco
             ClienteTipoRepository tprep = new ClienteTipoRepository();
-            var lst = tprep.Search(x => x.clientetipoid != 0).ToList();
+            var lst = tprep.Search(x => x.Status != 0).ToList();
 
             return lst;
         }

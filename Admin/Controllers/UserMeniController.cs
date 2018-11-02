@@ -18,14 +18,15 @@ namespace Admin.Controllers
         public ActionResult UsuarioMenu(UsuarioMenuModelView model)
         {
             //insere via ajaxa, não faz nada por aqui
-            return Redirect(Domain.Util.config.UrlSite + "Meni/Menu/" + model.menuid + "/" + model.menuid + "/" + model.usuariomenuid);
+            return Redirect(Domain.Util.config.UrlSite + "UserMeni/UsuarioMenu/" + model.menuid + "/" + model.menusubid);
         }
 
         [HttpGet]
         public ActionResult UsuarioMenu(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
             var model = new UsuarioMenuModelView();
-
+            ViewBag.PageTopInformation = "Permission Form";
+            ViewBag.Acao = "Permissions Control";
             if (id3 != 0)
             {
                 //busca as informações para edição
@@ -52,7 +53,7 @@ namespace Admin.Controllers
                 ServiceUsuarioMenu.DeleteUsuarioMenuId(id);
             }
 
-            return Redirect(Domain.Util.config.UrlSite + "UserMeni/UsuarioMenu/" + id + "/" + id2 + "/" + id3);
+            return Redirect(Domain.Util.config.UrlSite + "UserMeni/UsuarioMenu/" + id + "/" + id2);
         }
 
 

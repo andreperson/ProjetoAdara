@@ -25,7 +25,7 @@ namespace Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.user = User.Identity.Name;
-                model.status = Convert.ToInt16(model.statusb);
+                model.status = 1;
                 model.Precohora = model.Precohora.Replace(".", "");
                 model.Precolinha = model.Precolinha.Replace(".", "");
                 model.Precominimo = model.Precominimo.Replace(".", "");
@@ -52,11 +52,15 @@ namespace Admin.Controllers
         public ActionResult ListaPreco(Int16 id = 0, Int16 id2=0, Int16 id3 =0)
         {
             var model = new ListaPrecoModelView();
-            
+            ViewBag.PageTopInformation = "Client Price Form";
+            ViewBag.Acao = "Price Type Add";
+
             if (id3 != 0)
             {
                 //busca as informações para edição
-                model = ServiceListaPreco.GetListaPrecoId(id3);  
+                model = ServiceListaPreco.GetListaPrecoId(id3);
+                ViewBag.Acao = "Client Price Edit";
+
             }
 
             model.ListaPrecos = ServiceListaPreco.getListaPreco();

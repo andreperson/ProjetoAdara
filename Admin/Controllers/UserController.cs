@@ -109,21 +109,16 @@ namespace Admin.Controllers
         [HttpGet]
         public ActionResult Usuario(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
-
+            ViewBag.PageTopInformation = "User Form";
+            ViewBag.Acao = "User Add";
             var model = new UsuarioModelView();
             
             if (id3 != 0)
             {
                 //busca as informações para edição
                 model = ServiceUsuario.GetUsuarioId(id3);
-                model.menuid = id;
-                model.menusubid = id2;
+                ViewBag.Acao = "User Edit";
             }
-
-            //busca os outros usuários daquele representante
-            //Int16 repreid = Domain.Util.valida.getRepresentanteID(User.Identity.Name);
-            //model.Representantes = ServiceRepresentante.getRepresentante(repreid);
-            //ViewBag.repreid = repreid;
 
             //verifica se o usuário atual é admin
             bool useradmin = GetUserAdmin(User.Identity.Name);
@@ -134,6 +129,8 @@ namespace Admin.Controllers
             model.UsuariosTipos = ServiceUsuarioTipo.getUsuarioTipo(useradmin);
             ViewBag.MenuId = id;
             ViewBag.MenuSubId = id2;
+            model.menuid = id;
+            model.menusubid = id2;
 
 
 
@@ -166,7 +163,7 @@ namespace Admin.Controllers
                 ServiceUsuario.DeleteUsuarioId(id3); 
             }
 
-            return Redirect(Domain.Util.config.UrlSite + "User/Usuario/" + id + "/" + id2 + "/" + id3);
+            return Redirect(Domain.Util.config.UrlSite + "User/Usuario/" + id + "/" + id2);
         }
     }
 }

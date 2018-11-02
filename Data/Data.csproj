@@ -56,8 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext\ConnDataContext.cs" />
+    <Compile Include="Entities\Atividade.cs" />
     <Compile Include="Entities\ClientePreco.cs" />
+    <Compile Include="Entities\Brekedown.cs" />
     <Compile Include="Entities\ListaPreco.cs" />
+    <Compile Include="Entities\PagedResult.cs" />
     <Compile Include="Entities\ParIdioma.cs" />
     <Compile Include="Entities\Moeda.cs" />
     <Compile Include="Entities\Idioma.cs" />

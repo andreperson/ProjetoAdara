@@ -83,7 +83,7 @@ namespace Domain.Service
 
 
         //get produto ID
-        public static MenuModelView GetMenuId(Int16 id)
+        public static MenuModelView GetMenuId(int id)
         {
             Menu objretorno = new Menu();
 

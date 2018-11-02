@@ -25,7 +25,7 @@ namespace Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.user = User.Identity.Name;
-                model.status = Convert.ToInt16(model.statusb);
+                model.status = 1;
                 model.Descricao = model.Descricaode + " - " + model.Descricaopara;
                 if (model.paridiomaid != 0) //update
                 {
@@ -48,11 +48,14 @@ namespace Admin.Controllers
         public ActionResult ParIdioma(Int16 id = 0, Int16 id2=0, Int16 id3 =0)
         {
             var model = new ParIdiomaModelView();
-            
+            ViewBag.PageTopInformation = "Language Pair Form";
+            ViewBag.Acao = "Language Pair Add";
+
             if (id3 != 0)
             {
                 //busca as informações para edição
-                model = ServiceParIdioma.GetParIdiomaId(id3);  
+                model = ServiceParIdioma.GetParIdiomaId(id3);
+                ViewBag.Acao = "Language Pair Edit";
             }
 
             model.ParIdiomas = ServiceParIdioma.getParIdioma();

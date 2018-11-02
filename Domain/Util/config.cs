@@ -67,6 +67,13 @@ namespace Domain.Util
             }
         }
 
+        public static string Title
+        {
+            get
+            {
+                return "Sprach";
+            }
+        }
 
     }
 }

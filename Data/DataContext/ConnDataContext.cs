@@ -13,6 +13,10 @@ namespace Data.DataContext
 {
     public class ConnDataContext : DbContext
     {
+        public DbSet<Atividade> Atividade { get; set; }
+
+        public DbSet<Brekedown> Brekedown { get; set; }
+
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<ClientePreco> ClientePreco { get; set; }
         public DbSet<ClienteTipo> ClienteTipo { get; set; }
