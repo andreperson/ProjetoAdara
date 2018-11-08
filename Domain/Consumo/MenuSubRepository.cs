@@ -49,7 +49,8 @@ namespace Domain.Consumo
                           MENUID = sub.menuid,
                           DESCRICAOMENU = menu.descricao,
                           CONTROLLER = sub.controller.Trim(),
-                          VIEW = sub.view.Trim()
+                          VIEW = sub.view.Trim(),
+                          MENUACT = sub.menuact.Trim()
 
                       };
             return lst;
@@ -76,7 +77,8 @@ namespace Domain.Consumo
                           MENUID = sub.menuid,
                           DESCRICAOMENU = "",
                           CONTROLLER = sub.controller.Trim(),
-                          VIEW = sub.view.Trim()
+                          VIEW = sub.view.Trim(),
+                          MENUACT = sub.menuact.Trim()
                       };
             return lst;
         }
@@ -101,7 +103,8 @@ namespace Domain.Consumo
                           MENUID = sub.menuid,
                           DESCRICAOMENU = "",
                           CONTROLLER = sub.controller.Trim(),
-                          VIEW = sub.view.Trim()
+                          VIEW = sub.view.Trim(),
+                          MENUACT = sub.menuact.Trim()
                       };
             return lst;
         }

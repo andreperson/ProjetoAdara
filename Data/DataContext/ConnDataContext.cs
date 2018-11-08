@@ -38,6 +38,8 @@ namespace Data.DataContext
         public DbSet<ProjetoTipo> ProjetoTipo { get; set; }
 
         public DbSet<Recurso> Recurso { get; set; }
+        public DbSet<Tep> Tep { get; set; }
+        public DbSet<Tra> Tra { get; set; }
 
         public DbSet<UF> UF { get; set; }
         public DbSet<User> User { get; set; }

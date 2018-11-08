@@ -171,6 +171,7 @@ namespace Domain.Service
                 obj.descricaomenu = splItem[4].Replace(" DESCRICAOMENU = ", "").Trim();
                 obj.controller = splItem[5].Replace(" CONTROLLER = ", "").Trim();
                 obj.view = splItem[6].Replace(" VIEW = ", "").Trim();
+                obj.menuact = splItem[7].Replace(" MENUACT = ", "").Trim();
 
                 lstRet.Add(obj);
             }

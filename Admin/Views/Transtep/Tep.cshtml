@@ -1,17 +1,9 @@
-﻿@model Domain.ModelView.MenuSubModelView
+﻿@model Domain.ModelView.TepModelView
 
 
 @section Scripts {
+    <!-- Argon CSS -->
     <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            
-            var id = $("#Menuid").val();
-            $("#menuid").val(id);
-        });
-    </script>
 }
 
 @{
@@ -19,7 +11,9 @@
 }
 
 
-@using (Html.BeginForm("MenuSub", "MeniSub", FormMethod.Post, new { autocomplete = "on" }))
+
+
+@using (Html.BeginForm("Tep", "Transtep", FormMethod.Post, new { autocomplete = "on" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -45,55 +39,20 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.menus)</label>
-                                            @Html.DropDownListFor(x => x.menuid, new SelectList(Model.menus, "menuid", "descricao"), new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.menuid)
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
                                             <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.descricao)</label>
                                             @Html.TextBoxFor(model => model.descricao, new { @class = "form-control form-control-alternative" })
                                             @Html.ValidationMessageFor(model => model.descricao)
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.view)</label>
-                                            @Html.TextBoxFor(model => model.view, new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.view)
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.controller)</label>
-                                            @Html.TextBoxFor(model => model.controller, new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.controller)
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.icone)</label>
-                                            @Html.TextBoxFor(model => model.icone, new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.icone)
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.ordem)</label>
-                                            @Html.TextBoxFor(model => model.ordem, new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.ordem)
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.valor)</label>
+                                            @Html.TextBoxFor(model => model.valor, new { @class = "form-control form-control-alternative"})
+                                            @Html.ValidationMessageFor(model => model.valor)
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="text-right">
                                 <button name="button" class="btn btn-primary mt-4" value="register">Salvar</button>
                             </div>
@@ -102,10 +61,10 @@
                 </div>
             </div>
         </div>
+        @Html.Hidden("Tepid", Model.Tepid)
         @Html.Hidden("Menuid", Model.menuid)
-        @Html.Hidden("MenuSubid", Model.menusubid)
-        @Html.Hidden("menuid_click", Model.menuid_click)
-        @Html.Hidden("menusubid_click", Model.menusubid_click)
+        @Html.Hidden("MenuSubId", Model.menusubid)
+
         <!-- Table -->
         <div class="row mt-5">
             <div class="col-xl-12 mb-5 mb-xl-0">
@@ -116,7 +75,7 @@
                                 <h3 class="mb-0">Register</h3>
                             </div>
                             <div class="col text-right">
-                                <span class="heading-small text-muted mb-4">@Model.menussubs.Count record(s) listed</span>
+                                <span class="heading-small text-muted mb-4">@Model.Teps.Count record(s) listed</span>
                             </div>
                         </div>
                     </div>
@@ -125,44 +84,34 @@
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Menu</th>
-                                    <th>Sub Menu</th>
-                                    <th>View / Controller</th>
-                                    <th>Icon</th>
-                                    <th>Order</th>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Valor</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model.menussubs)
+                                @foreach (var item in Model.Teps)
                                 {
                                     <tr>
                                         <th scope="row">
-                                            @item.menusubid
+                                            @item.Tepid
                                         </th>
-                                        <th>@item.descricaomenu</th>
                                         <td>
                                             @item.descricao
                                         </td>
                                         <td>
-                                            @item.view / @item.controller
+                                            @item.valor
                                         </td>
                                         <td>
-                                            @item.icone
-                                        </td>
-                                        <td>
-                                            @item.ordem
-                                        </td>
-                                        <td>
-                                            <a href="@Domain.Util.config.UrlSite/MeniSub/MenuSub/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.menusubid">
-                                                <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="edit Sub Menu" width="30" />
+                                            <a href="@Domain.Util.config.UrlSite/Transtep/Tep/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.Tepid">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="Transtep edit" width="30" />
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.menusubid/@item.descricao?ac=MenuSubDelete&cr=MeniSub&txt=Sub Menu @item.descricao">
-                                                <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="delete Sub Menu" width="30" />
+                                            <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.Tepid/@item.descricao?ac=TepDelete&cr=Transtep&txt=Transtep @item.descricao">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="Transtep delete" width="30" />
                                             </a>
                                         </td>
 

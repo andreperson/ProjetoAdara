@@ -10,27 +10,26 @@ using System.Web;
 
 namespace Domain.ModelView
 {
-    public class BrekeModelView
+    public class TraModelView
     {
-        public Int16 brekedownid { get; set; }
+        public Int16 Traid { get; set; }
 
         [Required(ErrorMessage = "Description")]
         [Display(Name = "Description")]
         public string descricao { get; set; }
 
-        [Required(ErrorMessage = "Percentage")]
-        [Display(Name = "Percentage")]
-
+        [Required(ErrorMessage = "Value")]
+        [Display(Name = "Value")]
         public int valor { get; set; }
 
         public int status { get; set; }
         public bool statusb { get; set; }
-        public DateTime? dataalt { get; set; }
+        public DateTime? dataincl { get; set; }
         public string user { get; set; }
 
         public Int16 menuid { get; set; }
         public Int16 menusubid { get; set; }
 
-        public List<Data.Entities.Brekedown> Brekedowns { get; set; }
+        public List<Data.Entities.Tra> Tras { get; set; }
     }
 }

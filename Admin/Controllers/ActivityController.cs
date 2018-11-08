@@ -12,10 +12,10 @@ using Domain.Service;
 
 namespace Admin.Controllers
 {
-    public class AtividadeController : Controller
+    public class ActivityController : Controller
     {
         [HttpPost]
-        public ActionResult Activity(AtividadeModelView model)
+        public ActionResult Atividade(AtividadeModelView model)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -34,7 +34,7 @@ namespace Admin.Controllers
                 {
                     ServiceAtividade.InsertAtividade(model);
                 }
-                return Redirect(Domain.Util.config.UrlSite + "Atividade/Activity/" + model.menuid + "/" + model.menusubid);
+                return Redirect(Domain.Util.config.UrlSite + "Activity/Atividade/" + model.menuid + "/" + model.menusubid);
 
             }
 
@@ -42,7 +42,7 @@ namespace Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Breke(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
+        public ActionResult Atividade(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
             var model = new AtividadeModelView();
 
@@ -65,7 +65,7 @@ namespace Admin.Controllers
         }
 
 
-        public ActionResult BrekeDelete(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
+        public ActionResult AtividadeDelete(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
             if (id3 != 0)
             {
@@ -73,7 +73,7 @@ namespace Admin.Controllers
                 ServiceAtividade.DeleteAtividadeId(id3); 
             }
 
-            return Redirect(Domain.Util.config.UrlSite + "Atividade/Activity/" + id + "/" + id2);
+            return Redirect(Domain.Util.config.UrlSite + "Activity/Atividade/" + id + "/" + id2);
         }
     }
 }

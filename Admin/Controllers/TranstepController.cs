@@ -12,10 +12,10 @@ using Domain.Service;
 
 namespace Admin.Controllers
 {
-    public class BrekedownController : Controller
+    public class TranstepController : Controller
     {
         [HttpPost]
-        public ActionResult Breke(BrekeModelView model)
+        public ActionResult Tep(TepModelView model)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -26,15 +26,15 @@ namespace Admin.Controllers
             {
                 model.user = User.Identity.Name;
                 model.status = 1;
-                if (model.brekedownid != 0) //update
+                if (model.Tepid != 0) //update
                 {
-                    ServiceBrekedown.UpdateBrekedown(model);
+                    ServiceTep.UpdateTep(model);
                 }
                 else //insert
                 {
-                    ServiceBrekedown.InsertBrekedown(model);
+                    ServiceTep.InsertTep(model);
                 }
-                return Redirect(Domain.Util.config.UrlSite + "Brekedown/Breke/" + model.menuid + "/" + model.menusubid);
+                return Redirect(Domain.Util.config.UrlSite + "Transtep/Tep/" + model.menuid + "/" + model.menusubid);
 
             }
 
@@ -42,21 +42,21 @@ namespace Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Breke(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
+        public ActionResult Tep(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
-            var model = new BrekeModelView();
+            var model = new TepModelView();
 
-            ViewBag.PageTopInformation = "Brekedown Form";
-            ViewBag.Acao = "Brekedown Add";
+            ViewBag.PageTopInformation = "Transtep Form";
+            ViewBag.Acao = "Transtep Add";
 
             if (id3 != 0)
             {
                 //busca as informações para edição
-                model = ServiceBrekedown.GetBrekedownId(id3);
-                ViewBag.Acao = "Brekedown Edit";
+                model = ServiceTep.GetTepId(id3);
+                ViewBag.Acao = "Transtep Edit";
             }
 
-            model.Brekedowns = ServiceBrekedown.getBrekedown();
+            model.Teps = ServiceTep.getTep();
             model.menuid = id;
             model.menusubid = id2;
             ViewBag.MenuId = id;
@@ -65,15 +65,15 @@ namespace Admin.Controllers
         }
 
 
-        public ActionResult BrekeDelete(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
+        public ActionResult TepDelete(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
             if (id3 != 0)
             {
                 //exclui registro
-                ServiceBrekedown.DeleteBrekedownId(id3); 
+                ServiceTep.DeleteTepId(id3); 
             }
 
-            return Redirect(Domain.Util.config.UrlSite + "Brekedown/Breke/" + id + "/" + id2);
+            return Redirect(Domain.Util.config.UrlSite + "Transtep/Tep/" + id + "/" + id2);
         }
     }
 }

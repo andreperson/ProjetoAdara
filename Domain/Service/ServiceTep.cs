@@ -11,66 +11,66 @@ using AutoMapper;
 
 namespace Domain.Service
 {
-    public class ServiceBrekedown
+    public class ServiceTep
     {
-        public static void InsertBrekedown(BrekeModelView model)
+        public static void InsertTep(TepModelView model)
         {
-            Brekedown objretorno = new Brekedown();
+            Tep objretorno = new Tep();
 
             //faz o de para: objModelView para objEntity 
-            Mapper.CreateMap<BrekeModelView, Brekedown>();
-            var objtpprod = Mapper.Map<Brekedown>(model);
+            Mapper.CreateMap<TepModelView, Tep>();
+            var objtpprod = Mapper.Map<Tep>(model);
 
-            BrekedownRepository tpprod = new BrekedownRepository();
+            TepRepository tpprod = new TepRepository();
             tpprod.Add(objtpprod);
             tpprod.Save();
         }
 
-        public static void UpdateBrekedown(BrekeModelView model)
+        public static void UpdateTep(TepModelView model)
         {
-            Brekedown objretorno = new Brekedown();
+            Tep objretorno = new Tep();
 
             //faz o de para: objModelView para objEntity 
-            Mapper.CreateMap<BrekeModelView, Brekedown>();
-            var objtpprod = Mapper.Map<Brekedown>(model);
+            Mapper.CreateMap<TepModelView, Tep>();
+            var objtpprod = Mapper.Map<Tep>(model);
 
-            objtpprod.Dataalt = DateTime.Now;
-            BrekedownRepository tpprod = new BrekedownRepository();
+            objtpprod.Dataincl = DateTime.Now;
+            TepRepository tpprod = new TepRepository();
             tpprod.Edit(objtpprod);
             tpprod.Save();
         }
 
 
         
-        public static List<Brekedown> getBrekedown(bool visivel)
+        public static List<Tep> getTep(bool visivel)
         {
             //busca no banco
-            BrekedownRepository tprep = new BrekedownRepository();
+            TepRepository tprep = new TepRepository();
             var lst = tprep.Search(x => x.Status == 1).ToList();
 
             return lst;
         }
 
 
-        public static List<Brekedown> getBrekedown()
+        public static List<Tep> getTep()
         {
             //busca no banco
-            BrekedownRepository tprep = new BrekedownRepository();
+            TepRepository tprep = new TepRepository();
             var lst = tprep.Search(x => x.Status != 0).ToList();
 
             return lst;
         }
 
          
-        public static List<Brekedown> getBrekedownCombo()
+        public static List<Tep> getTepCombo()
         {
             //busca no banco
-            BrekedownRepository tprep = new BrekedownRepository();
+            TepRepository tprep = new TepRepository();
             var lst = tprep.Search(x => x.Status == 1).ToList();
 
-            Brekedown obj = new Brekedown();
+            Tep obj = new Tep();
             obj.descricao = "";
-            obj.brekedownid = 0;
+            obj.Tepid = 0;
             lst.Add(obj);
 
             var lstorder = lst.OrderBy(s => s.descricao).ToList();
@@ -81,17 +81,17 @@ namespace Domain.Service
 
 
         //get produto ID
-        public static BrekeModelView GetBrekedownId(Int16 id)
+        public static TepModelView GetTepId(Int16 id)
         {
-            Brekedown objretorno = new Brekedown();
+            Tep objretorno = new Tep();
 
-            BrekedownRepository tpprod = new BrekedownRepository();
+            TepRepository tpprod = new TepRepository();
             objretorno = tpprod.Find(id);
 
             Mapper
-                .CreateMap<Brekedown, BrekeModelView>();
+                .CreateMap<Tep, TepModelView>();
                 //.ForMember(x => x.imagem, option => option.Ignore());
-            var vretorno = Mapper.Map<BrekeModelView>(objretorno);
+            var vretorno = Mapper.Map<TepModelView>(objretorno);
 
             //vretorno.arquivoimagem = img;
 
@@ -100,11 +100,11 @@ namespace Domain.Service
 
 
         //delete tipo produto
-        public static void DeleteBrekedownId(Int16 id)
+        public static void DeleteTepId(Int16 id)
         {
             //busca o arquivo q sera apagado
-            Brekedown objretorno = new Brekedown();
-            BrekedownRepository tpprod = new BrekedownRepository();
+            Tep objretorno = new Tep();
+            TepRepository tpprod = new TepRepository();
             objretorno = tpprod.Find(id);
 
             //passa a entidade recuperada para deletar

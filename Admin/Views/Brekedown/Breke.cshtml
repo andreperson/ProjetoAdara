@@ -1,4 +1,4 @@
-﻿@model Domain.ModelView.BrekedownModelView
+﻿@model Domain.ModelView.BrekeModelView
 
 
 @section Scripts {
@@ -13,7 +13,7 @@
 
 
 
-@using (Html.BeginForm("Brekedown", "Breke", FormMethod.Post, new { autocomplete = "on" }))
+@using (Html.BeginForm("Breke", "Brekedown", FormMethod.Post, new { autocomplete = "on" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -37,11 +37,18 @@
                             <h6 class="heading-small text-muted mb-4">@ViewBag.Acao</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.descricao)</label>
                                             @Html.TextBoxFor(model => model.descricao, new { @class = "form-control form-control-alternative" })
                                             @Html.ValidationMessageFor(model => model.descricao)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.valor)</label>
+                                            @Html.TextBoxFor(model => model.valor, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.valor)
                                         </div>
                                     </div>
                                 </div>
@@ -79,6 +86,7 @@
                                 <tr>
                                     <th scope="col">Id</th>
                                     <th scope="col">Description</th>
+                                    <th scope="col">%</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                 </tr>
@@ -94,7 +102,10 @@
                                             @item.descricao
                                         </td>
                                         <td>
-                                            <a href="@Domain.Util.config.UrlSite/Breke/Brekedown/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.brekedownid">
+                                            @item.valor
+                                        </td>
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/Brekedown/Breke/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.brekedownid">
                                                 <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="brekedown edit" width="30" />
                                             </a>
                                         </td>
