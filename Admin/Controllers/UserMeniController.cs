@@ -5,10 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.Routing;
-using Data.Entities;
-using Data.Repository;
+using Domain.Entities;
+using Servico.Service;
 using Domain.ModelView;
-using Domain.Service;
+using Servico.Consumo;
 
 namespace Admin.Controllers
 {
@@ -65,7 +65,7 @@ namespace Admin.Controllers
             UsuarioMenuModelView model = new UsuarioMenuModelView();
             string usuario = User.Identity.Name;
             //apaga todos
-            Domain.Consumo.UsuarioMenuRepository.DeleteUsuarioMenuAll();
+            ServiceUsuarioMenu.DeleteUsuarioMenuAll();
             for (int i = 0; i < data.Count; i++)
             {
                 string[] menuarray = data[i].Split(new Char[] { ':' });

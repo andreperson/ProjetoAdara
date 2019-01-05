@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using System.Web.Routing; 
-using Data.Repository;
+using System.Web.Routing;
+using Servico.Service;
 using Domain.ModelView;
-using Domain.Service;
+using Domain.Entities;
 
 namespace Admin.Controllers
 {
@@ -87,7 +87,7 @@ namespace Admin.Controllers
         {
             string msg = "";
 
-            List<Data.Entities.User> lst = new List<Data.Entities.User>();
+            List<User> lst = new List<User>();
 
             lst = ServiceUsuario.getUsuariobyEmail(email);
 
@@ -141,7 +141,7 @@ namespace Admin.Controllers
         {
             bool ret = false;
 
-            List<Data.Entities.User> lst = new List<Data.Entities.User>();
+            List<User> lst = new List<User>();
             lst = ServiceUsuario.getUsuariobyEmail(user);
 
             foreach (var item in lst)

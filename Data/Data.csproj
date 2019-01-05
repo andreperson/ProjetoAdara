@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Domain">
+      <HintPath>..\Domain\bin\Debug\Domain.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -49,32 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext\ConnDataContext.cs" />
-    <Compile Include="Entities\Tra.cs" />
-    <Compile Include="Entities\Tep.cs" />
-    <Compile Include="Entities\Atividade.cs" />
-    <Compile Include="Entities\ClientePreco.cs" />
-    <Compile Include="Entities\Brekedown.cs" />
-    <Compile Include="Entities\ListaPreco.cs" />
-    <Compile Include="Entities\PagedResult.cs" />
-    <Compile Include="Entities\ParIdioma.cs" />
-    <Compile Include="Entities\Moeda.cs" />
-    <Compile Include="Entities\Idioma.cs" />
-    <Compile Include="Entities\ProjetoCompetencia.cs" />
-    <Compile Include="Entities\ProjetoTipo.cs" />
-    <Compile Include="Entities\CompetenciaUser.cs" />
-    <Compile Include="Entities\Competencia.cs" />
-    <Compile Include="Entities\Projeto.cs" />
-    <Compile Include="Entities\Cliente.cs" />
-    <Compile Include="Entities\ClienteTipo.cs" />
-    <Compile Include="Entities\Login.cs" />
-    <Compile Include="Entities\Menu.cs" />
-    <Compile Include="Entities\MenuSub.cs" />
-    <Compile Include="Entities\UF.cs" />
-    <Compile Include="Entities\Recurso.cs" />
-    <Compile Include="Entities\User.cs" />
-    <Compile Include="Entities\UsuarioMenuSub.cs" />
-    <Compile Include="Entities\UsuarioMenu.cs" />
-    <Compile Include="Entities\UsuarioTipo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\GenericRepository.cs" />
     <Compile Include="Repository\Interface\IGenericRepository.cs" />

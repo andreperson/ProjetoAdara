@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Domain.Service;
-using Data.Entities;
-
+using Domain.Entities;
+using Servico.Service;
 
 namespace Admin.Controllers
 {
@@ -15,7 +14,7 @@ namespace Admin.Controllers
         private int GetUsuaroiTipoId(string user)
         {
 
-            List<User> lstUser = new List<Data.Entities.User>();
+            List<User> lstUser = new List<User>();
             lstUser = ServiceUsuario.getUsuariobyEmail(user);
             int tipoid = 0;
 
@@ -40,7 +39,7 @@ namespace Admin.Controllers
             LayoutMenuController layout = new LayoutMenuController();
             int tipoid = layout.GetUsuaroiTipoId(User.Identity.Name);
 
-            //List<User> lstUser = new List<Data.Entities.User>();
+            //List<User> lstUser = new List<User>();
             //lstUser = ServiceUsuario.getUsuariobyEmail(User.Identity.Name);
 
 
@@ -110,11 +109,11 @@ namespace Admin.Controllers
 
             //CARREGA OS MENUS E SUB QUE PODEM SER VISTOS CONFORME A PERMISSÃO
             //busca o menu
-            List<Data.Entities.Menu> lstMn = new List<Data.Entities.Menu>();
-            lstMn = Domain.Service.ServiceMenu.getMenu("Delete");
+            List<Menu> lstMn = new List<Menu>();
+            lstMn = ServiceMenu.getMenu("Delete");
 
             //busca os usuariostipos que contém os menus permitidos
-            List<Data.Entities.UsuarioMenu> lstTp = new List<UsuarioMenu>();
+            List<UsuarioMenu> lstTp = new List<UsuarioMenu>();
             lstTp = ServiceUsuarioMenu.getUsuarioMenuByTipoId(tipoid);
 
             //pega somente os ids validos
@@ -146,7 +145,7 @@ namespace Admin.Controllers
         //public ActionResult MenuHeader()
         //{
         //    var msg = "10";
-        //    List<User> lstUser = new List<Data.Entities.User>();
+        //    List<User> lstUser = new List<User>();
         //    lstUser = ServiceUsuario.getUsuariobyEmail(User.Identity.Name);
         //    Int16 tipoid = 0;
 
@@ -159,8 +158,8 @@ namespace Admin.Controllers
         //    }
 
         //    //busca o menu
-        //    List<Data.Entities.Menu> lstMn = new List<Data.Entities.Menu>();
-        //    lstMn = Domain.Service.ServiceMenu.getMenu();
+        //    List<Menu> lstMn = new List<Menu>();
+        //    lstMn = Domain.Services.ServiceMenu.getMenu();
 
         //    string path = Request.Path;
         //    int posic = path.IndexOf("/", 1);
@@ -168,7 +167,7 @@ namespace Admin.Controllers
         //    {
         //        string actSolic = path.Substring(1, posic - 1);
         //        //busca os usuariostipos que contém os menus permitidos
-        //        List<Data.Entities.UsuarioMenu> lstTp = new List<UsuarioMenu>();
+        //        List<UsuarioMenu> lstTp = new List<UsuarioMenu>();
         //        lstTp = ServiceUsuarioMenu.getUsuarioMenuByTipoId(tipoid);
 
         //        //pega somente os ids
@@ -211,7 +210,7 @@ namespace Admin.Controllers
 
             int tipoid = layout.GetUsuaroiTipoId(User.Identity.Name);
             //VAI MOSTRAR APENAS OS SUBMENUS PERMITIDOS.
-            List<Data.Entities.MenuSub> lstFinal = Domain.Service.ServiceMenuSub.GetSubMenuPermitido(tipoid, id);
+            List<MenuSub> lstFinal = ServiceMenuSub.GetSubMenuPermitido(tipoid, id);
 
             ViewData["result"] = lstFinal;
 
@@ -256,7 +255,7 @@ namespace Admin.Controllers
         public ActionResult ApelidoHeader()
         {
 
-            List<User> lstUser = new List<Data.Entities.User>();
+            List<User> lstUser = new List<User>();
             lstUser = ServiceUsuario.getUsuariobyEmail(User.Identity.Name);
             string user = "";
 
@@ -277,7 +276,7 @@ namespace Admin.Controllers
         public ActionResult UserTipoHeader()
         {
 
-            List<User> lstUser = new List<Data.Entities.User>();
+            List<User> lstUser = new List<User>();
             lstUser = ServiceUsuario.getUsuariobyEmail(User.Identity.Name);
             string user = "";
 
@@ -297,7 +296,7 @@ namespace Admin.Controllers
         [ChildActionOnly]
         public ActionResult ImagemHeader()
         {
-            List<User> lstUser = new List<Data.Entities.User>();
+            List<User> lstUser = new List<User>();
             lstUser = ServiceUsuario.getUsuariobyEmail(User.Identity.Name);
             string img = "";
        
@@ -324,7 +323,7 @@ namespace Admin.Controllers
         public ActionResult DataInclHeader()
         {
 
-            List<User> lstUser = new List<Data.Entities.User>();
+            List<User> lstUser = new List<User>();
             lstUser = ServiceUsuario.getUsuariobyEmail(User.Identity.Name);
             string dataincl = "";
             string mes = "";
@@ -350,7 +349,7 @@ namespace Admin.Controllers
         [ChildActionOnly]
         public ActionResult UserIdHeader()
         {
-            List<User> lst = new List<Data.Entities.User>();
+            List<User> lst = new List<User>();
 
             lst = ServiceUsuario.getUsuariobyEmail(User.Identity.Name);
             int userid = 0;
@@ -361,7 +360,7 @@ namespace Admin.Controllers
             }
 
 
-            List<Menu> lstmn = new List<Data.Entities.Menu>();
+            List<Menu> lstmn = new List<Menu>();
 
             lstmn = ServiceMenu.getMenuStr("Admin");
             int menuid = 0;

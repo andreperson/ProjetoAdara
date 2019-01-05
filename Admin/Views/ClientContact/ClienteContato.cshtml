@@ -1,0 +1,231 @@
+﻿@model Domain.ModelView.ClienteContatoModelView
+
+
+@section Scripts {
+    <!-- Argon CSS -->
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
+    
+
+
+    <script>
+
+        $(document).ready(function () {
+            var id = $("#clienteid").val();
+
+            if (id != 0) {
+                $("#formcontact").css('display', 'block');
+                ListaContatos(id);
+            }
+            else {
+                $("#formcontact").css('display', 'none');
+
+            }
+
+        });
+
+
+        $("#clienteid").change(function () {
+            var id = $("#clienteid").val();
+            if (id != 0) {
+                //busca os contatos daquele cliente
+                $("#formcontact").css('display', 'block');
+                ListaContatos(id);
+
+                $("#contatos").css('display', 'block');
+            }
+            else {
+                $("#formcontact").css('display', 'none');
+            }
+        });
+
+
+        function ListaContatos(id) {
+            $.getJSON('@Url.Action("ListaContatos/")' + id, ListaContatosCallBack);
+        }
+
+        function ListaContatosCallBack(json) {
+            var i = 0;
+            //("#ajaxfind").find("tr:gt(0)").remove();
+            $("#lstContacts").css('display', 'block');
+            $.each(json, function (key, data) {
+                $(function () {
+                    i += 1;
+                    var index = 1;
+                    newRow = "<tr id='trajaxfind'>" +
+                        "<td class='text-blue' style='font-size:14px'>xxx</td>" +
+                        "</tr>";
+
+                    $('#ajaxfind').append('<tr><td>' + data.clientecontatoid + '</td><td>' + data.nome + '</td><td><a href="@Domain.Util.config.UrlSite/ClientContact/ClienteContato/@ViewBag.MenuId/@ViewBag.MenuSubId/' + data.clientecontatoid + '"><img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="client contact edit" width="30" />Editar</a></td><td><a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/' + data.clientecontatoid + '/' + data.nome + '?ac=ClienteContatoDelete&cr=ClientContact&txt=Contato ' + data.nome + '"><img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="activity delete" width="30" /></a></td></tr>');
+
+                });
+            })
+        }
+    </script>
+
+
+}
+
+@{
+    ViewBag.Title = @Domain.Util.config.Title;
+}
+
+
+
+
+@using (Html.BeginForm("ClienteContato", "ClientContact", FormMethod.Post, new { autocomplete = "on" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-8 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">@ViewBag.PageTopInformation</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <h6 class="heading-small text-muted mb-4">@ViewBag.Acao</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.Clientes)</label>
+                                            @Html.DropDownListFor(x => x.clienteid, new SelectList(Model.Clientes, "clienteid", "Fantasia"), new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.clienteid)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display:none" id="formcontact">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.nome)</label>
+                                                @Html.TextBoxFor(model => model.nome, new { @class = "form-control form-control-alternative" })
+                                                @Html.ValidationMessageFor(model => model.nome, null, new { @class = "alert-warning" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.email)</label>
+                                                @Html.TextBoxFor(model => model.email, new { @class = "form-control form-control-alternative" })
+                                                @Html.ValidationMessageFor(model => model.email)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.dddcelular)</label>
+                                                @Html.TextBoxFor(model => model.dddcelular, new { @class = "form-control form-control-alternative" })
+                                                @Html.ValidationMessageFor(model => model.dddcelular)
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.celular)</label>
+                                                @Html.TextBoxFor(model => model.celular, new { @class = "form-control form-control-alternative" })
+                                                @Html.ValidationMessageFor(model => model.celular)
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.dddfone)</label>
+                                                @Html.TextBoxFor(model => model.dddfone, new { @class = "form-control form-control-alternative" })
+                                                @Html.ValidationMessageFor(model => model.dddfone)
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.fone)</label>
+                                                @Html.TextBoxFor(model => model.fone, new { @class = "form-control form-control-alternative" })
+                                                @Html.ValidationMessageFor(model => model.fone)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button name="button" class="btn btn-primary mt-4" value="register">Salvar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Hidden("ClienteContatoid", Model.clientecontatoid)
+        @Html.Hidden("Menuid", Model.menuid)
+        @Html.Hidden("MenuSubId", Model.menusubid)
+
+        <!-- Table -->
+        <div class="row mt-5">
+            <div class="col-xl-12 mb-5 mb-xl-0">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Register</h3>
+                            </div>
+                            <div class="col text-right">
+                                <span class="heading-small text-muted mb-4"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive" id="lstContacts" style="display:none">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush" id="ajaxfind">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p></p><p></p>
+        @*<!-- End Table -->
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="row align-items-center justify-content-xl-between">
+                    <div class="col-xl-6">
+                        <div class="copyright text-center text-xl-left text-muted">
+                            &copy; 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>*@
+    </div>
+
+
+}

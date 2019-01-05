@@ -104,17 +104,17 @@
                 </form>
                 <!-- Navigation -->
                 <ul class="navbar-nav">
-                   @Html.Action("MenuHeader", "LayoutMenu")
+                    @Html.Action("MenuHeader", "LayoutMenu")
                 </ul>
                 <!-- Divider -->
                 <hr class="my-3">
                 <!-- Heading -->
-                
+
             </div>
         </div>
     </nav>
     <!-- Main content -->
-    
+
     <div class="main-content">
         <!--verifica se não é a home e mostra o conteudo-->
         @{
@@ -145,36 +145,74 @@
                     <div class="container-fluid d-flex align-items-center" style="margin-top:-165px;margin-left:-30px;">
                         <div class="col">
                             <div class="col-lg-12 col-md-10">
-                                 @Html.Action("MenuSubHeader", "LayoutMenu")
+                                @Html.Action("MenuSubHeader", "LayoutMenu")
                             </div>
                         </div>
                     </div>
                 </div>
+
+                //user
+                <ul class="navbar-nav align-items-center d-none d-md-flex" style="float:right; margin-top:-180px;margin-right:20px;">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="media align-items-center">
+                                <span class="avatar avatar-sm rounded-circle">
+                                    <img alt="Image placeholder" src="@Domain.Util.config.UrlImg/usuario/@Html.Action("ImagemHeader", "LayoutMenu")">
+                                </span>
+                                <div class="media-body ml-2 d-none d-lg-block">
+                                    <span class="mb-0 text-sm  font-weight-bold" style="color:#fff">@Html.Action("ApelidoHeader", "LayoutMenu")</span>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
+                            <div class=" dropdown-header noti-title">
+                                <h6 class="text-overflow m-0">Welcome!</h6>
+                            </div>
+                            <a href="@Domain.Util.config.UrlSite/examples/profile.html" class="dropdown-item">
+                                <i class="ni ni-single-02"></i>
+                                <span>My profile</span>
+                            </a>
+                            <a href="@Domain.Util.config.UrlSite/examples/profile.html" class="dropdown-item">
+                                <i class="ni ni-calendar-grid-58"></i>
+                                <span>Activity</span>
+                            </a>
+                            <a href="@Domain.Util.config.UrlSite/examples/profile.html" class="dropdown-item">
+                                <i class="ni ni-support-16"></i>
+                                <span>Support</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#!" class="dropdown-item">
+                                <i class="ni ni-user-run"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
             }
 
         }
 
 
-        
+
 
         @RenderSection("featured", required: false)
         @RenderBody()
 
-        </div>
+    </div>
 
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
 
-        <!-- Argon Scripts -->
-        <!-- Core -->
-        <script src="@Domain.Util.config.UrlSite/assets/vendor/jquery/dist/jquery.min.js"></script>
-        <script src="@Domain.Util.config.UrlSite/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Optional JS -->
-        <script src="@Domain.Util.config.UrlSite/assets/vendor/chart.js/dist/Chart.min.js"></script>
-        <script src="@Domain.Util.config.UrlSite/assets/vendor/chart.js/dist/Chart.extension.js"></script>
-        <!-- Argon JS -->
-        <script src="@Domain.Util.config.UrlSite/assets/js/argon.js?v=1.0.0"></script>
-        <script type="text/javascript" src="@Domain.Util.config.UrlSite/scripts/jquery.maskMoney.js"></script>
+    <!-- Argon Scripts -->
+    <!-- Core -->
+    <script src="@Domain.Util.config.UrlSite/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="@Domain.Util.config.UrlSite/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Optional JS -->
+    <script src="@Domain.Util.config.UrlSite/assets/vendor/chart.js/dist/Chart.min.js"></script>
+    <script src="@Domain.Util.config.UrlSite/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+    <!-- Argon JS -->
+    <script src="@Domain.Util.config.UrlSite/assets/js/argon.js?v=1.0.0"></script>
+    <script type="text/javascript" src="@Domain.Util.config.UrlSite/scripts/jquery.maskMoney.js"></script>
 </body>
 </html>
-   
+

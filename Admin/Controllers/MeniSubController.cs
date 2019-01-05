@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using System.Web.Routing; 
-using Data.Entities;
-using Data.Repository;
+using System.Web.Routing;
+using Domain.Entities;
+using Servico.Service;
 using Domain.ModelView;
-using Domain.Service; 
+
+
+
 
 namespace Admin.Controllers
 {

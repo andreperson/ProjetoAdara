@@ -1,6 +1,6 @@
 ﻿@if (ViewData["result"] != null)
 {
-    foreach (var menuitem in ViewData["result"] as List<Data.Entities.MenuSub>)
+    foreach (var menuitem in ViewData["result"] as List<Domain.Entities.MenuSub>)
     {
        <a  href='@Url.Action(menuitem.view, menuitem.controller)/@menuitem.menuid/@menuitem.menusubid' style="margin-right:0px;margin-top:10px;" title="@menuitem.descricao.Trim()" class="btn btn-primary">@menuitem.descricao.Trim()</a>
     }

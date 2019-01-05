@@ -5,10 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.Routing; 
-using Data.Entities;
-using Data.Repository;
+using Domain.Entities;
 using Domain.ModelView;
-using Domain.Service; 
+using Servico.Service; 
 
 namespace Admin.Controllers
 {
@@ -47,7 +46,7 @@ namespace Admin.Controllers
             var model = new RecursoModelView();
             ViewBag.PageTopInformation = "Resource Form";
             ViewBag.Acao = "Resource Add";
-            List<Recurso> lst = new List<Data.Entities.Recurso>();
+            List<Recurso> lst = new List<Recurso>();
 
             if (id3 != 0)
             {

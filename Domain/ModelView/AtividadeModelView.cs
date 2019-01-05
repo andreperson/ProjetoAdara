@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Entities;
-using System.Web;
+using Domain.Entities;
 
 
 namespace Domain.ModelView
@@ -30,6 +26,6 @@ namespace Domain.ModelView
         public Int16 menuid { get; set; }
         public Int16 menusubid { get; set; }
 
-        public List<Data.Entities.Atividade> Atividades { get; set; }
+        public List<Atividade> Atividades { get; set; }
     }
 }

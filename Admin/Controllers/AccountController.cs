@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
-using Data.Entities;
-using Data.Repository;
-using Domain; 
+using Domain.Entities;
+using Domain.ModelView;
+using Servico.Service;
 
 namespace Admin.Controllers
 {
@@ -19,7 +15,7 @@ namespace Admin.Controllers
             {
                 FormsAuthentication.RedirectFromLoginPage(model.Email, true);
                 //quando  loga, guarda a informação na tabela login
-                model = Domain.Service.CustomMembershipProvider.GetUser(model.Email, model.Senha);
+                model =  CustomMembershipProvider.GetUser(model.Email, model.Senha);
                 registralogin(model);
                 ViewBag.msg = "";
             }
@@ -35,13 +31,13 @@ namespace Admin.Controllers
         private void registralogin(User model)
         { 
          //guarda login
-            Domain.ModelView.LoginModelView login = new Domain.ModelView.LoginModelView();
+            LoginModelView login = new LoginModelView();
             login.apelido = User.Identity.Name;
             login.email = model.Email;
             login.origem = "Admin";
             login.apelido = model.Apelido;
             login.userid = model.UserId;
-            Domain.Service.ServiceLogin.InsertLogin(login);
+            ServiceLogin.InsertLogin(login);
         }
 
         [HttpGet]

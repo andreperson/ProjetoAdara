@@ -6,6 +6,13 @@
 }
 
 @section Scripts {
+
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
+    <script src="@Domain.Util.config.UrlSite/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="@Domain.Util.config.UrlSite/assets/js/argon.min.js?v=1.0.0"></script>
+
+
+
     <script type="text/javascript">
         $("#all").click(function () {
             //verifica se o check está marcado
@@ -26,12 +33,71 @@
         });
 
 
+
         $("#clienteid").change(function () {
             var id = $("#clienteid").val();
             if (id != 0) {
-                $("#tdcompet").css('display', 'block');
+                //busca os contatos daquele cliente
+                ListaContatos(id);
+
+                $("#lstContacts").css('display', 'block');
+            }
+            else {
+                $("#lstContacts").css('display', 'none');
             }
         });
+
+
+        function ListaContatos(id) {
+            $.getJSON('@Url.Action("ListaContatos/")' + id, ListaContatosCallBack);
+        }
+
+        function ListaContatosCallBack(json) {
+            var i = 0;
+            //("#ajaxfind").find("tr:gt(0)").remove();
+            $("#lstContacts").css('display', 'block');
+            $.each(json, function (key, data) {
+                $(function () {
+                    i += 1;
+                    var index = 1;
+                    newRow = "<tr id='trajaxfind'>" +
+                        "<td class='text-blue' style='font-size:14px'>xxx</td>" +
+                        "</tr>";
+
+                    $('#ajaxfind').append('<tr><th>' + data.nome + '</th><th>' + data.email + '</th><th><label class="custom-toggle"><input onchange="GetCheck(' + data.clientecontatoid + ');" type="checkbox" id="ckbre_' + data.clientecontatoid + '" name="ckbre_' + data.clientecontatoid + '" /><span class="custom-toggle-slider rounded-circle"></span></label></th></tr>');
+
+                });
+            })
+        }
+
+
+
+        function GetCheck(clientecontatoid)
+        {
+            var clienteid = $("#clienteid").val();
+            var projetoid = 1;//$("#projetoid").val();
+            var lstcliconpro = [];
+            lstcliconpro.push(projetoid + ":" + clienteid + ":" + clientecontatoid);
+
+            $.post('@Url.Action("InsertAjax")', $.param({ data: lstcliconpro }, true), function (data) {
+            });
+
+        }
+
+
+        //****************************************
+        // no clique o evento  - carrega os combos
+        $("#idiomaidfrom").change(function () {
+            var from = $("#idiomaidfrom option:selected").text();
+            $("#descricaode").val(from);
+        });
+
+
+        $("#idiomaidto").change(function () {
+            var from = $("#idiomaidto option:selected").text();
+            $("#descricaopara").val(from);
+        });
+
 
         $("#imp").click(function () {
             var divContents = $("#conteudoprint").html();
@@ -111,6 +177,16 @@
 
         //load
         $(document).ready(function () {
+            var id = $("#clienteid").val();
+            if (id != 0) {
+                $("#lstcontacts").css('display', 'block');
+                ListaContatos(id);
+            }
+            else {
+                $("#lstcontacts").css('display', 'none');
+            }
+
+
             //$.mask.definitions['~'] = "[+-]";
             $('#dataentregaprev').mask('99/99/9999');
             $('#dataentrega').mask('99/99/9999');
@@ -261,10 +337,19 @@
                                             <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.numeroprojeto)</label>
                                             @Html.TextBoxFor(model => model.numeroprojeto, new { @class = "form-control form-control-alternative" })
                                             @Html.ValidationMessageFor(model => model.numeroprojeto)
-
                                         </div>
                                     </div>
+
                                     <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.ProjetoTipos)</label>
+                                            @Html.DropDownListFor(x => x.projetotipoid, new SelectList(Model.ProjetoTipos, "projetotipoid", "descricao"), new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.projetotipoid)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.titulo)</label>
                                             @Html.TextBoxFor(model => model.titulo, new { @class = "form-control form-control-alternative" })
@@ -272,68 +357,95 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.Clientes)</label>
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.clienteid)</label>
                                             @Html.DropDownListFor(x => x.clienteid, new SelectList(Model.Clientes, "clienteid", "fantasia"), new { @class = "form-control form-control-alternative" })
                                             @Html.ValidationMessageFor(model => model.clienteid)
                                         </div>
                                     </div>
                                 </div>
+                                <div id="contatos" style="display:block; background-color:#fff">
+                                    <div class="table-responsive" id="lstContacts" style="display:none">
+                                        <!-- Projects table -->
+                                        <table class="table align-items-center table-flush" id="ajaxfind">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col" colspan="3">select clients contact</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+
+                                        <table class="table align-items-center table-flush" id="ajaxfind">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">&nbsp;</th>
+                                                    <th scope="col">&nbsp;</th>
+                                                    <th scope="col">&nbsp;</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+
+
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.ParIdiomas)</label>
-                                            @Html.DropDownListFor(x => x.paridiomaid, new SelectList(Model.ParIdiomas, "paridiomaid", "descricao"), new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.paridiomaid)
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.dataentregaprev)</label>
+                                            <div class="input-group input-group-alternative">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                                </div>
+                                                <input class="form-control datepicker" placeholder="Select date" type="text" value="06/20/2018">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.tipolistapreco)</label>
-                                            <div class="custom-control custom-radio mb-3">
-                                                <input name="tipolistapreco" class="custom-control-input" id="cliente" type="radio" value="Cliente">
-                                                <label class="custom-control-label" for="cliente">Lista Cliente</label>
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.dataentrega)</label>
+                                            <div class="input-group input-group-alternative">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                                </div>
+                                                <input class="form-control datepicker" placeholder="Select date" type="text" value="06/20/2018">
                                             </div>
-                                            <div class="custom-control custom-radio mb-3">
-                                                <input name="tipolistapreco" class="custom-control-input" id="padrao" checked="checked" type="radio" value="Padrao">
-                                                <label class="custom-control-label" for="padrao">Lista Padrão</label>
-                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.idiomaidfrom)</label>
+                                            @Html.DropDownListFor(x => x.idiomaidfrom, new SelectList(Model.Idiomas, "Idiomaid", "Sigla"), new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.idiomaidfrom)
 
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-username">Gerente</label>
-                                            @Html.DropDownListFor(x => x.userid, new SelectList(Model.Usuarios, "userid", "Apelido"), new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.userid)
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.numeropalavras)</label>
-                                            @Html.TextBoxFor(model => model.numeropalavras, new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.numeropalavras)
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.idiomaidto)</label>
+                                            @Html.DropDownListFor(x => x.idiomaidto, new SelectList(Model.Idiomas, "Idiomaid", "Sigla"), new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.idiomaidto)
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-lg-6">
+                                        <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.listaprecoid)</label>
+                                        @Html.DropDownListFor(x => x.listaprecoid, new SelectList(Model.ListaPrecos, "listaprecoid", "descricao"), new { @class = "form-control form-control-alternative" })
+                                        @Html.ValidationMessageFor(model => model.listaprecoid)
+                                    </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.moedaidrecebe)</label>
                                             @Html.DropDownListFor(x => x.moedaidrecebe, new SelectList(Model.Moedas, "moedaid", "descricao"), new { @class = "form-control form-control-alternative" })
                                             @Html.ValidationMessageFor(model => model.moedaidrecebe)
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.moedaidpaga)</label>
-                                            @Html.DropDownListFor(x => x.moedaidpaga, new SelectList(Model.Moedas, "moedaid", "descricao"), new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.moedaidpaga)
                                         </div>
                                     </div>
                                 </div>
@@ -381,7 +493,7 @@
                             <tbody>
                                 @foreach (var item in Model.Projetos)
                                 {
-                                
+
                                     <tr>
                                         <th scope="row">
                                             @item.projetoid

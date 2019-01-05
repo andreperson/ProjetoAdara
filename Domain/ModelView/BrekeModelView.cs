@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Data.Entities;
+using Domain.Entities;
 using System.Web;
 
 
@@ -31,6 +31,6 @@ namespace Domain.ModelView
         public Int16 menuid { get; set; }
         public Int16 menusubid { get; set; }
 
-        public List<Data.Entities.Brekedown> Brekedowns { get; set; }
+        public List<Brekedown> Brekedowns { get; set; }
     }
 }

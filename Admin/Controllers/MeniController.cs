@@ -5,10 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.Routing;
-using Data.Entities;
-using Data.Repository;
+using Domain.Entities;
 using Domain.ModelView;
-using Domain.Service;
+using Servico.Service;
 
 namespace Admin.Controllers
 {
@@ -89,7 +88,7 @@ namespace Admin.Controllers
         {
             int id = 0;
 
-            List<Menu> lst = new List<Data.Entities.Menu>();
+            List<Menu> lst = new List<Menu>();
 
             lst = ServiceMenu.getMenuStr("Admin");
 

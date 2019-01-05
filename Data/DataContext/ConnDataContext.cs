@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Data.Entity.Spatial;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;  
-using Data.Entities;
+using System.ComponentModel.DataAnnotations;
+using Domain.Entities;
 
 namespace Data.DataContext
 {
@@ -18,6 +18,8 @@ namespace Data.DataContext
         public DbSet<Brekedown> Brekedown { get; set; }
 
         public DbSet<Cliente> Cliente { get; set; }
+        public DbSet<ClienteContato> ClienteContato{ get; set; }
+        public DbSet<ClienteContatoProjeto> ClienteContatoProjeto { get; set; }
         public DbSet<ClientePreco> ClientePreco { get; set; }
         public DbSet<ClienteTipo> ClienteTipo { get; set; }
         public DbSet<Competencia> Competencia { get; set; }
@@ -39,6 +41,8 @@ namespace Data.DataContext
 
         public DbSet<Recurso> Recurso { get; set; }
         public DbSet<Tep> Tep { get; set; }
+        public DbSet<TepBreke> TepBreke { get; set; }
+        public DbSet<TepAtv> TepAtv { get; set; }
         public DbSet<Tra> Tra { get; set; }
 
         public DbSet<UF> UF { get; set; }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Data.Entities;
+using Domain.Entities;
 using System.Web;
 
 
@@ -12,80 +12,56 @@ namespace Domain.ModelView
 {
     public class ProjetoModelView
     {
-        [Display(Name = "ID do Projeto")]
         public Int16 projetoid { get; set; }
 
-        [Required(ErrorMessage = "Cliente")]
-        [Display(Name = "Cliente")]
+        [Required(ErrorMessage = "Client")]
+        [Display(Name = "Client")]
         public Int16 clienteid { get; set; }
 
-        [Display(Name = "Competências")]
-        public int competenciaid { get; set; }
+        [Display(Name = "Project Type")]
+        public int projetotipoid { get; set; }
 
-
-        [Display(Name = "Lista de Preços")]
+        [Display(Name = "Price List")]
         public int listaprecoid { get; set; }
 
-        [Display(Name = "Cliente Preços")]
-        public int clienteprecoid { get; set; }
+        [Display(Name = "Source laguage")]
+        public int idiomaidfrom { get; set; }
 
-        [Display(Name = "Par de Idiomas")]
-        public int paridiomaid { get; set; }
+        [Display(Name = "Target language")]
+        public int idiomaidto { get; set; }
+        public int idiomaid { get; set; }
 
-        [Display(Name = "Gestor do Projeto")]
+        [Display(Name = "Manager")]
         public Int16 userid { get; set; }
 
-        [Required(ErrorMessage = "Número")]
-        [Display(Name = "Número")]
+        [Required(ErrorMessage = "Project Number")]
+        [Display(Name = "Project Number")]
         public string numeroprojeto{ get; set; }
 
-        [Required(ErrorMessage = "Título")]
-        [Display(Name = "Título")]
+        [Required(ErrorMessage = "Title")]
+        [Display(Name = "Title")]
         public string titulo { get; set; }
 
-        [Display(Name = "Número de Palavras")]
-        [Required(ErrorMessage = "Número de Palavras")]
-        public int numeropalavras { get; set; }
-
-        [Display(Name = "Moeda Recebimento")]
+        [Display(Name = "Currency")]
         public int moedaidrecebe { get; set; }
 
-        [Display(Name = "Moeda Pagamento")]
-        public int moedaidpaga { get; set; }
-
-        [Display(Name = "Câmbio")]
-        public double cambio { get; set; }
-
-        [Display(Name = "Valor Calculado")]
-        public double valorcalculado { get; set; }
-
-        [Display(Name = "Valor do Projeto")]
-        public double valorprojeto { get; set; }
-    
-        [Display(Name = "Prazo em Horas")]
-        public string prazohoras { get; set; }
-
-        [Display(Name = "Previsão de Entrega")]
+        [Display(Name = "Partial Term")]
         public DateTime? dataentregaprev { get; set; }
 
-        [Display(Name = "Data Entrega")]
+        [Display(Name = "Deadline")]
         public DateTime? dataentrega { get; set; }
 
-        [Display(Name = "Descrição")]
+        [Display(Name = "Description")]
         public string descricao { get; set; }
 
         [Display(Name = "Obs")]
         public string obs { get; set; }
 
-        [Display(Name = "Documento / Anexo")]
+        [Display(Name = "Attachment")]
         public HttpPostedFileBase documento { get; set; }
 
-        [Display(Name = "Arquivo Documento / Anexo")]
+        [Display(Name = "Attachment")]
         public string documentoanexo { get; set; }
-
-        [Required(ErrorMessage = "Lista de Preços")]
-        [Display(Name = "Informe a Lista de Preços")]
-        public string tipolistapreco { get; set; } // cliente  geral 
 
         public bool statusb { get; set; }
         public int status { get; set; }
@@ -96,10 +72,11 @@ namespace Domain.ModelView
         public Int16 menusubid { get; set; }
         public List<Cliente> Clientes { get; set; }
         public List<Projeto> Projetos { get; set; }
+        public List<ProjetoTipo> ProjetoTipos { get; set; }
         public List<User> Usuarios { get; set; }
         public List<Moeda> Moedas { get; set; }
         public List<Competencia> Competencias { get; set; }
-        public List<ParIdioma> ParIdiomas { get; set; }
+        public List<Idioma> Idiomas { get; set; }
         public List<ClientePreco> ClientePrecos { get; set; }
         public List<ListaPreco> ListaPrecos { get; set; }
 

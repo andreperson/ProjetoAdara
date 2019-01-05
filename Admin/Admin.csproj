@@ -46,13 +46,6 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
-    <Reference Include="Data">
-      <HintPath>..\Data\bin\Debug\Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Domain\bin\Debug\Domain.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
@@ -66,6 +59,10 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Servico, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Servico\bin\Debug\Servico.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -181,6 +178,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClientContactController.cs" />
+    <Compile Include="Controllers\TepBrekeAtvController.cs" />
     <Compile Include="Controllers\TranstepController.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\BrekedownController.cs" />
@@ -2786,7 +2785,6 @@
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.js" />
     <Content Include="examples\icons.html" />
-    <Content Include="examples\index.html" />
     <Content Include="examples\login.html" />
     <Content Include="examples\maps.html" />
     <Content Include="examples\profile.html" />
@@ -2901,6 +2899,7 @@
     <Content Include="Content\plugins\datatables\extensions\TableTools\images\psd\printer.psd" />
     <Content Include="Content\plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="Content\plugins\input-mask\phone-codes\phone-codes.json" />
+    <Content Include="Images\482.GIF" />
     <Content Include="Images\favicon\manifest.json" />
     <Content Include="assets\fonts\nucleo\nucleo-icons.eot" />
     <Content Include="assets\fonts\nucleo\nucleo-icons.ttf" />
@@ -3292,18 +3291,15 @@
     <Content Include="Views\LayoutMenu\UserTipoHeader.cshtml" />
     <Content Include="Views\LanguagePair\ParIdioma.cshtml" />
     <Content Include="Views\ListPrice\ListaPreco.cshtml" />
-    <Content Include="Views\Project\Projeto2.cshtml" />
-    <Content Include="Views\Project\Projeto3.cshtml" />
     <Content Include="Views\Account\Login - Copy.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Client\profile.cshtml" />
-    <Content Include="Views\Project\Projeto - Copy.cshtml" />
-    <Content Include="Views\Project\Projeto2 - Copy.cshtml" />
-    <Content Include="Views\Project\Projeto3 - Copy.cshtml" />
     <Content Include="Views\ProjectType\ProjetoTipo - Copy.cshtml" />
     <Content Include="Views\Brekedown\Breke.cshtml" />
     <Content Include="Views\Activity\Atividade.cshtml" />
     <Content Include="Views\Transtep\Tep.cshtml" />
+    <Content Include="Views\TepBrekeAtv\TepBrekedownActivity.cshtml" />
+    <Content Include="Views\ClientContact\ClienteContato.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3319,6 +3315,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{30CA6CB5-9EB3-4C58-8717-5CBCD24A6232}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
