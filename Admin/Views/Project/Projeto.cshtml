@@ -35,6 +35,15 @@
 
 
         $("#clienteid").change(function () {
+
+            GetClientsContacts();
+            GetClientsPrice();
+
+        });
+
+        //busca os contatos após clicar no cliente
+        function GetClientsContacts()
+        {
             var id = $("#clienteid").val();
             if (id != 0) {
                 //busca os contatos daquele cliente
@@ -45,42 +54,134 @@
             else {
                 $("#lstContacts").css('display', 'none');
             }
-        });
+        }
+
+        //busca os preços após clicar no cliente
+        function GetClientsPrice() {
+            var id = $("#clienteid").val();
+            if (id != 0) {
+                //busca os contatos daquele cliente
+                ListaPrecos(id);
+
+                $("#lstPrices").css('display', 'block');
+            }
+            else {
+                $("#lstPrices").css('display', 'none');
+            }
+        }
 
 
         function ListaContatos(id) {
-            $.getJSON('@Url.Action("ListaContatos/")' + id, ListaContatosCallBack);
+
+            var projetoid = $("#projetoid").val();
+            $.getJSON('@Url.Action("ListaContatos/")' + id + "/" + projetoid, ListaContatosCallBack);
         }
 
         function ListaContatosCallBack(json) {
             var i = 0;
+            var unorchek = "";
             //("#ajaxfind").find("tr:gt(0)").remove();
             $("#lstContacts").css('display', 'block');
             $.each(json, function (key, data) {
                 $(function () {
+                    unorchek = "";
+                    if (data.Status == 1)
+                        unorchek = " checked='checked' ";
                     i += 1;
                     var index = 1;
                     newRow = "<tr id='trajaxfind'>" +
                         "<td class='text-blue' style='font-size:14px'>xxx</td>" +
                         "</tr>";
 
-                    $('#ajaxfind').append('<tr><th>' + data.nome + '</th><th>' + data.email + '</th><th><label class="custom-toggle"><input onchange="GetCheck(' + data.clientecontatoid + ');" type="checkbox" id="ckbre_' + data.clientecontatoid + '" name="ckbre_' + data.clientecontatoid + '" /><span class="custom-toggle-slider rounded-circle"></span></label></th></tr>');
+                    $('#ajaxfind').append('<tr><th>' + data.nome + '</th><th>' + data.email + '</th><th><label class="custom-toggle"><input ' + unorchek + ' onchange="GetCheck(' + data.clientecontatoid + ',this);" type="checkbox" id="ckbre_' + data.clientecontatoid + '" name="ckbre_' + data.clientecontatoid + '" /><span class="custom-toggle-slider rounded-circle"></span></label></th></tr>');
 
+                });
+            })
+        }
+
+        function GetCheck(clientecontatoid, obj) {
+            var clienteid = $("#clienteid").val();
+            var projetoid = $("#projetoid").val();
+            var lstcliconpro = [];
+            lstcliconpro.push(projetoid + ":" + clienteid + ":" + clientecontatoid + ":" + obj.checked);
+
+            $.post('@Url.Action("InsertClienteContatoAjax")', $.param({ data: lstcliconpro }, true), function (data) {
+            });
+
+        }
+
+
+
+        function ListaPrecos(id) {
+
+            var projetoid = $("#projetoid").val();
+            $.getJSON('@Url.Action("ListaPrecos/")' + id + "/" + projetoid, ListaPrecosCallBack);
+        }
+
+        function ListaPrecosCallBack(json) {
+            var i = 0;
+            var unorchek = "";
+            //("#ajaxfind").find("tr:gt(0)").remove();
+            $("#lstPrices").css('display', 'block');
+            $.each(json, function (key, data) {
+                $(function () {
+                    unorchek = "";
+                    if (data.Status == 1)
+                    {
+                        unorchek = " checked='checked' ";
+                    }
+                    i += 1;
+                    var index = 1;
+                    newRow = "<tr id='trajaxfindprices'>" +
+                        "<td class='text-blue' style='font-size:14px'>xxx</td>" +
+                        "</tr>";
+
+                    $('#ajaxfindprices').append('<tr><th>' + data.Fuzzie.descricao + '</th><th><span id="val_' + data.clienteprecoid + '">' + data.Valor + '</span></th><th><input type="textbox" id="pal_' + data.clienteprecoid + '"></th><th><label class="custom-toggle"><input ' + unorchek + ' onchange="GetCheckPreco(' + data.clienteprecoid + ',this);" type="checkbox" id="ckpre_' + data.clienteprecoid + '" name="ckpre_' + data.clienteprecoid + '" /><span class="custom-toggle-slider rounded-circle"></span></label><span style="font-size:10px;" id="msg_' + data.clienteprecoid + '"</th></tr>');
+                    
+                    
                 });
             })
         }
 
 
 
-        function GetCheck(clientecontatoid)
+        function GetCheckPreco(clienteprecoid, obj)
         {
             var clienteid = $("#clienteid").val();
-            var projetoid = 1;//$("#projetoid").val();
-            var lstcliconpro = [];
-            lstcliconpro.push(projetoid + ":" + clienteid + ":" + clientecontatoid);
+            var projetoid = $("#projetoid").val();
 
-            $.post('@Url.Action("InsertAjax")', $.param({ data: lstcliconpro }, true), function (data) {
-            });
+
+            //pega o valor digitado
+            var valorpalavra = $("#pal_" + clienteprecoid).val();
+            var valorperc = $("#val_" + clienteprecoid).html();
+
+            $("#msg_" + clienteprecoid).html("");
+            $("#pal_" + clienteprecoid).css('border-color', '#000');
+
+            if (!obj.checked)
+            {
+                $("#pal_" + clienteprecoid).val("");
+                $("#pal_" + clienteprecoid).css('border-color', '#000');
+                valorpalavra = 0;
+                valorperc = 0;
+            }
+
+            if (obj.checked & valorpalavra == "")
+            {
+                $("#msg_" + clienteprecoid).html("Please Enter First Word Value");
+                $("#ckpre_" + clienteprecoid).prop('checked', false);
+                $("#pal_" + clienteprecoid).css('border-color', '#ff3300');
+            }
+            else
+            {
+                var lstcliconpro = [];
+                lstcliconpro.push(projetoid + ":" + clienteid + ":" + clienteprecoid + ":" + obj.checked + ":" + valorperc + ":" + valorpalavra);
+
+                $.post('@Url.Action("InsertClientePrecoAjax")', $.param({ data: lstcliconpro }, true), function (data) {
+                });
+
+            }
+
 
         }
 
@@ -175,15 +276,18 @@
         })
 
 
-        //load
         $(document).ready(function () {
             var id = $("#clienteid").val();
             if (id != 0) {
-                $("#lstcontacts").css('display', 'block');
+                $("#lstContacts").css('display', 'block');
                 ListaContatos(id);
+
+                $("#lstPrices").css('display', 'block');
+                ListaPrecos(id);
             }
             else {
-                $("#lstcontacts").css('display', 'none');
+                $("#lstContacts").css('display', 'none');
+                $("#lstPrices").css('display', 'none');
             }
 
 
@@ -336,7 +440,7 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.numeroprojeto)</label>
                                             @Html.TextBoxFor(model => model.numeroprojeto, new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.numeroprojeto)
+                                            @Html.ValidationMessageFor(model => model.numeroprojeto, "", new { @class = "badge badge-warning" })
                                         </div>
                                     </div>
 
@@ -344,7 +448,7 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.ProjetoTipos)</label>
                                             @Html.DropDownListFor(x => x.projetotipoid, new SelectList(Model.ProjetoTipos, "projetotipoid", "descricao"), new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.projetotipoid)
+                                            @Html.ValidationMessageFor(model => model.projetotipoid, "", new { @class = "badge badge-warning" })
                                         </div>
                                     </div>
                                 </div>
@@ -353,7 +457,7 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.titulo)</label>
                                             @Html.TextBoxFor(model => model.titulo, new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.titulo)
+                                            @Html.ValidationMessageFor(model => model.titulo,"", new { @class = "badge badge-warning" })
                                         </div>
                                     </div>
                                 </div>
@@ -362,7 +466,7 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.clienteid)</label>
                                             @Html.DropDownListFor(x => x.clienteid, new SelectList(Model.Clientes, "clienteid", "fantasia"), new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.clienteid)
+                                            @Html.ValidationMessageFor(model => model.clienteid, "", new { @class = "badge badge-warning" })
                                         </div>
                                     </div>
                                 </div>
@@ -374,6 +478,11 @@
                                                 <tr>
                                                     <th scope="col" colspan="3">select clients contact</th>
                                                 </tr>
+                                                <tr>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">E-mail</th>
+                                                    <th scope="col">Select</th>
+                                                </tr>
                                             </thead>
                                         </table>
 
@@ -387,11 +496,36 @@
                                             </thead>
                                         </table>
                                     </div>
-
                                 </div>
+                                <div id="listapreco" style="display:block; background-color:#fff">
+                                    <div class="table-responsive" id="lstPrices" style="display:none">
+                                        <!-- Projects table -->
+                                        <table class="table align-items-center table-flush" id="ajaxfindprices">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col" colspan="4">select clients prices</th>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="col">Fuzzie</th>
+                                                    <th scope="col">% Value</th>
+                                                    <th scope="col">Word Value</th>
+                                                    <th scope="col">Select</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
 
-
-
+                                        <table class="table align-items-center table-flush" id="ajaxfindprices">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">&nbsp;</th>
+                                                    <th scope="col">&nbsp;</th>
+                                                    <th scope="col">&nbsp;</th>
+                                                    <th scope="col">&nbsp;</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
@@ -423,7 +557,7 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.idiomaidfrom)</label>
                                             @Html.DropDownListFor(x => x.idiomaidfrom, new SelectList(Model.Idiomas, "Idiomaid", "Sigla"), new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.idiomaidfrom)
+                                            @Html.ValidationMessageFor(model => model.idiomaidfrom, "", new { @class = "badge badge-warning" })
 
                                         </div>
                                     </div>
@@ -431,34 +565,31 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.idiomaidto)</label>
                                             @Html.DropDownListFor(x => x.idiomaidto, new SelectList(Model.Idiomas, "Idiomaid", "Sigla"), new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.idiomaidto)
+                                            @Html.ValidationMessageFor(model => model.idiomaidto, "", new { @class = "badge badge-warning" })
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.listaprecoid)</label>
-                                        @Html.DropDownListFor(x => x.listaprecoid, new SelectList(Model.ListaPrecos, "listaprecoid", "descricao"), new { @class = "form-control form-control-alternative" })
-                                        @Html.ValidationMessageFor(model => model.listaprecoid)
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.moedaidrecebe)</label>
                                             @Html.DropDownListFor(x => x.moedaidrecebe, new SelectList(Model.Moedas, "moedaid", "descricao"), new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.moedaidrecebe)
+                                            @Html.ValidationMessageFor(model => model.moedaidrecebe, "", new { @class = "badge badge-warning" })
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <button name="button" class="btn btn-primary mt-4" value="register">Next</button>
+                                <button name="button" class="btn btn-primary mt-4" value="register">Save</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        @Html.Hidden("Projetoid", Model.projetoid)
+        @Html.Hidden("projetoid", Model.projetoid)
         @Html.Hidden("dataincl", Model.DataIncl)
         @Html.Hidden("menuid", Model.menuid)
         @Html.Hidden("menusubid", Model.menusubid)
@@ -482,10 +613,9 @@
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">Client</th>
-                                    <th scope="col">Contact Name</th>
-                                    <th scope="col">Telephone</th>
+                                    <th scope="col">Number</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Create Date</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                 </tr>
@@ -496,16 +626,13 @@
 
                                     <tr>
                                         <th scope="row">
-                                            @item.projetoid
+                                            @item.numeroprojeto
                                         </th>
                                         <td>
-                                            @item.descricao
+                                            @item.titulo
                                         </td>
                                         <td>
-                                            @item.Cliente.Fantasia
-                                        </td>
-                                        <td>
-                                            @item.User.Nome
+                                            @item.dataincl.ToShortDateString()
                                         </td>
                                         <td>
                                             <a href="@Domain.Util.config.UrlSite/Project/Projeto/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.projetoid">

@@ -1,68 +1,22 @@
-﻿@model Domain.ModelView.ClientePrecoModelView
+﻿@model Domain.ModelView.FuzzieModelView
+
+
+@section Scripts {
+    <!-- Argon CSS -->
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
+}
 
 @{
     ViewBag.Title = @Domain.Util.config.Title;
 }
 
-@section Scripts {
-
-    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
-    <script type="text/javascript">
-
-        function moeda(valor, casas, separdor_decimal, separador_milhar) {
-
-            var valor_total = parseInt(valor * (Math.pow(10, casas)));
-            var inteiros = parseInt(parseInt(valor * (Math.pow(10, casas))) / parseFloat(Math.pow(10, casas)));
-            var centavos = parseInt(parseInt(valor * (Math.pow(10, casas))) % parseFloat(Math.pow(10, casas)));
-
-
-            if (centavos % 10 == 0 && centavos + "".length < 2) {
-                centavos = centavos + "0";
-            } else if (centavos < 10) {
-                centavos = "0" + centavos;
-            }
-
-            var milhares = parseInt(inteiros / 1000);
-            inteiros = inteiros % 1000;
-
-            var retorno = "";
-
-            if (milhares > 0) {
-                retorno = milhares + "" + separador_milhar + "" + retorno
-                if (inteiros == 0) {
-                    inteiros = "000";
-                } else if (inteiros < 10) {
-                    inteiros = "00" + inteiros;
-                } else if (inteiros < 100) {
-                    inteiros = "0" + inteiros;
-                }
-            }
-            retorno += inteiros + "" + separdor_decimal + "" + centavos;
-
-
-            return retorno;
-
-        }
 
 
 
-        $(function () {
-            $("#Precopalavra").maskMoney({ showSymbol: true, symbol: "", decimal: ",", thousands: "." });
-            $("#Precolinha").maskMoney({ showSymbol: true, symbol: "", decimal: ",", thousands: "." });
-            $("#Precohora").maskMoney({ showSymbol: true, symbol: "", decimal: ",", thousands: "." });
-            $("#Precominimo").maskMoney({ showSymbol: true, symbol: "", decimal: ",", thousands: "." });
-        })
-
-    </script>
-
-}
-
-
-@using (Html.BeginForm("ClientePreco", "ClientPrice", FormMethod.Post))
+@using (Html.BeginForm("Fuzzie", "Diffuse", FormMethod.Post, new { autocomplete = "on" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
 
     <!-- Page content -->
     <div class="container-fluid mt--7">
@@ -75,36 +29,20 @@
                                 <h3 class="mb-0">@ViewBag.PageTopInformation</h3>
                             </div>
                             <div class="col-4 text-right">
-                                @ViewBag.erro
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <form>
                             <h6 class="heading-small text-muted mb-4">@ViewBag.Acao</h6>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.Clientes)</label>
-                                        @Html.DropDownListFor(x => x.clienteid, new SelectList(Model.Clientes, "clienteid", "Fantasia"), new { @class = "form-control form-control-alternative" })
-                                        @Html.ValidationMessageFor(model => model.clienteid)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.Fuzzies)</label>
-                                        @Html.DropDownListFor(x => x.fuzzieid, new SelectList(Model.Fuzzies, "fuzzieid", "descricao"), new { @class = "form-control form-control-alternative" })
-                                        @Html.ValidationMessageFor(model => model.fuzzieid)
-
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.Valor)</label>
-                                        @Html.TextBoxFor(model => model.Valor, new { @class = "form-control form-control-alternative" })
-                                        @Html.ValidationMessageFor(model => model.Valor)
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.descricao)</label>
+                                            @Html.TextBoxFor(model => model.descricao, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.descricao)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +54,7 @@
                 </div>
             </div>
         </div>
-        @Html.Hidden("clienteprecoid", Model.ClientePrecoid)
+        @Html.Hidden("Fuzzieid", Model.fuzzieid)
         @Html.Hidden("Menuid", Model.menuid)
         @Html.Hidden("MenuSubId", Model.menusubid)
 
@@ -130,7 +68,7 @@
                                 <h3 class="mb-0">Register</h3>
                             </div>
                             <div class="col text-right">
-                                <span class="heading-small text-muted mb-4">@Model.ClientePrecos.Count record(s) listed</span>
+                                <span class="heading-small text-muted mb-4">@Model.Fuzzies.Count record(s) listed</span>
                             </div>
                         </div>
                     </div>
@@ -140,37 +78,29 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">Id</th>
-                                    <th scope="col">Client</th>
-                                    <th scope="col">Fuzzie</th>
-                                    <th scope="col">Value</th>
+                                    <th scope="col">Description</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model.ClientePrecos)
+                                @foreach (var item in Model.Fuzzies)
                                 {
                                     <tr>
                                         <th scope="row">
-                                            @item.clienteprecoid
+                                            @item.fuzzieid
                                         </th>
                                         <td>
-                                            @item.Cliente.Fantasia
+                                            @item.descricao
                                         </td>
                                         <td>
-                                            @item.Fuzzie.descricao
-                                        </td>
-                                        <td>
-                                            @item.Valor
-                                        </td>
-                                        <td>
-                                            <a href="@Domain.Util.config.UrlSite/ClientPrice/ClientePreco/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.clienteprecoid">
-                                                <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="client edit" width="30" />
+                                            <a href="@Domain.Util.config.UrlSite/Diffuse/Fuzzie/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.fuzzieid">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="Fuzzie edit" width="30" />
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.clienteprecoid/@item.Cliente.Fantasia?ac=ClientePrecoDelete&cr=ClientPrice&txt=Client Price @item.Cliente.Fantasia">
-                                                <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="client type delete" width="30" />
+                                            <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.fuzzieid/@item.descricao?ac=FuzzieDelete&cr=Diffuse&txt=Fuzzie @item.descricao">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="Fuzzie delete" width="30" />
                                             </a>
                                         </td>
 

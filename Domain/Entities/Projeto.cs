@@ -24,10 +24,6 @@ namespace Domain.Entities
         public int userid { get; set; }
         [ForeignKey("userid")]
         public virtual User User { get; set; }
-        public int listaprecoid { get; set; }
-        [ForeignKey("listaprecoid")]
-        public virtual ListaPreco ListaPreco { get; set; }
-
         public string titulo { get; set; }
         public string numeroprojeto { get; set; }
         public string documento { get; set; }

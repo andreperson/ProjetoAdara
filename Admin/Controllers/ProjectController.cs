@@ -30,20 +30,24 @@ namespace Admin.Controllers
                 if (model.projetoid != 0) //update
                 {
                     ServiceProjeto.UpdateProjeto(model);
-                }
-                else //insert
-                {
-                    model.projetoid = ServiceProjeto.InsertGetProjeto(model);
-                    return Redirect(Domain.Util.config.UrlSite + "Project/Projeto2/" + model.menuid + "/" + model.menusubid + "/" + model.projetoid);
+                    ViewBag.Acao = "Projeto Salvo Com Sucesso!";
                 }
             }
 
-            model.Projetos = ServiceProjeto.getProjeto();
-            model.Clientes = ServiceCliente.getClienteCombo();
-            model.Moedas = ServiceMoeda.getMoedaCombo();
 
             model.Usuarios = GetGerente();
+            model.Projetos = ServiceProjeto.getProjeto();
+            model.Clientes = ServiceCliente.getClienteCombo();
+            model.Idiomas = ServiceIdioma.getIdiomaCombo();
+            model.Moedas = ServiceMoeda.getMoedaCombo();
+            model.Competencias = ServiceCompetencia.getCompetencia();
+            model.ProjetoTipos = ServiceProjetoTipo.getProjetoTipoCombo();
 
+            ViewBag.MenuId = model.menuid;
+            ViewBag.MenuSubId = model.menusubid;
+            ViewBag.projetoid = model.projetoid;
+
+            //return Redirect(Domain.Util.config.UrlSite + "Project/Projeto/" + model.menuid + "/" + model.menusubid + "/" + model.projetoid);
             return View(model);
         }
 
@@ -72,7 +76,6 @@ namespace Admin.Controllers
             model.Moedas = ServiceMoeda.getMoedaCombo();
             model.Competencias = ServiceCompetencia.getCompetencia();
             model.ProjetoTipos = ServiceProjetoTipo.getProjetoTipoCombo();
-            model.ListaPrecos = ServiceListaPreco.getListaPrecoCombo();
 
             ViewBag.MenuId = id;
             ViewBag.MenuSubId = id2;
@@ -115,16 +118,56 @@ namespace Admin.Controllers
             return Redirect(Domain.Util.config.UrlSite + "Project/Projeto/" + id + "/" + id2 + "/");
         }
 
-        public JsonResult ListaContatos(Int16 id = 0)
+        public JsonResult ListaContatos(Int16 id = 0, Int16 id2=0)
         {
-            return Json(ServiceClienteContato.getClienteContatoByClientId(id), JsonRequestBehavior.AllowGet);
+            ClienteContato Obj = new ClienteContato();
+            List<ClienteContato> LstRet = new List<ClienteContato>();
+            List<ClienteContato> LstContatos = ServiceClienteContato.getClienteContatoByClientId(id);
+            foreach (var item in LstContatos)
+            {
+                //verifica se o contato foi escohido
+                Obj = new ClienteContato();
+                Obj = item;
+                Obj.Status = VerificaSelecao(item.clienteid, id2, item.clientecontatoid);
+                LstRet.Add(Obj);
+            }
+                
+            return Json(LstRet, JsonRequestBehavior.AllowGet);
         }
 
-        public void InsertAjax(List<string> data)
+        public JsonResult ListaPrecos(Int16 id = 0, Int16 id2 = 0)
+        {
+            ClientePreco Obj = new ClientePreco();
+            List<ClientePreco> LstRet = new List<ClientePreco>();
+            List<ClientePreco> LstPrecos = ServiceClientePreco.getClientePrecoByClienteId(id);
+            foreach (var item in LstPrecos)
+            {
+                //verifica se o preço foi escohido
+                Obj = new ClientePreco();
+                Obj = item;
+                Obj.Status = VerificaSelecaoPreco(item.clienteid, id2, item.clienteprecoid);
+                LstRet.Add(Obj);
+            }
+
+            return Json(LstRet, JsonRequestBehavior.AllowGet);
+        }
+
+        private static int VerificaSelecaoPreco(Int16 clienteid, Int16 projetoid, int clienteprecoid)
+        {
+            return ServiceClientePrecoProjeto.GetVerificaSelecao(clienteid, projetoid, clienteprecoid).Count;
+        }
+
+        private static int VerificaSelecao(Int16 clienteid, Int16 projetoid, Int16 clientecontatoid)
+        {
+            return ServiceClienteContatoProjeto.GetVerificaSelecao(clienteid, projetoid, clientecontatoid).Count;
+        }
+
+        public void InsertClienteContatoAjax(List<string> data)
         {
             //posição 0 = PROJETOID
             //posição 1 = CLIENTEID
             //posicao 2 = CLIENTECONTATOID
+            //posição 3 = TRUE/FALSE
             ClienteContatoProjetoModelView model = new ClienteContatoProjetoModelView();
             for (int i = 0; i < data.Count; i++)
             {
@@ -132,30 +175,107 @@ namespace Admin.Controllers
                 model.projetoid = Convert.ToInt16(menuarray[0]);
                 model.clienteid = Convert.ToInt16(menuarray[1]);
                 model.clientecontatoid = Convert.ToInt16(menuarray[2]);
+                bool value = Convert.ToBoolean(menuarray[3]);
 
-                //verifica se ja existe
+
+                //sempre apaga
+                ServiceClienteContatoProjeto.DeleteClienteContatoProjetoId(model.clienteid, model.projetoid, model.clientecontatoid);
+
+                if (value)
+                {
+                    //verifica se ja existe
+                    List<ClienteContatoProjeto> lst = ServiceClienteContatoProjeto.GetVerificaSelecao(model.clienteid, model.projetoid, model.clientecontatoid);
+                    if (lst.Count == 0)
+                    {
+                        ServiceClienteContatoProjeto.InsertClienteContatoProjeto(model);
+                    }
+
+                }
+
+            }
+        }
+
+        public void InsertClientePrecoAjax(List<string> data)
+        {
+            //posição 0 = PROJETOID
+            //posição 1 = CLIENTEID
+            //posicao 2 = CLIENTECONTATOID
+            //posição 3 = TRUE/FALSE
+            ClientePrecoProjetoModelView model = new ClientePrecoProjetoModelView();
+            for (int i = 0; i < data.Count; i++)
+            {
+                string[] menuarray = data[i].Split(new Char[] { ':' });
+                model.projetoid = Convert.ToInt16(menuarray[0]);
+                model.clienteid = Convert.ToInt16(menuarray[1]);
+                model.clienteprecoid = Convert.ToInt16(menuarray[2]);
+                bool value = Convert.ToBoolean(menuarray[3]);
+                model.valorperc = Convert.ToDouble(menuarray[4].Replace(".",","));
+                model.valorpalavra = Convert.ToDouble(menuarray[5]);
 
 
-                //ServiceUsuarioMenuSub.InsertUsuarioMenuSub(model);
+                //sempre apaga
+                ServiceClientePrecoProjeto.DeleteClientePrecoProjetoId(model.clienteid, model.projetoid, model.clienteprecoid);
+
+                if (value)
+                {
+                    //verifica se ja existe
+                    List<ClientePrecoProjeto> lst = ServiceClientePrecoProjeto.GetVerificaSelecao(model.clienteid, model.projetoid, model.clienteprecoid);
+                    if (lst.Count == 0)
+                    {
+                        ServiceClientePrecoProjeto.InsertClientePrecoProjeto(model);
+                    }
+
+                }
+
             }
         }
 
 
-        /// <summary>
-        /// INSERE ATIVIDADE EM PROJETO ATIVIDADE
-        /// </summary>
-        /// <param name="projetoid"></param>
-        /// <param name="competenciaid"></param>
-        private void InsereCompetencia(Int16 projetoid, Int16 competenciaid)
+
+        public JsonResult CreateProjectAjax(int data)
         {
+            ProjetoModelView model = new ProjetoModelView();
+            model.menuid = Convert.ToInt16(data);
+            model.status = 0;
+            model.DataIncl = DateTime.Now;
+            model.usu = User.Identity.Name;
+            model.projetoid = ServiceProjeto.InsertGetProjeto(model);
 
-            ProjetoCompetenciaModelView model = new ProjetoCompetenciaModelView();
-            model.projetoid = projetoid;
-            model.competenciaid = competenciaid;
-            model.status = 1;
-            model.user = User.Identity.ToString();
+            //monta o numero do projeto
+            model.numeroprojeto = GetProjectNumber(model.projetoid);
+            ServiceProjeto.UpdateProjeto(model);
 
-            ServiceProjetoCompetencia.InsertProjetoCompetencia(model);
+            return Json(model.projetoid, JsonRequestBehavior.AllowGet);
+        }
+
+
+        private string GetProjectNumber(Int16 id)
+        {
+            string idformatado = string.Empty;
+            int QtdeZeros = id.ToString().Length;
+            string zeros = string.Empty;
+            for (int i = QtdeZeros; i < 5; i++)
+            {
+                zeros += "0";
+            }
+
+            idformatado = "P" + zeros + id.ToString() + DateTime.Now.Year.ToString().Substring(2);
+
+            return idformatado;
+        }
+
+        public ActionResult Lista(Int16 id=0)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account", null);
+            }
+
+            ProjetoModelView model = new ProjetoModelView();
+            model.Projetos = ServiceProjeto.getProjeto();
+            model.menuid = id;
+            model.menusubid = 0;
+            return View(model);
         }
 
     }

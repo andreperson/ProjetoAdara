@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    [Table("fabricatipo")]
-    public class FabricaTipo
+    [Table("fuzzie")]
+    public class Fuzzie
     {
-        public Int16 fabricatipoid { get; set; }
+        public Int16 fuzzieid { get; set; }
         public string descricao { get; set; }
         public int Status { get; set; }
         public DateTime? Dataalt { get; set; }

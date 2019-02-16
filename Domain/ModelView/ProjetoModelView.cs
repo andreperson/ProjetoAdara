@@ -14,40 +14,44 @@ namespace Domain.ModelView
     {
         public Int16 projetoid { get; set; }
 
-        [Required(ErrorMessage = "Client")]
+        [Required(ErrorMessage = "Inform Client Please")]
         [Display(Name = "Client")]
         public Int16 clienteid { get; set; }
 
+        [Required(ErrorMessage = "Inform Project Type Please")]
+        [Range(1, int.MaxValue, ErrorMessage = "Inform Project Type Please")]
         [Display(Name = "Project Type")]
         public int projetotipoid { get; set; }
 
-        [Display(Name = "Price List")]
-        public int listaprecoid { get; set; }
-
-        [Display(Name = "Source laguage")]
+        [Required(ErrorMessage = "Inform Source Language Please")]
+        [Display(Name = "Source Language")]
         public int idiomaidfrom { get; set; }
 
-        [Display(Name = "Target language")]
+        [Required(ErrorMessage = "Inform Target Language Please")]
+        [Display(Name = "Target Language")]
         public int idiomaidto { get; set; }
         public int idiomaid { get; set; }
 
         [Display(Name = "Manager")]
         public Int16 userid { get; set; }
 
-        [Required(ErrorMessage = "Project Number")]
+        [Required(ErrorMessage = "Inform Project Number Please")]
         [Display(Name = "Project Number")]
         public string numeroprojeto{ get; set; }
 
-        [Required(ErrorMessage = "Title")]
+        [Required(ErrorMessage = "Inform Title Please")]
         [Display(Name = "Title")]
         public string titulo { get; set; }
 
+        [Required(ErrorMessage = "Inform Currency Please")]
         [Display(Name = "Currency")]
         public int moedaidrecebe { get; set; }
 
+        [Required(ErrorMessage = "Inform Partial Term Please")]
         [Display(Name = "Partial Term")]
         public DateTime? dataentregaprev { get; set; }
 
+        [Required(ErrorMessage = "Inform Deadline Please")]
         [Display(Name = "Deadline")]
         public DateTime? dataentrega { get; set; }
 
@@ -78,7 +82,5 @@ namespace Domain.ModelView
         public List<Competencia> Competencias { get; set; }
         public List<Idioma> Idiomas { get; set; }
         public List<ClientePreco> ClientePrecos { get; set; }
-        public List<ListaPreco> ListaPrecos { get; set; }
-
     }
 }

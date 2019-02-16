@@ -19,10 +19,6 @@ namespace Admin.Controllers
             {
                 model.user = User.Identity.Name;
                 model.status = 1;
-                model.Precopalavra = model.Precopalavra.Replace(".", "");
-                model.Precolinha = model.Precolinha.Replace(".", "");
-                model.Precohora = model.Precohora.Replace(".", "");
-                model.Precominimo = model.Precominimo.Replace(".", "");
 
                 if (model.ClientePrecoid != 0) //update
                 {
@@ -45,7 +41,7 @@ namespace Admin.Controllers
         {
             var model = new ClientePrecoModelView();
             ViewBag.PageTopInformation = "Client Price Form";
-            ViewBag.Acao = "Price Type Add";
+            ViewBag.Acao = "Cliente Price Add";
 
             if (id3 != 0)
             {
@@ -56,21 +52,13 @@ namespace Admin.Controllers
 
             //model.ClientePrecosTipos = ServiceClientePrecoTipo.getClientePrecoTipoCombo();
             model.ClientePrecos = ServiceClientePreco.getClientePreco();
-            model.ParIdiomas = ServiceParIdioma.getParIdiomaCombo();
-            model.Competencias = ServiceCompetencia.getCompetenciaCombo();
-            model.Moedas = ServiceMoeda.getMoedaCombo();
             model.Clientes = ServiceCliente.getClienteCombo();
+            model.Fuzzies = ServiceFuzzie.getFuzzieCombo();
             model.menuid = id;
             model.menusubid = id2;
 
             ViewBag.MenuId = id;
             ViewBag.MenuSubId = id2;
-
-            model.Precopalavra = Domain.Util.formata.FormataMoeda(model.Precopalavra);
-            model.Precolinha = Domain.Util.formata.FormataMoeda(model.Precolinha);
-            model.Precohora = Domain.Util.formata.FormataMoeda(model.Precohora);
-            model.Precominimo = Domain.Util.formata.FormataMoeda(model.Precominimo);
-
 
             model.menuid = id;
             model.menusubid = id2;
