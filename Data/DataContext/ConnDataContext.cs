@@ -21,9 +21,12 @@ namespace Data.DataContext
         public DbSet<ClienteContato> ClienteContato{ get; set; }
         public DbSet<ClienteContatoProjeto> ClienteContatoProjeto { get; set; }
         public DbSet<ClientePreco> ClientePreco { get; set; }
+        public DbSet<ClientePrecoProjeto> ClientePrecoProjeto { get; set; }
         public DbSet<ClienteTipo> ClienteTipo { get; set; }
         public DbSet<Competencia> Competencia { get; set; }
         public DbSet<CompetenciaUser> Competencia_User { get; set; }
+
+        public DbSet<Fuzzie> Fuzzie { get; set; }
 
         public DbSet<Idioma> Idioma { get; set; }
         

@@ -1,4 +1,5 @@
-﻿@model Domain.ModelView.ClientePrecoModelView
+﻿@model Domain.ModelView.ProjetoModelView
+
 
 @{
     ViewBag.Title = @Domain.Util.config.Title;
@@ -6,63 +7,29 @@
 
 @section Scripts {
 
-    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
-    <script type="text/javascript">
+    <script>
+        function CreateProject()
+        {
+            var menu = $("#menuid").val();
+            $.post('@Url.Action("CreateProjectAjax")', $.param({ data: menu }, true), function (data) {
 
-        function moeda(valor, casas, separdor_decimal, separador_milhar) {
+                var surl = "@Domain.Util.config.UrlSite/Project/Projeto/" + menu + "/0/" + data;
 
-            var valor_total = parseInt(valor * (Math.pow(10, casas)));
-            var inteiros = parseInt(parseInt(valor * (Math.pow(10, casas))) / parseFloat(Math.pow(10, casas)));
-            var centavos = parseInt(parseInt(valor * (Math.pow(10, casas))) % parseFloat(Math.pow(10, casas)));
-
-
-            if (centavos % 10 == 0 && centavos + "".length < 2) {
-                centavos = centavos + "0";
-            } else if (centavos < 10) {
-                centavos = "0" + centavos;
-            }
-
-            var milhares = parseInt(inteiros / 1000);
-            inteiros = inteiros % 1000;
-
-            var retorno = "";
-
-            if (milhares > 0) {
-                retorno = milhares + "" + separador_milhar + "" + retorno
-                if (inteiros == 0) {
-                    inteiros = "000";
-                } else if (inteiros < 10) {
-                    inteiros = "00" + inteiros;
-                } else if (inteiros < 100) {
-                    inteiros = "0" + inteiros;
-                }
-            }
-            retorno += inteiros + "" + separdor_decimal + "" + centavos;
-
-
-            return retorno;
-
+                window.location.replace(surl);
+            });
         }
-
-
-
-        $(function () {
-            $("#Precopalavra").maskMoney({ showSymbol: true, symbol: "", decimal: ",", thousands: "." });
-            $("#Precolinha").maskMoney({ showSymbol: true, symbol: "", decimal: ",", thousands: "." });
-            $("#Precohora").maskMoney({ showSymbol: true, symbol: "", decimal: ",", thousands: "." });
-            $("#Precominimo").maskMoney({ showSymbol: true, symbol: "", decimal: ",", thousands: "." });
-        })
 
     </script>
 
+
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
 }
 
 
-@using (Html.BeginForm("ClientePreco", "ClientPrice", FormMethod.Post))
+@using (Html.BeginForm("Lista", "Project", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
 
     <!-- Page content -->
     <div class="container-fluid mt--7">
@@ -75,50 +42,38 @@
                                 <h3 class="mb-0">@ViewBag.PageTopInformation</h3>
                             </div>
                             <div class="col-4 text-right">
-                                @ViewBag.erro
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <form>
                             <h6 class="heading-small text-muted mb-4">@ViewBag.Acao</h6>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.Clientes)</label>
-                                        @Html.DropDownListFor(x => x.clienteid, new SelectList(Model.Clientes, "clienteid", "Fantasia"), new { @class = "form-control form-control-alternative" })
-                                        @Html.ValidationMessageFor(model => model.clienteid)
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <h3 class="mb-0">To create a new project, click the button below</h3>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.Fuzzies)</label>
-                                        @Html.DropDownListFor(x => x.fuzzieid, new SelectList(Model.Fuzzies, "fuzzieid", "descricao"), new { @class = "form-control form-control-alternative" })
-                                        @Html.ValidationMessageFor(model => model.fuzzieid)
 
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <div class="btn btn-icon btn-3 btn-primary" type="button">
+                                                <span class="btn-inner--icon"><i class="ni ni-calendar-grid-58"></i></span>
+                                                <span onclick="CreateProject();" class="btn-inner--text">Add Project</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.Valor)</label>
-                                        @Html.TextBoxFor(model => model.Valor, new { @class = "form-control form-control-alternative" })
-                                        @Html.ValidationMessageFor(model => model.Valor)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <button name="button" class="btn btn-primary mt-4" value="register">Salvar</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        @Html.Hidden("clienteprecoid", Model.ClientePrecoid)
-        @Html.Hidden("Menuid", Model.menuid)
-        @Html.Hidden("MenuSubId", Model.menusubid)
+
+        @Html.Hidden("menuid", Model.menuid)
+        @Html.Hidden("menusubid", Model.menusubid)
 
         <!-- Table -->
         <div class="row mt-5">
@@ -127,10 +82,10 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h3 class="mb-0">Register</h3>
+                                <h3 class="mb-0">Existing Projects</h3>
                             </div>
                             <div class="col text-right">
-                                <span class="heading-small text-muted mb-4">@Model.ClientePrecos.Count record(s) listed</span>
+                                <span class="heading-small text-muted mb-4">@Model.Projetos.Count record(s) listed</span>
                             </div>
                         </div>
                     </div>
@@ -139,38 +94,35 @@
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">Client</th>
-                                    <th scope="col">Fuzzie</th>
-                                    <th scope="col">Value</th>
+                                    <th scope="col">Number</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Create Date</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model.ClientePrecos)
+                                @foreach (var item in Model.Projetos)
                                 {
+
                                     <tr>
                                         <th scope="row">
-                                            @item.clienteprecoid
+                                            @item.numeroprojeto
                                         </th>
                                         <td>
-                                            @item.Cliente.Fantasia
+                                            @item.titulo
                                         </td>
                                         <td>
-                                            @item.Fuzzie.descricao
+                                            @item.dataincl.ToShortDateString()
                                         </td>
                                         <td>
-                                            @item.Valor
-                                        </td>
-                                        <td>
-                                            <a href="@Domain.Util.config.UrlSite/ClientPrice/ClientePreco/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.clienteprecoid">
-                                                <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="client edit" width="30" />
+                                            <a href="@Domain.Util.config.UrlSite/Project/Projeto/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.projetoid">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="edit project" width="30" />
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.clienteprecoid/@item.Cliente.Fantasia?ac=ClientePrecoDelete&cr=ClientPrice&txt=Client Price @item.Cliente.Fantasia">
-                                                <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="client type delete" width="30" />
+                                            <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.projetoid/@item.descricao?ac=ProjetoDelete&cr=Project&txt=Project @item.descricao">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="delete project" width="30" />
                                             </a>
                                         </td>
 

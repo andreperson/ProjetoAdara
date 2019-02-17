@@ -179,6 +179,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientContactController.cs" />
+    <Compile Include="Controllers\FuzzieController.cs" />
     <Compile Include="Controllers\TepBrekeAtvController.cs" />
     <Compile Include="Controllers\TranstepController.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
@@ -186,8 +187,6 @@
     <Compile Include="Controllers\ListPriceController.cs" />
     <Compile Include="Controllers\LanguagePairController.cs" />
     <Compile Include="Controllers\ClientPriceController.cs" />
-    <Compile Include="Controllers\Project3Controller.cs" />
-    <Compile Include="Controllers\Project2Controller.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
     <Compile Include="Controllers\CoinController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
@@ -3300,6 +3299,8 @@
     <Content Include="Views\Transtep\Tep.cshtml" />
     <Content Include="Views\TepBrekeAtv\TepBrekedownActivity.cshtml" />
     <Content Include="Views\ClientContact\ClienteContato.cshtml" />
+    <Content Include="Views\Project\Lista.cshtml" />
+    <Content Include="Views\Diffuse\Fuzzie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

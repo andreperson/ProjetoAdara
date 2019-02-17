@@ -51,15 +51,14 @@ namespace Servico.Service
             return lst;
         }
 
-        public static List<ClientePreco> getClientePreco(Int16 clienteid, int paridiomaid)
+        public static List<ClientePreco> getClientePrecoByClienteId(Int16 clienteid)
         {
             //busca no banco
             ClientePrecoRepository tprep = new ClientePrecoRepository();
-            var lst = tprep.Search(x => x.clienteid == clienteid & x.paridiomaid==paridiomaid).OrderBy(y => y.clienteid).ToList();
+            var lst = tprep.Search(x => x.Status == 1 & x.clienteid==clienteid).OrderBy(y => y.clienteid).ToList();
 
             return lst;
         }
-
 
 
         public static List<ClientePreco> getClientePreco()

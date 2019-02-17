@@ -63,10 +63,12 @@
   <ItemGroup>
     <Compile Include="Consumo\AtividadeRepository.cs" />
     <Compile Include="Consumo\BrekedownRepository.cs" />
+    <Compile Include="Consumo\ClientePrecoProjetoRepository.cs" />
     <Compile Include="Consumo\ClienteContatoProjetoRepository.cs" />
     <Compile Include="Consumo\ClienteContatoRepository.cs" />
     <Compile Include="Consumo\ClientePrecoRepository.cs" />
     <Compile Include="Consumo\ClienteRepository.cs" />
+    <Compile Include="Consumo\FuzzieRepository.cs" />
     <Compile Include="Consumo\ClienteTipoRepository.cs" />
     <Compile Include="Consumo\CompetenciaRepository.cs" />
     <Compile Include="Consumo\CompetenciaUserRepository.cs" />
@@ -96,8 +98,10 @@
     <Compile Include="Service\ServiceBrekedown.cs" />
     <Compile Include="Service\ServiceCliente.cs" />
     <Compile Include="Service\ServiceClienteContato.cs" />
+    <Compile Include="Service\ServiceClientePrecoProjeto.cs" />
     <Compile Include="Service\ServiceClienteContatoProjeto.cs" />
     <Compile Include="Service\ServiceClientePreco.cs" />
+    <Compile Include="Service\ServiceFuzzie.cs" />
     <Compile Include="Service\ServiceClienteTipo.cs" />
     <Compile Include="Service\ServiceCompetencia.cs" />
     <Compile Include="Service\ServiceCompetenciaUsuario.cs" />

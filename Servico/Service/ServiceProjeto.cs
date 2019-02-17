@@ -59,26 +59,36 @@ namespace Servico.Service
 
         public static void UpdateProjeto(ProjetoModelView model)
         {
-            Projeto objretorno = new Projeto();
-
-            //faz o de para: objModelView para objEntity 
-            Mapper.CreateMap<ProjetoModelView, Projeto>();
-            var objtpprod = Mapper.Map<Projeto>(model);
-
-            ////pega o nome da Produto
-            if (model.documento != null)
+            try
             {
-                objtpprod.documento = model.documento.FileName;
+
+                Projeto objretorno = new Projeto();
+
+                //faz o de para: objModelView para objEntity 
+                Mapper.CreateMap<ProjetoModelView, Projeto>();
+                var objtpprod = Mapper.Map<Projeto>(model);
+
+                ////pega o nome da Produto
+                if (model.documento != null)
+                {
+                    objtpprod.documento = model.documento.FileName;
+                }
+                else
+                {
+                    objtpprod.documento = model.documentoanexo;
+                }
+
+                objtpprod.dataalt = DateTime.Now;
+                ProjetoRepository tpprod = new ProjetoRepository();
+                tpprod.Edit(objtpprod);
+                tpprod.Save();
             }
-            else
+            catch (Exception ex)
             {
-                objtpprod.documento = model.documentoanexo;
+
+                throw;
             }
-            
-            objtpprod.dataalt = DateTime.Now;
-            ProjetoRepository tpprod = new ProjetoRepository();
-            tpprod.Edit(objtpprod);
-            tpprod.Save();
+
         }
 
 
@@ -129,7 +139,7 @@ namespace Servico.Service
 
             Mapper
                 .CreateMap<Projeto, ProjetoModelView>();
-                //.ForMember(x => x.imagem, option => option.Ignore());
+            //.ForMember(x => x.imagem, option => option.Ignore());
             var vretorno = Mapper.Map<ProjetoModelView>(objretorno);
 
             //vretorno.arquivoimagem = img;

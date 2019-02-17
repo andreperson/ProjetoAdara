@@ -58,12 +58,13 @@
     <Compile Include="Entities\Brekedown.cs" />
     <Compile Include="Entities\Cliente.cs" />
     <Compile Include="Entities\ClienteContato.cs" />
+    <Compile Include="Entities\ClientePrecoProjeto.cs" />
     <Compile Include="Entities\ClienteContatoProjeto.cs" />
     <Compile Include="Entities\ClientePreco.cs" />
     <Compile Include="Entities\ClienteTipo.cs" />
     <Compile Include="Entities\Competencia.cs" />
     <Compile Include="Entities\CompetenciaUser.cs" />
-    <Compile Include="Entities\FabricaTipo.cs" />
+    <Compile Include="Entities\Fuzzie.cs" />
     <Compile Include="Entities\Idioma.cs" />
     <Compile Include="Entities\ListaPreco.cs" />
     <Compile Include="Entities\Login.cs" />
@@ -88,10 +89,12 @@
     <Compile Include="ModelView\AtividadeModelView.cs" />
     <Compile Include="ModelView\BrekeAtvModelView.cs" />
     <Compile Include="ModelView\BrekeModelView.cs" />
+    <Compile Include="ModelView\ClientePrecoProjetoModelView.cs" />
     <Compile Include="ModelView\ClienteContatoProjetoModelView.cs" />
     <Compile Include="ModelView\ClienteContatoModelView.cs" />
     <Compile Include="ModelView\ClienteModelView.cs" />
     <Compile Include="ModelView\ClientePrecoModelView.cs" />
+    <Compile Include="ModelView\FuzzieModelView.cs" />
     <Compile Include="ModelView\ClienteTipoModelView.cs" />
     <Compile Include="ModelView\CompetenciaModelView.cs" />
     <Compile Include="ModelView\CompetenciaUsuarioModelView.cs" />
