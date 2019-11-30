@@ -29,7 +29,7 @@ namespace Data.DataContext
         public DbSet<Fuzzie> Fuzzie { get; set; }
 
         public DbSet<Idioma> Idioma { get; set; }
-        
+        public DbSet<ListaPreco> ListaPreco { get; set; }
         public DbSet<Login> Login { get; set; }
 
         public DbSet<Menu> Menu { get; set; }
@@ -37,10 +37,12 @@ namespace Data.DataContext
         public DbSet<Moeda> Moeda { get; set; }
 
         public DbSet<ParIdioma> ParIdioma { get; set; }
-        public DbSet<ListaPreco> ListaPreco { get; set; }
+       
         public DbSet<Projeto> Projeto { get; set; }
         public DbSet<ProjetoCompetencia> ProjetoCompetencia { get; set; }
         public DbSet<ProjetoTipo> ProjetoTipo { get; set; }
+
+        public DbSet<Job> Job { get; set; }
 
         public DbSet<Recurso> Recurso { get; set; }
         public DbSet<Tep> Tep { get; set; }

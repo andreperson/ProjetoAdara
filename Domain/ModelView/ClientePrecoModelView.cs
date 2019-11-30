@@ -19,6 +19,7 @@ namespace Domain.ModelView
         public Int16 fuzzieid { get; set; }
         [Display(Name = "Value")]
         public double Valor { get; set; }
+        public int QtdePalavra { get; set; }
         public DateTime? Dataalt { get; set; }
         public DateTime DataIncl { get; set; }
         public string user { get; set; }

@@ -88,7 +88,7 @@ namespace Servico.Service
 
 
         //get produto ID
-        public static MoedaModelView GetMoedaId(Int16 id)
+        public static MoedaModelView GetMoedaId(int id)
         {
             Moeda objretorno = new Moeda();
 

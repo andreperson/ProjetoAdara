@@ -61,6 +61,7 @@
     <Compile Include="Entities\ClientePrecoProjeto.cs" />
     <Compile Include="Entities\ClienteContatoProjeto.cs" />
     <Compile Include="Entities\ClientePreco.cs" />
+    <Compile Include="Entities\Job.cs" />
     <Compile Include="Entities\ClienteTipo.cs" />
     <Compile Include="Entities\Competencia.cs" />
     <Compile Include="Entities\CompetenciaUser.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="ModelView\ClienteContatoModelView.cs" />
     <Compile Include="ModelView\ClienteModelView.cs" />
     <Compile Include="ModelView\ClientePrecoModelView.cs" />
+    <Compile Include="ModelView\JobModelView.cs" />
     <Compile Include="ModelView\FuzzieModelView.cs" />
     <Compile Include="ModelView\ClienteTipoModelView.cs" />
     <Compile Include="ModelView\CompetenciaModelView.cs" />

@@ -24,7 +24,13 @@ namespace Domain.Entities
         public Int16 projetoid { get; set; }
         [ForeignKey("projetoid")]
         public virtual Projeto Projeto { get; set; }
+
+        public Int16 fuzzieid { get; set; }
+        [ForeignKey("fuzzieid")]
+        public virtual Fuzzie Fuzzie { get; set; }
+
         public double valorperc { get; set; }
-        public double valorpalavra { get; set; }
+        public int qtdepalavra { get; set; }
+        public int status { get; set; }
     }
 }

@@ -26,11 +26,12 @@ namespace Admin.Controllers
             {
                 Domain.Util.Imagem ImgRet = new Domain.Util.Imagem();
                 model.usu = User.Identity.Name;
-                model.status = 0;
                 if (model.projetoid != 0) //update
                 {
+                    model.status = 1;
                     ServiceProjeto.UpdateProjeto(model);
                     ViewBag.Acao = "Projeto Salvo Com Sucesso!";
+                    return Redirect(Domain.Util.config.UrlSite + "Work/Job/" + model.menuid + "/" + model.menusubid + "/" + model.projetoid);
                 }
             }
 
@@ -42,12 +43,13 @@ namespace Admin.Controllers
             model.Moedas = ServiceMoeda.getMoedaCombo();
             model.Competencias = ServiceCompetencia.getCompetencia();
             model.ProjetoTipos = ServiceProjetoTipo.getProjetoTipoCombo();
+            model.Projetos = ServiceProjeto.getProjeto();
 
             ViewBag.MenuId = model.menuid;
             ViewBag.MenuSubId = model.menusubid;
             ViewBag.projetoid = model.projetoid;
 
-            //return Redirect(Domain.Util.config.UrlSite + "Project/Projeto/" + model.menuid + "/" + model.menusubid + "/" + model.projetoid);
+            
             return View(model);
         }
 
@@ -76,6 +78,7 @@ namespace Admin.Controllers
             model.Moedas = ServiceMoeda.getMoedaCombo();
             model.Competencias = ServiceCompetencia.getCompetencia();
             model.ProjetoTipos = ServiceProjetoTipo.getProjetoTipoCombo();
+            model.Projetos = ServiceProjeto.getProjeto();
 
             ViewBag.MenuId = id;
             ViewBag.MenuSubId = id2;
@@ -137,25 +140,40 @@ namespace Admin.Controllers
 
         public JsonResult ListaPrecos(Int16 id = 0, Int16 id2 = 0)
         {
-            ClientePreco Obj = new ClientePreco();
-            List<ClientePreco> LstRet = new List<ClientePreco>();
+            ClientePrecoProjeto Obj = new ClientePrecoProjeto();
+            List<ClientePrecoProjeto> LstRet = new List<ClientePrecoProjeto>();
             List<ClientePreco> LstPrecos = ServiceClientePreco.getClientePrecoByClienteId(id);
             foreach (var item in LstPrecos)
             {
                 //verifica se o preço foi escohido
-                Obj = new ClientePreco();
-                Obj = item;
-                Obj.Status = VerificaSelecaoPreco(item.clienteid, id2, item.clienteprecoid);
+                Obj = new ClientePrecoProjeto();
+                Obj.fuzzieid = item.fuzzieid;
+                Obj.clienteid = item.clienteid;
+                Obj.clienteprecoid = item.clienteprecoid;
+                Obj.Fuzzie = item.Fuzzie;
+                Obj.valorperc = item.Valor;
+
+                Obj.status = VerificaSelecaoPreco(item.clienteid, id2, item.clienteprecoid, item.fuzzieid);
+                if (Obj.status == 1)
+                {
+                    Obj.qtdepalavra = GetSelecaoQtde(item.clienteid, id2, item.clienteprecoid, item.fuzzieid);
+                }
                 LstRet.Add(Obj);
             }
 
             return Json(LstRet, JsonRequestBehavior.AllowGet);
         }
 
-        private static int VerificaSelecaoPreco(Int16 clienteid, Int16 projetoid, int clienteprecoid)
+        private static int VerificaSelecaoPreco(Int16 clienteid, Int16 projetoid, int clienteprecoid, int fuzzieid)
         {
-            return ServiceClientePrecoProjeto.GetVerificaSelecao(clienteid, projetoid, clienteprecoid).Count;
+            return ServiceClientePrecoProjeto.GetVerificaSelecao(clienteid, projetoid, clienteprecoid, fuzzieid).Count;
         }
+
+        private static int GetSelecaoQtde(Int16 clienteid, Int16 projetoid, int clienteprecoid, int fuzzieid)
+        {
+            return ServiceClientePrecoProjeto.GetSelecaoQtde(clienteid, projetoid, clienteprecoid, fuzzieid);
+        }
+
 
         private static int VerificaSelecao(Int16 clienteid, Int16 projetoid, Int16 clientecontatoid)
         {
@@ -210,8 +228,8 @@ namespace Admin.Controllers
                 model.clienteprecoid = Convert.ToInt16(menuarray[2]);
                 bool value = Convert.ToBoolean(menuarray[3]);
                 model.valorperc = Convert.ToDouble(menuarray[4].Replace(".",","));
-                model.valorpalavra = Convert.ToDouble(menuarray[5]);
-
+                model.qtdepalavra = Convert.ToInt16(menuarray[5]);
+                model.fuzzieid = Convert.ToInt16(menuarray[6]);
 
                 //sempre apaga
                 ServiceClientePrecoProjeto.DeleteClientePrecoProjetoId(model.clienteid, model.projetoid, model.clienteprecoid);
@@ -219,7 +237,7 @@ namespace Admin.Controllers
                 if (value)
                 {
                     //verifica se ja existe
-                    List<ClientePrecoProjeto> lst = ServiceClientePrecoProjeto.GetVerificaSelecao(model.clienteid, model.projetoid, model.clienteprecoid);
+                    List<ClientePrecoProjeto> lst = ServiceClientePrecoProjeto.GetVerificaSelecao(model.clienteid, model.projetoid, model.clienteprecoid, model.fuzzieid);
                     if (lst.Count == 0)
                     {
                         ServiceClientePrecoProjeto.InsertClientePrecoProjeto(model);
@@ -264,7 +282,7 @@ namespace Admin.Controllers
             return idformatado;
         }
 
-        public ActionResult Lista(Int16 id=0)
+        public ActionResult Lista(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -275,6 +293,13 @@ namespace Admin.Controllers
             model.Projetos = ServiceProjeto.getProjeto();
             model.menuid = id;
             model.menusubid = 0;
+
+            model.menuid = id;
+            model.menusubid = id2;
+
+            ViewBag.MenuId = id;
+            ViewBag.MenuSubId = id2;
+
             return View(model);
         }
 

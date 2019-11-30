@@ -15,6 +15,7 @@ namespace Domain.ModelView
         public Int16 projetoid { get; set; }
 
         [Required(ErrorMessage = "Inform Client Please")]
+        [Range(1, int.MaxValue, ErrorMessage = "Inform Client Please")]
         [Display(Name = "Client")]
         public Int16 clienteid { get; set; }
 
@@ -24,10 +25,12 @@ namespace Domain.ModelView
         public int projetotipoid { get; set; }
 
         [Required(ErrorMessage = "Inform Source Language Please")]
+        [Range(1, int.MaxValue, ErrorMessage = "Inform Source Language Please")]
         [Display(Name = "Source Language")]
         public int idiomaidfrom { get; set; }
 
         [Required(ErrorMessage = "Inform Target Language Please")]
+        [Range(1, int.MaxValue, ErrorMessage = "Inform Target Language Please")]
         [Display(Name = "Target Language")]
         public int idiomaidto { get; set; }
         public int idiomaid { get; set; }
@@ -44,14 +47,13 @@ namespace Domain.ModelView
         public string titulo { get; set; }
 
         [Required(ErrorMessage = "Inform Currency Please")]
+        [Range(1, int.MaxValue, ErrorMessage = "Inform Currency Please")]
         [Display(Name = "Currency")]
         public int moedaidrecebe { get; set; }
 
-        [Required(ErrorMessage = "Inform Partial Term Please")]
         [Display(Name = "Partial Term")]
         public DateTime? dataentregaprev { get; set; }
 
-        [Required(ErrorMessage = "Inform Deadline Please")]
         [Display(Name = "Deadline")]
         public DateTime? dataentrega { get; set; }
 

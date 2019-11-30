@@ -42,7 +42,6 @@ namespace Servico.Service
         }
 
 
-        
         public static List<Recurso> getRecurso()
         {
             //busca no banco

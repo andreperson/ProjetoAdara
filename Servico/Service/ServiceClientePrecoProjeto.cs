@@ -38,13 +38,29 @@ namespace Servico.Service
             tpprod.Save();
         }
 
-        public static List<ClientePrecoProjeto> GetVerificaSelecao(Int16 clienteid, Int16 projetoid, int clienteprecoid)
+        public static List<ClientePrecoProjeto> GetVerificaSelecao(Int16 clienteid, Int16 projetoid, int clienteprecoid, int fuzzieid)
         {
             //busca no banco
             ClientePrecoProjetoRepository tprep = new ClientePrecoProjetoRepository();
-            var lst = tprep.Search(x => x.clienteid == clienteid & x.projetoid == projetoid & x.clienteprecoid == clienteprecoid).ToList();
+            var lst = tprep.Search(x => x.clienteid == clienteid & x.projetoid == projetoid & x.clienteprecoid == clienteprecoid & x.fuzzieid == fuzzieid).ToList();
 
             return lst;
+        }
+
+
+        public static int GetSelecaoQtde(Int16 clienteid, Int16 projetoid, int clienteprecoid, int fuzzieid)
+        {
+            //busca no banco
+            ClientePrecoProjetoRepository tprep = new ClientePrecoProjetoRepository();
+            var lst = tprep.Search(x => x.clienteid == clienteid & x.projetoid == projetoid & x.clienteprecoid == clienteprecoid & x.fuzzieid == fuzzieid).ToList();
+            int valor = 0;
+
+            foreach (var item in lst)
+            {
+                valor = item.qtdepalavra;
+            }
+
+            return valor;
         }
 
         public static List<ClientePrecoProjeto> getClientePrecoProjeto(bool visivel)

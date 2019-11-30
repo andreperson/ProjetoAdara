@@ -68,6 +68,7 @@
     <Compile Include="Consumo\ClienteContatoRepository.cs" />
     <Compile Include="Consumo\ClientePrecoRepository.cs" />
     <Compile Include="Consumo\ClienteRepository.cs" />
+    <Compile Include="Consumo\JobRepository.cs" />
     <Compile Include="Consumo\FuzzieRepository.cs" />
     <Compile Include="Consumo\ClienteTipoRepository.cs" />
     <Compile Include="Consumo\CompetenciaRepository.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Service\ServiceClientePrecoProjeto.cs" />
     <Compile Include="Service\ServiceClienteContatoProjeto.cs" />
     <Compile Include="Service\ServiceClientePreco.cs" />
+    <Compile Include="Service\ServiceJob.cs" />
     <Compile Include="Service\ServiceFuzzie.cs" />
     <Compile Include="Service\ServiceClienteTipo.cs" />
     <Compile Include="Service\ServiceCompetencia.cs" />

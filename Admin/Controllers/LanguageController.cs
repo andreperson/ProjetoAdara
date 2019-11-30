@@ -42,7 +42,7 @@ namespace Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Idioma(Int16 id = 0, Int16 id2 = 0, Int16 id3 = 0)
+        public ActionResult Idioma(Int16 id = 0, Int16 id2 = 0, int id3 = 0)
         {
             var model = new IdiomaModelView();
             ViewBag.PageTopInformation = "Language Form";

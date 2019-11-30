@@ -16,7 +16,9 @@ namespace Domain.ModelView
         public Int16 clienteid { get; set; }
         public Int16 projetoid { get; set; }
         public Int16 clienteprecoid { get; set; }
+        public Int16 fuzzieid { get; set; }
         public double valorperc { get; set; }
-        public double valorpalavra { get; set; }
+        public int qtdepalavra { get; set; }
+
     }
 }

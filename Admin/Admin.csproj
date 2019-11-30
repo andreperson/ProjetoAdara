@@ -179,6 +179,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientContactController.cs" />
+    <Compile Include="Controllers\WorkController.cs" />
     <Compile Include="Controllers\FuzzieController.cs" />
     <Compile Include="Controllers\TepBrekeAtvController.cs" />
     <Compile Include="Controllers\TranstepController.cs" />
@@ -3301,6 +3302,7 @@
     <Content Include="Views\ClientContact\ClienteContato.cshtml" />
     <Content Include="Views\Project\Lista.cshtml" />
     <Content Include="Views\Diffuse\Fuzzie.cshtml" />
+    <Content Include="Views\Work\Job.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3341,7 +3343,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>5820</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50220/</IISUrl>
+          <IISUrl>http://localhost:50221/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

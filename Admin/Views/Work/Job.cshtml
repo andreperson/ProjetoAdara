@@ -1,0 +1,390 @@
+﻿@model Domain.ModelView.JobModelView
+
+
+@section Scripts {
+    <!-- Argon CSS -->
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
+    <script src="@Domain.Util.config.UrlSite/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="@Domain.Util.config.UrlSite/assets/js/argon.min.js?v=1.0.0"></script>
+
+    <script type="text/javascript">
+
+
+        $("#btsave").click(function () {
+            //verifica se os campos foram preenchidos
+            var fuzzieid = $("#fuzzieid").val();
+            var qtdepalavrajob = $("#qtdepalavrajob").val();
+            var valorporpalavrajob = $("#valorporpalavrajob").val();
+            var userid = $("#userid").val();
+            var dataprazo = $("#dataprazo").val();
+
+            if (VerificaCampos(fuzzieid, qtdepalavrajob, valorporpalavrajob, userid)) {
+                SaveJob(fuzzieid, qtdepalavrajob, valorporpalavrajob, userid, dataprazo);
+
+
+            }
+            else {
+                //alert('não passou');
+            }
+
+        });
+
+
+        function VerificaCampos(fuzzieid, qtdepalavrajob, valorporpalavrajob, userid, dataprazo) {
+            var ret = true;
+
+            if (fuzzieid == 0) {
+                $("#fuzziemsg").css('display', 'block');
+                ret = false;
+            }
+            else {
+                $("#fuzziemsg").css('display', 'none');
+            }
+
+            if (qtdepalavrajob == 0) {
+                $("#qtdemsg").css('display', 'block');
+                ret = false;
+            }
+            else {
+                $("#qtdemsg").css('display', 'none');
+            }
+
+            if (valorporpalavrajob == 0) {
+                $("#valormsg").css('display', 'block');
+                ret = false;
+            }
+            else {
+                $("#valormsg").css('display', 'none');
+            }
+
+            if (userid == 0) {
+                $("#useridmsg").css('display', 'block');
+                ret = false;
+            }
+            else {
+                $("#useridmsg").css('display', 'none');
+            }
+
+            if (dataprazo == 0) {
+                $("#dataprazomsg").css('display', 'block');
+                ret = false;
+            }
+            else {
+                $("#dataprazomsg").css('display', 'none');
+            }
+
+            return ret;
+
+        }
+
+
+        function SaveJob(fuzzieid, qtdepalavrajob, valorporpalavrajob, userid, dataprazo) {
+            //pega o valor digitado
+            var projetoid = $("#Projetoid").val();
+            var idiomaidfrom = $("#IdiomaIdFrom").val();
+            var idiomaidto = $("#IdiomaIdTo").val();
+            var clienteid = $("#Clienteid").val();
+
+            var lstsavejob = [];
+            lstsavejob.push(fuzzieid + ":" + qtdepalavrajob + ":" + valorporpalavrajob + ":" + userid + ":" + dataprazo + ":" + projetoid + ":" + idiomaidfrom + ":" + idiomaidto + ":" + clienteid);
+
+            $.post('@Url.Action("SaveJobAjax")', $.param({ data: lstsavejob }, true), function (data) {
+
+            });
+
+        }
+
+    </script>
+
+
+
+
+}
+
+@{
+    ViewBag.Title = @Domain.Util.config.Title;
+}
+
+
+@using (Html.BeginForm("Job", "Work", FormMethod.Post, new { autocomplete = "on" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-12 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">@ViewBag.PageTopInformation</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <h6 class="heading-small text-muted mb-4">
+                                @ViewBag.Acao <strong>@Model.projetoid</strong>
+                                <span style="margin-left:30px"><strong>@ViewBag.Cliente</strong></span>
+                                <span style="margin-left:30px">From <strong>@ViewBag.IdiomaFrom</strong></span>
+                                <span style="margin-left:5px">To <strong>@ViewBag.IdiomaTo</strong></span>
+                                <span style="margin-left:30px"><strong>@ViewBag.Moeda</strong></span>
+                            </h6>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <div class="col-xl-12 mb-5 mb-xl-0">
+                                        <div class="card shadow">
+                                            <div class="table-responsive">
+                                                <!-- Projects table -->
+                                                <table class="table align-items-center table-flush">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th scope="col">Matched</th>
+                                                            <th scope="col">Word Count</th>
+                                                            <th scope="col">Unit Price</th>
+                                                            <th scope="col">Total Price</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @{
+                                                            double resultado = 0;
+                                                        }
+                                                        @foreach (var item in Model.ClientePrecoProjetos)
+                                                        {
+                                                            resultado = item.qtdepalavra * item.valorperc;
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    @item.Fuzzie.descricao
+                                                                </th>
+                                                                <td>
+                                                                    @item.qtdepalavra
+                                                                </td>
+                                                                <td>
+                                                                    $ @item.valorperc
+                                                                </td>
+                                                                <td>
+                                                                    $ @resultado
+                                                                </td>
+
+                                                            </tr>
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                                <div class="card-footer py-4">
+                                                    <nav aria-label="...">
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+
+                                <div class="">
+                                    <div class="">
+                                        <div class="">
+                                            <div class="card shadow">
+                                                <div class="table-responsive">
+                                                    <!-- Projects table -->
+                                                    <table class="table align-items-center table-flush">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th scope="col">Matched</th>
+                                                                <th scope="col">Word Count</th>
+                                                                <th scope="col">Unit Price</th>
+                                                                <th scope="col">Total Price</th>
+                                                                <th scope="col">Language</th>
+                                                                <th scope="col">Partial Term</th>
+                                                                <th scope="col">Resource</th>
+                                                                <th scope="col">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    @Html.DropDownListFor(x => x.fuzzieid, new SelectList(Model.Fuzzies, "fuzzieid", "descricao"), new { @class = "form-control form-control-alternative", style = "width:100px;" })
+                                                                    <br />
+                                                                    <span style="display:none" id="fuzziemsg" class="field-validation-error badge badge-warning" data-valmsg-for="titulo" data-valmsg-replace="true">Inform Match Please</span>
+                                                                </th>
+                                                                <td>
+                                                                    @Html.TextBoxFor(model => model.qtdepalavrajob, new { @class = "form-control form-control-alternative", style = "width:80px;" })
+                                                                    <br />
+                                                                    <span style="display:none" id="qtdemsg" class="field-validation-error badge badge-warning" data-valmsg-for="titulo" data-valmsg-replace="true">Inform Word Count Please</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(model => model.valorporpalavrajob, new { @class = "form-control form-control-alternative", style = "width:80px;" })
+                                                                    <br />
+                                                                    <span style="display:none" id="valormsg" class="field-validation-error badge badge-warning" data-valmsg-for="titulo" data-valmsg-replace="true">Inform Unit Price Please</span>
+
+                                                                </td>
+                                                                <td>&nbsp;</td>
+                                                                <td>@ViewBag.IdiomaFrom - @ViewBag.IdiomaTo</td>
+                                                                <td>
+                                                                    <div class="input-group input-group-alternative">
+                                                                        @*<div class="input-group-prepend">
+                                                                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                                                        </div>*@
+                                                                        <input class="form-control datepicker" placeholder="Select date" type="text" id="dataprazo" value="@Model.dataprazo">
+                                                                        <span style="display:none" id="dataprazomsg" class="field-validation-error badge badge-warning" data-valmsg-for="titulo" data-valmsg-replace="true">Partial Term Please</span>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    @Html.DropDownListFor(x => x.userid, new SelectList(Model.Usuarios, "userid", "apelido"), new { @class = "form-control form-control-alternative", style = "width:100px;" })
+                                                                    <br />
+                                                                    <span style="display:none" id="usermsg" class="field-validation-error badge badge-warning" data-valmsg-for="titulo" data-valmsg-replace="true">Inform Resource Please</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <div name="btsave" id="btsave" class="btn btn-primary mt-2" value="register">Salvar</div>
+                                                                    <br /><br />
+
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="card-footer py-4">
+                                                        <nav aria-label="...">
+                                                        </nav>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Hidden("Jobid", Model.jobid)
+        @Html.Hidden("Menuid", Model.menuid)
+        @Html.Hidden("MenuSubId", Model.menusubid)
+        @Html.Hidden("Clienteid", Model.clienteid)
+        @Html.Hidden("Projetoid", Model.projetoid)
+        @Html.Hidden("IdiomaIdFrom", Model.idiomaidfrom)
+        @Html.Hidden("IdiomaIdTo", Model.idiomaidto)
+
+        <!-- Table -->
+        <div class="row mt-5">
+            <div class="col-xl-12 mb-5 mb-xl-0">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Another job's from this project</h3>
+                            </div>
+                            <div class="col text-right">
+                                <span class="heading-small text-muted mb-4">@Model.Jobs.Count record(s) listed</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Jobs)
+                                {
+                                    <tr>
+                                        <th scope="row">
+                                            @item.jobid
+                                        </th>
+                                        <td>
+                                            @item.Fuzzie.descricao
+                                        </td>
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/Work/Job/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.jobid">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="client type edit" width="30" />
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.jobid/@item.Fuzzie.descricao?ac=JobDelete&cr=Work&txt=Client Type @item.Fuzzie.descricao">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="client type delete" width="30" />
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <div class="card-footer py-4">
+                            <nav aria-label="...">
+                                @*<ul class="pagination justify-content-end mb-0">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">
+                                                <i class="fas fa-angle-left"></i>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active">
+                                            <a class="page-link" href="#">1</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">
+                                                <i class="fas fa-angle-right"></i>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    </ul>*@
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p></p><p></p>
+        @*<!-- End Table -->
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="row align-items-center justify-content-xl-between">
+                    <div class="col-xl-6">
+                        <div class="copyright text-center text-xl-left text-muted">
+                            &copy; 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>*@
+    </div>
+
+
+                                                            }

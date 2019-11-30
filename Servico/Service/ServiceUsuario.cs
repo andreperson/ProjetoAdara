@@ -57,12 +57,21 @@ namespace Servico.Service
         }
 
 
-        
         public static List<User> getUsuario(Int16 id)
         {
             //busca no banco
             UserRepository tprep = new UserRepository();
             var lst = tprep.Search(x => x.UserId == id).ToList();
+
+            return lst;
+        }
+
+
+        public static List<User> GetUsuariosRecursos()
+        {
+            //busca no banco
+            Servico.Consumo.UserRepository UserRec = new Servico.Consumo.UserRepository();
+            var lst = UserRec.GetUsuariosRecursos();
 
             return lst;
         }

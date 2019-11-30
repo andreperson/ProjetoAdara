@@ -17,6 +17,9 @@ namespace Domain.ModelView
         public int userid { get; set; }
         public int competenciaid { get; set; }
 
+        [Display(Name = "Recurso")]
+        public string Recurso { get; set; }
+
         [Display(Name = "Obs")]
         public int menuid { get; set; }
         public int menusubid { get; set; }

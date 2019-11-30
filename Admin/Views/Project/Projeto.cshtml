@@ -80,7 +80,7 @@
         function ListaContatosCallBack(json) {
             var i = 0;
             var unorchek = "";
-            //("#ajaxfind").find("tr:gt(0)").remove();
+            $("#ajaxfind").find("tr:gt(1)").remove();
             $("#lstContacts").css('display', 'block');
             $.each(json, function (key, data) {
                 $(function () {
@@ -121,14 +121,18 @@
         function ListaPrecosCallBack(json) {
             var i = 0;
             var unorchek = "";
-            //("#ajaxfind").find("tr:gt(0)").remove();
+            var habilita = ""
+            $("#ajaxfindprices").find("tr:gt(1)").remove();
             $("#lstPrices").css('display', 'block');
             $.each(json, function (key, data) {
                 $(function () {
                     unorchek = "";
-                    if (data.Status == 1)
-                    {
+                    precopalavra = "";
+                    habilita = "enabled";
+                    if (data.status == 1) {
                         unorchek = " checked='checked' ";
+                        qtdepalavra = data.qtdepalavra;
+                        habilita = "disabled";
                     }
                     i += 1;
                     var index = 1;
@@ -136,7 +140,7 @@
                         "<td class='text-blue' style='font-size:14px'>xxx</td>" +
                         "</tr>";
 
-                    $('#ajaxfindprices').append('<tr><th>' + data.Fuzzie.descricao + '</th><th><span id="val_' + data.clienteprecoid + '">' + data.Valor + '</span></th><th><input type="textbox" id="pal_' + data.clienteprecoid + '"></th><th><label class="custom-toggle"><input ' + unorchek + ' onchange="GetCheckPreco(' + data.clienteprecoid + ',this);" type="checkbox" id="ckpre_' + data.clienteprecoid + '" name="ckpre_' + data.clienteprecoid + '" /><span class="custom-toggle-slider rounded-circle"></span></label><span style="font-size:10px;" id="msg_' + data.clienteprecoid + '"</th></tr>');
+                    $('#ajaxfindprices').append('<tr><th>' + data.Fuzzie.descricao + '</th><th><span id="val_' + data.clienteprecoid + '">' + data.valorperc + '</span></th><th><input type="textbox" ' + habilita + ' value="' + data.qtdepalavra + '"  id="pal_' + data.clienteprecoid + '"></th><th><label class="custom-toggle"><input ' + unorchek + ' onchange="GetCheckPreco(' + data.clienteprecoid + ',' + data.fuzzieid + ',this);" type="checkbox" id="ckpre_' + data.clienteprecoid + '" name="ckpre_' + data.clienteprecoid + '" /><span class="custom-toggle-slider rounded-circle"></span></label><span style="font-size:10px;" id="msg_' + data.clienteprecoid + '"</th></tr>');
                     
                     
                 });
@@ -145,14 +149,14 @@
 
 
 
-        function GetCheckPreco(clienteprecoid, obj)
+        function GetCheckPreco(clienteprecoid, fuzzieid, obj)
         {
             var clienteid = $("#clienteid").val();
             var projetoid = $("#projetoid").val();
 
 
             //pega o valor digitado
-            var valorpalavra = $("#pal_" + clienteprecoid).val();
+            var qtdepalavra = $("#pal_" + clienteprecoid).val();
             var valorperc = $("#val_" + clienteprecoid).html();
 
             $("#msg_" + clienteprecoid).html("");
@@ -162,11 +166,11 @@
             {
                 $("#pal_" + clienteprecoid).val("");
                 $("#pal_" + clienteprecoid).css('border-color', '#000');
-                valorpalavra = 0;
+                qtdepalavra = 0;
                 valorperc = 0;
             }
 
-            if (obj.checked & valorpalavra == "")
+            if (obj.checked & (qtdepalavra == "" | qtdepalavra == 0))
             {
                 $("#msg_" + clienteprecoid).html("Please Enter First Word Value");
                 $("#ckpre_" + clienteprecoid).prop('checked', false);
@@ -175,14 +179,40 @@
             else
             {
                 var lstcliconpro = [];
-                lstcliconpro.push(projetoid + ":" + clienteid + ":" + clienteprecoid + ":" + obj.checked + ":" + valorperc + ":" + valorpalavra);
+                lstcliconpro.push(projetoid + ":" + clienteid + ":" + clienteprecoid + ":" + obj.checked + ":" + valorperc + ":" + qtdepalavra + ":" + fuzzieid);
 
                 $.post('@Url.Action("InsertClientePrecoAjax")', $.param({ data: lstcliconpro }, true), function (data) {
+
+                    //VERIFICA SE ESTA CHECADO
+
+                    var chk = isCheckedById("ckpre_" + clienteprecoid);
+
+                    if (chk) {
+                        $("#pal_" + clienteprecoid).prop('disabled', true);
+                    }
+                    else {
+                        $("#pal_" + clienteprecoid).prop('disabled', false);
+                    }
+
+
+
+                    //$("#pal_" + clienteprecoid).prop('disabled', true);
                 });
 
             }
 
 
+        }
+
+
+        function isCheckedById(id) {
+
+            var checked = $("input[id=" + id + "]:checked").length;
+            if (checked == 0) {
+                return false;
+            } else {
+                return true;
+            }
         }
 
 
@@ -508,7 +538,7 @@
                                                 <tr>
                                                     <th scope="col">Fuzzie</th>
                                                     <th scope="col">% Value</th>
-                                                    <th scope="col">Word Value</th>
+                                                    <th scope="col">Word Count</th>
                                                     <th scope="col">Select</th>
                                                 </tr>
                                             </thead>
@@ -534,7 +564,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                                 </div>
-                                                <input class="form-control datepicker" placeholder="Select date" type="text" value="06/20/2018">
+                                                <input class="form-control datepicker" placeholder="Select date" type="text" value="">
                                             </div>
                                         </div>
                                     </div>
@@ -545,7 +575,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                                 </div>
-                                                <input class="form-control datepicker" placeholder="Select date" type="text" value="06/20/2018">
+                                                <input class="form-control datepicker" placeholder="Select date" type="text" value="">
                                             </div>
                                         </div>
                                     </div>
@@ -571,12 +601,17 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                    </div>
-                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.moedaidrecebe)</label>
                                             @Html.DropDownListFor(x => x.moedaidrecebe, new SelectList(Model.Moedas, "moedaid", "descricao"), new { @class = "form-control form-control-alternative" })
                                             @Html.ValidationMessageFor(model => model.moedaidrecebe, "", new { @class = "badge badge-warning" })
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.obs)</label>
+                                            @Html.TextBoxFor(model => model.obs, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.obs, "", new { @class = "badge badge-warning" })
                                         </div>
                                     </div>
                                 </div>

@@ -6,21 +6,15 @@ using System.Threading.Tasks;
 using Domain.Entities;
 using Data.Repository;
 
-
 namespace Servico.Consumo
 {
-    public class RecursoRepository : GenericRepository<Recurso>  
+    public class JobRepository : GenericRepository<Job>  
     {
-       
-        public Recurso GetRecurso(Recurso objrec)
+        public Job GetJob()
         {
-            var result = Search(x => x.RecursoId == objrec.RecursoId).FirstOrDefault();
+            var result = Search(x => x.Status !=0).FirstOrDefault();
 
             return result;
         }
-
-
-
-
     }
 }
