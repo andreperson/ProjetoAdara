@@ -13,7 +13,7 @@ namespace Domain.Entities
     {
         [Key]
         public int loginid { get; set; }
-        public int userid { get; set; }
+        public Int16 userid { get; set; }
         [ForeignKey("userid")]
         public virtual User User { get; set; }
         public string apelido { get; set; }

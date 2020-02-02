@@ -51,7 +51,18 @@ namespace Servico.Service
             return result;
         }
 
-        
+
+        public static List<MenuSub> getMenuSubId(int id)
+        {
+            //busca no banco
+            MenuSubRepository tprep = new MenuSubRepository();
+            var lst = tprep.Search(x => x.menusubid == id).ToList();
+            var result = lst.OrderBy(y => y.menuid).OrderBy(y=>y.ordem).ToList();
+            return result;
+        }
+
+
+
         public static List<MenuSub> getMenuSubByController(string ctr)
         {
             //busca no banco
@@ -110,16 +121,11 @@ namespace Servico.Service
             MenuSubRepository tprep = new MenuSubRepository();
             var lst = tprep.GetMenuSub();
 
-
             //faz um de-para
-
             List<MenuSub> lstMenuSub = new List<MenuSub>();
-
             lstMenuSub = TranslateMenuSub(lst);
 
-
-
-            return lstMenuSub;
+            return lstMenuSub.OrderBy(x => x.descricaomenu).ToList();
         }
 
         public static List<MenuSub> GetSubMenuPermitido(int usuariotipoid, int menuid)

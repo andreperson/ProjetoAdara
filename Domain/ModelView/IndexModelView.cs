@@ -15,6 +15,6 @@ namespace Domain.ModelView
         public Int16 ProdutoId { get; set; }
         public string Codigo { get; set; }
 
-        
+        public List<Job> Jobs { get; set; }
     }
 }

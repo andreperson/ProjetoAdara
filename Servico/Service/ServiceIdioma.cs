@@ -91,7 +91,6 @@ namespace Servico.Service
         }
 
 
-        //get produto ID
         public static IdiomaModelView GetIdiomaId(int id)
         {
             Idioma objretorno = new Idioma();

@@ -619,6 +619,11 @@
                             <div class="text-right">
                                 <button name="button" class="btn btn-primary mt-4" value="register">Save</button>
                             </div>
+                            @*<div class="text-left">
+                                <a href="@Domain.Util.config.UrlSite/Work/Job/@ViewBag.MenuId/@ViewBag.MenuSubId/@Model.projetoid">
+                                    <img src="@Domain.Util.config.UrlImg/icone/ico-job.png" title="Job" width="50" />   
+                                </a>
+                            </div>*@
                         </form>
                     </div>
                 </div>
@@ -653,6 +658,7 @@
                                     <th scope="col">Create Date</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
+                                    <th scope="col">Job</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -677,6 +683,11 @@
                                         <td>
                                             <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.projetoid/@item.descricao?ac=ProjetoDelete&cr=Project&txt=Project @item.descricao">
                                                 <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="delete project" width="30" />
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/Work/Job/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.projetoid">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-job.png" title="Job" width="30" />
                                             </a>
                                         </td>
 

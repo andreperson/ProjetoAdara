@@ -1,0 +1,71 @@
+﻿@model Domain.ModelView.JobModelView
+
+
+@section Scripts {
+    <!-- Argon CSS -->
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
+    <script src="@Domain.Util.config.UrlSite/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="@Domain.Util.config.UrlSite/assets/js/argon.min.js?v=1.0.0"></script>
+
+    <script type="text/javascript">
+    </script>
+}
+
+@{
+    ViewBag.Title = @Domain.Util.config.Title;
+}
+
+
+@using (Html.BeginForm("JobProfileHome", "WorkProfile", FormMethod.Post, new { autocomplete = "on" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <!-- Page content -->
+     <!-- Header container -->
+    <div class="header pb-8 pt-1 pt-lg-1 d-flex align-items-center" style="min-height: 10px; background-image: url(../assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+        <!-- Mask -->
+        <span class="mask bg-gradient-default opacity-8"></span>
+        <div class="container-fluid d-flex align-items-center">
+            <div class="row">
+                <div class="col-lg-7 col-md-10">
+                    <h1 class="display-2 text-white">Hello @ViewBag.Apelido</h1>
+                    <p class="text-white mt-0 mb-5">This is your home profile and activity page. You can see the progress you've made with your work and manage your projects or assigned tasks. You also can manage your profile. Access from above submenu.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--7">
+        
+        <p></p><p></p>
+        @*<!-- End Table -->
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="row align-items-center justify-content-xl-between">
+                    <div class="col-xl-6">
+                        <div class="copyright text-center text-xl-left text-muted">
+                            &copy; 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>*@
+    </div>
+
+
+}

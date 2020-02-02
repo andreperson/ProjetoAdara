@@ -1,0 +1,110 @@
+﻿@model Domain.ModelView.AjudaModelView
+
+
+@section Scripts {
+    <!-- Argon CSS -->
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
+
+    <script>
+        function CloseWindow()
+        {
+            window.close();
+        }
+
+    </script>
+
+
+}
+
+@{
+    ViewBag.Title = @Domain.Util.config.Title;
+}
+
+
+
+
+@using (Html.BeginForm("AjudaView", "Help", FormMethod.Post, new { autocomplete = "on" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-8 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">@ViewBag.PageTopInformation</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <h6 class="heading-small text-muted mb-4">@ViewBag.Acao</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Model.titulo</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Model.descricao</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-right">
+                                <button name="button" class="btn btn-primary mt-4" value="register" onclick="CloseWindow();">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Hidden("Menuid", Model.menuid)
+        @Html.Hidden("MenuSubId", Model.menusubid)
+
+
+        <p></p><p></p>
+        @*<!-- End Table -->
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="row align-items-center justify-content-xl-between">
+                    <div class="col-xl-6">
+                        <div class="copyright text-center text-xl-left text-muted">
+                            &copy; 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>*@
+    </div>
+
+
+}

@@ -14,9 +14,9 @@ namespace Domain.ModelView
     {
         public Int16 Projetotipoid { get; set; }
 
-        [Required(ErrorMessage = "Descricao")]
-        [Display(Name = "Descricao")]
-        public string descricao { get; set; }
+        [Required(ErrorMessage = "Description")]
+        [Display(Name = "Description")]
+        public string Description { get; set; }
 
         public int status { get; set; }
         public bool statusb { get; set; }

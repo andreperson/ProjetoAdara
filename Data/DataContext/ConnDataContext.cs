@@ -28,7 +28,15 @@ namespace Data.DataContext
 
         public DbSet<Fuzzie> Fuzzie { get; set; }
 
+        public DbSet<Help> Help { get; set; }
+
         public DbSet<Idioma> Idioma { get; set; }
+
+
+        public DbSet<Job> Job { get; set; }
+        public DbSet<JobStatus> JobStatus { get; set; }
+        public DbSet<JobStatusHistorico> JobStatusHistorico { get; set; }
+
         public DbSet<ListaPreco> ListaPreco { get; set; }
         public DbSet<Login> Login { get; set; }
 
@@ -37,17 +45,15 @@ namespace Data.DataContext
         public DbSet<Moeda> Moeda { get; set; }
 
         public DbSet<ParIdioma> ParIdioma { get; set; }
-       
         public DbSet<Projeto> Projeto { get; set; }
         public DbSet<ProjetoCompetencia> ProjetoCompetencia { get; set; }
         public DbSet<ProjetoTipo> ProjetoTipo { get; set; }
 
-        public DbSet<Job> Job { get; set; }
-
         public DbSet<Recurso> Recurso { get; set; }
+
         public DbSet<Tep> Tep { get; set; }
-        public DbSet<TepBreke> TepBreke { get; set; }
         public DbSet<TepAtv> TepAtv { get; set; }
+        public DbSet<TepBreke> TepBreke { get; set; }
         public DbSet<Tra> Tra { get; set; }
 
         public DbSet<UF> UF { get; set; }

@@ -9,6 +9,14 @@
 
     <script type="text/javascript">
 
+        //load
+        $(document).ready(function () {
+            var projectid = $("#Projetoid").val();
+            //alert(projectid);
+
+            listaJobs(projectid);
+        });
+
 
         $("#btsave").click(function () {
             //verifica se os campos foram preenchidos
@@ -20,13 +28,15 @@
 
             if (VerificaCampos(fuzzieid, qtdepalavrajob, valorporpalavrajob, userid)) {
                 SaveJob(fuzzieid, qtdepalavrajob, valorporpalavrajob, userid, dataprazo);
-
-
             }
             else {
                 //alert('não passou');
             }
 
+            console.log("passou no lista jobs");
+
+            var projectid = $("#Projetoid").val();
+            listaJobs(projectid);
         });
 
 
@@ -90,9 +100,71 @@
 
             $.post('@Url.Action("SaveJobAjax")', $.param({ data: lstsavejob }, true), function (data) {
 
+                
+                var projectid = $("#Projetoid").val();
+                //alert(projectid);
+
+                listaJobs(projectid);
             });
 
         }
+
+
+        function DeleteJobs(jobid) {
+            $.getJSON('@Url.Action("DeleteJobs/")' + jobid, DeleteJobsCallBack);
+        }
+
+        function DeleteJobsCallBack(json) {
+            $("#ajaxfind").find("tr:gt(0)").remove();
+
+            console.log("passou no delete jobs");
+
+            var projectid = $("#Projetoid").val();
+            listaJobs(projectid);
+
+        }
+
+
+
+        function listaJobs(projectid) {
+            $.getJSON('@Url.Action("ListaJobs/")' + projectid, ListaJobsCallBack);
+        }
+
+        function ListaJobsCallBack(json) {
+            $("#ajaxfind").find("tr:gt(0)").remove();
+            var i = 0;
+            $.each(json, function (key, data) {
+                $(function () {
+                    i += 1;
+                    var index = 1;
+                    newRow = "<tr id='trajax'>" +
+                        "<th scope='row'>" + data.Fuzzie.descricao + "</th>" +
+                        "<th>" + data.qtdepalavrajob + "</th>" +
+                        "<th>" + data.valorporpalavrajob + "</th>" +
+                        "<th><a href='@Domain.Util.config.UrlSite/work/jobprogress/" + @ViewBag.MenuId + "/" + @ViewBag.MenuSubId + "/" + data.userid + "/u' target='_blank' title='See All " + data.Usuario.Apelido + "`s Job'>" + data.Usuario.Apelido + "</a></th>" +
+                        "<th><img style='cursor:pointer' onclick='DeleteJobs(" + data.jobid + "," + data.projetoid + ")' id='" + data.jobid + "' src='@Domain.Util.config.UrlImg/icone/ico-delete.png' width='30' title='Delete Job'></th>" +
+                        "<th><img style='cursor:pointer' onclick='ClickSendMail(" + data.jobid + "," + data.projetoid + "," + data.userid + ")' id='send_" + data.jobid + "' src='@Domain.Util.config.UrlImg/icone/ico-send-to-user.png' width='45' title='Send Job'><div align='left' style='display:none; font-size:11px; color:red;' id='showsend_" + data.jobid + "'>E-mail Sent!</div></th>" +
+                        "<th><a href='@Domain.Util.config.UrlSite/work/jobprogress/" + @ViewBag.MenuId + "/" + @ViewBag.MenuSubId + "/" + data.jobid + "/j' target='_blank'><img style='cursor:pointer' id='" + data.jobid + "' src='@Domain.Util.config.UrlImg/icone/ico-status-" + data.jobstatusid + ".png' width='35' title='" + data.JobStatus.descricao + "'></a></th>" +
+                        "</tr>";
+                    $('#ajaxfind > tbody > tr:last').eq(index - 1).after(newRow);
+                });
+            })
+        }
+
+
+        function ClickSendMail(jobid, projetoid, userid) {
+            $.getJSON('@Url.Action("SendEmail/")' + jobid + "/" + projetoid + "/" + userid, SendEmailCallBack(jobid));
+
+
+        }
+
+        function SendEmailCallBack(jobid) {
+            $("#showsend_" + jobid).css('display', 'block');
+            $("#showsend_" + jobid).show().delay(2000).fadeOut();
+        }
+
+
+
 
     </script>
 
@@ -128,7 +200,7 @@
                     <div class="card-body">
                         <form>
                             <h6 class="heading-small text-muted mb-4">
-                                @ViewBag.Acao <strong>@Model.projetoid</strong>
+                                <a href="@Domain.Util.config.UrlSite/work/jobprogress/@ViewBag.MenuId/@ViewBag.MenuSubId/@Model.projetoid/p" target="_blank" title="See All Project ID @Model.projetoid Job"><strong>@ViewBag.Acao @Model.projetoid</strong></a>
                                 <span style="margin-left:30px"><strong>@ViewBag.Cliente</strong></span>
                                 <span style="margin-left:30px">From <strong>@ViewBag.IdiomaFrom</strong></span>
                                 <span style="margin-left:5px">To <strong>@ViewBag.IdiomaTo</strong></span>
@@ -167,7 +239,7 @@
                                                                     $ @item.valorperc
                                                                 </td>
                                                                 <td>
-                                                                    $ @resultado
+                                                                    $ @String.Format("{0:0.00}", resultado)
                                                                 </td>
 
                                                             </tr>
@@ -209,18 +281,15 @@
                                                             <tr>
                                                                 <th scope="row">
                                                                     @Html.DropDownListFor(x => x.fuzzieid, new SelectList(Model.Fuzzies, "fuzzieid", "descricao"), new { @class = "form-control form-control-alternative", style = "width:100px;" })
-                                                                    <br />
                                                                     <span style="display:none" id="fuzziemsg" class="field-validation-error badge badge-warning" data-valmsg-for="titulo" data-valmsg-replace="true">Inform Match Please</span>
                                                                 </th>
                                                                 <td>
                                                                     @Html.TextBoxFor(model => model.qtdepalavrajob, new { @class = "form-control form-control-alternative", style = "width:80px;" })
-                                                                    <br />
                                                                     <span style="display:none" id="qtdemsg" class="field-validation-error badge badge-warning" data-valmsg-for="titulo" data-valmsg-replace="true">Inform Word Count Please</span>
 
                                                                 </td>
                                                                 <td>
                                                                     @Html.TextBoxFor(model => model.valorporpalavrajob, new { @class = "form-control form-control-alternative", style = "width:80px;" })
-                                                                    <br />
                                                                     <span style="display:none" id="valormsg" class="field-validation-error badge badge-warning" data-valmsg-for="titulo" data-valmsg-replace="true">Inform Unit Price Please</span>
 
                                                                 </td>
@@ -228,22 +297,17 @@
                                                                 <td>@ViewBag.IdiomaFrom - @ViewBag.IdiomaTo</td>
                                                                 <td>
                                                                     <div class="input-group input-group-alternative">
-                                                                        @*<div class="input-group-prepend">
-                                                                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                                                                        </div>*@
                                                                         <input class="form-control datepicker" placeholder="Select date" type="text" id="dataprazo" value="@Model.dataprazo">
                                                                         <span style="display:none" id="dataprazomsg" class="field-validation-error badge badge-warning" data-valmsg-for="titulo" data-valmsg-replace="true">Partial Term Please</span>
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     @Html.DropDownListFor(x => x.userid, new SelectList(Model.Usuarios, "userid", "apelido"), new { @class = "form-control form-control-alternative", style = "width:100px;" })
-                                                                    <br />
                                                                     <span style="display:none" id="usermsg" class="field-validation-error badge badge-warning" data-valmsg-for="titulo" data-valmsg-replace="true">Inform Resource Please</span>
 
                                                                 </td>
                                                                 <td>
-                                                                    <div name="btsave" id="btsave" class="btn btn-primary mt-2" value="register">Salvar</div>
-                                                                    <br /><br />
+                                                                    <div name="btsave" id="btsave" class="btn btn-primary mt-2" value="register">Save</div>
 
                                                                 </td>
 
@@ -253,6 +317,62 @@
                                                     <div class="card-footer py-4">
                                                         <nav aria-label="...">
                                                         </nav>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Table -->
+                                            <div class="row mt-5">
+                                                <div class="col-xl-12 mb-5 mb-xl-0">
+                                                    <div class="card shadow">
+                                                        <div class="card-header border-0">
+                                                            <div class="row align-items-center">
+                                                                <div class="col">
+                                                                    <h3 class="mb-0">Jobs created for this project</h3>
+                                                                </div>
+                                                                @*<div class="col text-right">
+                                                                    <span class="heading-small text-muted mb-4">@Model.Jobs.Count record(s) listed</span>
+                                                                </div>*@
+                                                            </div>
+                                                        </div>
+                                                        <div class="table-responsive">
+                                                            <!-- Projects table -->
+                                                            <table class="table align-items-center table-flush" id="ajaxfind">
+                                                                <tr>
+                                                                    <th scope="col">Matched</th>
+                                                                    <th scope="col">Word Count</th>
+                                                                    <th scope="col">Unit Price</th>
+                                                                    <th scope="col">Resource</th>
+                                                                    <th scope="col">Delete</th>
+                                                                    <th scope="col">Send</th>
+                                                                    <th scope="col">Progress</th>
+                                                                </tr>
+                                                            </table>
+                                                            <div class="card-footer py-4">
+                                                                <nav aria-label="...">
+                                                                    @*<ul class="pagination justify-content-end mb-0">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">
+                                            <i class="fas fa-angle-left"></i>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">
+                                            <i class="fas fa-angle-right"></i>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>*@
+                                                                </nav>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -275,86 +395,7 @@
         @Html.Hidden("IdiomaIdFrom", Model.idiomaidfrom)
         @Html.Hidden("IdiomaIdTo", Model.idiomaidto)
 
-        <!-- Table -->
-        <div class="row mt-5">
-            <div class="col-xl-12 mb-5 mb-xl-0">
-                <div class="card shadow">
-                    <div class="card-header border-0">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h3 class="mb-0">Another job's from this project</h3>
-                            </div>
-                            <div class="col text-right">
-                                <span class="heading-small text-muted mb-4">@Model.Jobs.Count record(s) listed</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <!-- Projects table -->
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Edit</th>
-                                    <th scope="col">Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.Jobs)
-                                {
-                                    <tr>
-                                        <th scope="row">
-                                            @item.jobid
-                                        </th>
-                                        <td>
-                                            @item.Fuzzie.descricao
-                                        </td>
-                                        <td>
-                                            <a href="@Domain.Util.config.UrlSite/Work/Job/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.jobid">
-                                                <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="client type edit" width="30" />
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="@Domain.Util.config.UrlSite/Delete/Deletar/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.jobid/@item.Fuzzie.descricao?ac=JobDelete&cr=Work&txt=Client Type @item.Fuzzie.descricao">
-                                                <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="client type delete" width="30" />
-                                            </a>
-                                        </td>
-
-                                    </tr>
-                                }
-
-                            </tbody>
-                        </table>
-                        <div class="card-footer py-4">
-                            <nav aria-label="...">
-                                @*<ul class="pagination justify-content-end mb-0">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1">
-                                                <i class="fas fa-angle-left"></i>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item active">
-                                            <a class="page-link" href="#">1</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">
-                                                <i class="fas fa-angle-right"></i>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </li>
-                                    </ul>*@
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+ 
 
         <p></p><p></p>
         @*<!-- End Table -->

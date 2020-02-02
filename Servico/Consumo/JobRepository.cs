@@ -12,7 +12,7 @@ namespace Servico.Consumo
     {
         public Job GetJob()
         {
-            var result = Search(x => x.Status !=0).FirstOrDefault();
+            var result = Search(x => x.jobstatusid !=0).FirstOrDefault();
 
             return result;
         }

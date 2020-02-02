@@ -32,7 +32,7 @@ namespace Servico.Consumo
                        }).ToList().Distinct();
 
 
-                
+
             List<User> lstUser = new List<User>();
             User obj = new User();
 
@@ -46,6 +46,17 @@ namespace Servico.Consumo
             return lstUser;
         }
 
-    }
 
+        //public Int16 GetUserIdByEmail(string email)
+        //{
+        //    Int16 ret = 0;
+
+        //    var result = Search(x => x.Email == email).FirstOrDefault();
+        //    ret = result.UserId;
+
+        //    return ret;
+
+        //}
+
+    }
 }

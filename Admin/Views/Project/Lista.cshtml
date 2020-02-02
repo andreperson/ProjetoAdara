@@ -99,6 +99,7 @@
                                     <th scope="col">Create Date</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
+                                    <th scope="col">Job</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -125,7 +126,11 @@
                                                 <img src="@Domain.Util.config.UrlImg/icone/ico-delete.png" title="delete project" width="30" />
                                             </a>
                                         </td>
-
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/Work/Job/@ViewBag.MenuId/@ViewBag.MenuSubId/@item.projetoid">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-job5.png" title="Job" width="33" />
+                                            </a>
+                                        </td>
                                     </tr>
                                 }
 

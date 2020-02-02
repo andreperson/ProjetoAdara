@@ -24,10 +24,9 @@ namespace Domain.ModelView
         public double valorporpalavrajob { get; set; }
         public DateTime? dataprazo { get; set; }
         public DateTime? dataentrega { get; set; }
-        [Required(ErrorMessage = "Descricao")]
-        [Display(Name = "Descricao")]
-        public int status { get; set; }
-        public bool statusb { get; set; }
+        [Required(ErrorMessage = "Description")]
+        [Display(Name = "Description")]
+        public int jobstatusid { get; set; }
         public DateTime? dataalt { get; set; }
         public string user { get; set; }
 
@@ -41,6 +40,8 @@ namespace Domain.ModelView
         public List<ClientePrecoProjeto> ClientePrecoProjetos { get; set; }
         public List<Fuzzie> Fuzzies { get; set; }
         public List<User> Usuarios { get; set; }
+        public List<JobStatus> JobStatus { get; set; }
+        public List<JobStatusHistorico> JobStatusHistoricos { get; set; }
 
     }
 }

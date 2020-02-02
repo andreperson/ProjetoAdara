@@ -14,7 +14,7 @@ namespace Domain.ModelView
     {
         public int recursoid { get; set; }
         [Display(Name = "Recurso")]
-        public int userid { get; set; }
+        public Int16 userid { get; set; }
         public int competenciaid { get; set; }
 
         [Display(Name = "Recurso")]

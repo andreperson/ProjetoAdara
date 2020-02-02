@@ -18,7 +18,7 @@ namespace Domain.Entities
         [ForeignKey("competenciaid")]
         public virtual Competencia Competencia { get; set; }
 
-        public int userid { get; set; }
+        public Int16 userid { get; set; }
         [ForeignKey("userid")]
         public virtual User User { get; set; }
  

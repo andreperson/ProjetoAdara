@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
-using System.Web.Routing;
 using Servico.Service;
 using Domain.ModelView;
 using Domain.Entities;
@@ -40,17 +37,18 @@ namespace Admin.Controllers
                 if (!ImgRet.Ok)
                 {
                     msg = ImgRet.Mensagem;
-                    return Redirect(Domain.Util.config.UrlSite + "User/Usuario/" + model.userid + "/0/" + HttpUtility.UrlEncode(msg));
+                    return Redirect(Domain.Util.config.UrlSite + "User/Usuario/" + model.menuid + "/" + model.menusubid + "/" + model.userid + HttpUtility.UrlEncode(msg));
                 }
                 else
                 {
                     model.useralt = User.Identity.Name;
                     model.status = Convert.ToInt16(model.statusb);
+                    model.recebeemails = Convert.ToInt16(model.recebeemailb);
                     //verifica se o email usuario já existe
                     ViewBag.msg = getUser(model.email, model.userid);
                     if (!string.IsNullOrEmpty(ViewBag.msg))
                     {
-                        return Redirect(Domain.Util.config.UrlSite + "User/Usuario/0/0/" +  HttpUtility.UrlEncode(ViewBag.msg));
+                        return Redirect(Domain.Util.config.UrlSite + "User/Usuario/0/" + model.menuid + "/" + model.menusubid +  HttpUtility.UrlEncode(ViewBag.msg));
                     }
                     else
                     {

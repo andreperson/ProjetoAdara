@@ -21,7 +21,7 @@ namespace Domain.Entities
         public virtual ProjetoTipo ProjetoTipo { get; set; }
         public int idiomaidfrom { get; set; }
         public int idiomaidto { get; set; }
-        public int userid { get; set; }
+        public Int16 userid { get; set; }
         [ForeignKey("userid")]
         public virtual User User { get; set; }
         public string titulo { get; set; }

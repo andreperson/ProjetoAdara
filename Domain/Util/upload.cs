@@ -18,7 +18,7 @@ namespace Domain.Util
             ImgRet.Mensagem = string.Empty;
             String NewDir = string.Empty;
 
-            NewDir = Domain.Util.config.PathUpImg + pasta + "\\"; 
+            NewDir = Domain.Util.config.PathUpImg + "\\" + pasta + "\\"; 
 
             if (!string.IsNullOrEmpty(arquivo.ToString()) && arquivo.ContentLength > 0)
             {

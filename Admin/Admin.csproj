@@ -179,6 +179,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientContactController.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\WorkController.cs" />
     <Compile Include="Controllers\FuzzieController.cs" />
     <Compile Include="Controllers\TepBrekeAtvController.cs" />
@@ -206,10 +208,13 @@
     <Compile Include="Controllers\UserTypeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\WorkProfileController.cs" />
+    <Compile Include="Controllers\WorkStatusController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -3220,6 +3225,7 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Views\Profile\profile.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3303,6 +3309,13 @@
     <Content Include="Views\Project\Lista.cshtml" />
     <Content Include="Views\Diffuse\Fuzzie.cshtml" />
     <Content Include="Views\Work\Job.cshtml" />
+    <Content Include="Views\Help\Ajuda.cshtml" />
+    <Content Include="Views\Profile\Perfil.cshtml" />
+    <Content Include="Views\WorkProfile\JobProfile.cshtml" />
+    <Content Include="Views\WorkProfile\JobProfileHome.cshtml" />
+    <Content Include="Views\WorkStatus\JobStatus.cshtml" />
+    <Content Include="Views\Help\AjudaView.cshtml" />
+    <Content Include="Views\Help\AjudaEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

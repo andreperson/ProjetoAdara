@@ -11,7 +11,7 @@ namespace Domain.Util
 {
     public class Email
     {
-        public string SendMail(string _emailTo, string _emailCopia, string _assunto, string _texto)
+        public string SendMail(string _emailTo, string _emailCopia, string _assunto, string _texto, string _displaymail)
         {
 
             string retorno = "Email enviado com sucesso!";
@@ -26,7 +26,7 @@ namespace Domain.Util
                     _emailTo = EmailTo;
                 }
 
-                mail.From = new MailAddress(EmailFrom);
+                mail.From = new MailAddress(EmailFrom, _displaymail);
                 mail.To.Add(_emailTo);
                 if (!string.IsNullOrEmpty(_emailCopia))
                 {
@@ -101,6 +101,14 @@ namespace Domain.Util
             get
             {
                 return System.Configuration.ConfigurationManager.AppSettings["Configuration.Email.EmailTo"].ToString();
+            }
+        }
+
+        public static string EmailCopiaOculta
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["Configuration.Email.CopiaOculta"].ToString();
             }
         }
 

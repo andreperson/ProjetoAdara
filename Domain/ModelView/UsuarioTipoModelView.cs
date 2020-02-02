@@ -14,11 +14,11 @@ namespace Domain.ModelView
     {
         public Int16 usuariotipoid { get; set; }
 
-        [Required(ErrorMessage = "Descricao")]
-        [Display(Name = "Descricao")]
+        [Required(ErrorMessage = "Description")]
+        [Display(Name = "Description")]
         public string descricao { get; set; }
 
-        [Display(Name = "Ativo")]
+        [Display(Name = "Active")]
         public int status { get; set; }
         public bool statusb { get; set; }
         public DateTime? dataalt { get; set; }

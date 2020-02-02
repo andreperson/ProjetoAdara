@@ -18,7 +18,7 @@ namespace Domain.Entities
         [ForeignKey("projetoid")]
         public virtual Projeto Projeto { get; set; }
 
-        public int userid { get; set; }
+        public Int16 userid { get; set; }
         [ForeignKey("userid")]
         public virtual User Usuario { get; set; }
 
@@ -30,6 +30,10 @@ namespace Domain.Entities
         [ForeignKey("fuzzieid")]
         public virtual Fuzzie Fuzzie { get; set; }
 
+        public int jobstatusid { get; set; }
+        [ForeignKey("jobstatusid")]
+        public virtual JobStatus JobStatus { get; set; }
+
         public int qtdepalavrajob { get; set; }
         public int idiomaidfrom { get; set; }
         public int idiomaidto { get; set; }
@@ -37,7 +41,6 @@ namespace Domain.Entities
         public double valorporpalavrajob { get; set; }
         public DateTime? dataprazo{ get; set; }
         public DateTime? dataentrega { get; set; }
-        public int Status { get; set; }
         public DateTime? Dataalt { get; set; }
         public string User { get; set; }
     }

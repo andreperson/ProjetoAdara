@@ -85,7 +85,7 @@ namespace Servico.Service
             }
             catch (Exception ex)
             {
-
+                String xxx = ex.Message;
                 throw;
             }
 

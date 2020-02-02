@@ -121,6 +121,14 @@ namespace Servico.Service
             return lst;
         }
 
+        public static List<User> getUsuarioRecebeEmails(int status)
+        {
+            UserRepository tprep = new UserRepository();
+            var lst = tprep.Search(x => x.recebeemails == status).ToList();
+
+            return lst;
+        }
+
 
         public static List<User> getGerenteCombo(int tipoid)
         {
@@ -183,21 +191,44 @@ namespace Servico.Service
             return lst;
         }
 
+
+        public static Int16 GetUserIdByEmail(string email)
+        {
+            Int16 ret = 0;
+            UserRepository tprep = new UserRepository();
+            var result = tprep.Search(x => x.Email == email).FirstOrDefault();
+            ret = result.UserId;
+
+            return ret;
+
+        }
+
+
         private static UsuarioModelView GetUserModelDePara(User objprod)
         {
             UsuarioModelView model = new UsuarioModelView();
             model.userid = objprod.UserId;
             model.arquivoimagem = objprod.imagem;
-
+            
+            model.dtnasc = objprod.dtnasc.ToString();
+            model.curso = objprod.curso;
+            model.formacao = objprod.formacao;
+            model.instituicao = objprod.instituicao;
             model.apelido = objprod.Apelido;
             model.dataalt = objprod.Dataalt;
             model.dataincl = objprod.DataIncl;
             model.email = objprod.Email;
             model.nome = objprod.Nome;
+            model.sobrenome = objprod.SobreNome;
             model.senha = objprod.Senha;
             model.status = objprod.Status;
             model.usuariotipoid = objprod.usuariotipoid;
-            
+            model.endereco = objprod.Endereco;
+            model.cidade = objprod.Cidade;
+            model.pais = objprod.Pais;
+            model.CEP = objprod.CEP;
+            model.about = objprod.About;
+            model.recebeemails = objprod.recebeemails;
 
             return model;
         }

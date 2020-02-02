@@ -1,0 +1,227 @@
+﻿@model Domain.ModelView.JobModelView
+
+
+@section Scripts {
+    <!-- Argon CSS -->
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
+    <script src="@Domain.Util.config.UrlSite/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="@Domain.Util.config.UrlSite/assets/js/argon.min.js?v=1.0.0"></script>
+
+    <script type="text/javascript">
+
+        //load
+        $(document).ready(function () {
+            var projectid = $("#Projetoid").val();
+            //alert(projectid);
+
+            listaJobs(projectid);
+        });
+
+
+        function GetHistory(jobid) {
+            var stat = $("#hist_" + jobid).css('display');
+            if (stat == "none") {
+                $("#hist_" + jobid).css('display', 'block');
+            }
+            else {
+                $("#hist_" + jobid).css('display', 'none');
+            }
+
+        }
+
+
+        function listaJobsByProjetoId(projectid) {
+            $.getJSON('@Url.Action("ListaJobsByProjectoid/")' + projectid, ListaJobsCallBack);
+        }
+
+        function listaJobsByJobId(jobid) {
+            $.getJSON('@Url.Action("ListaJobsByJobid/")' + jobid, ListaJobsCallBack);
+        }
+
+        function listaJobsByUserId(userid) {
+            $.getJSON('@Url.Action("ListaJobsByUserId/")' + userid, ListaJobsCallBack);
+        }
+
+
+        function ListaJobsCallBack(json) {
+            $("#ajaxfind").find("tr:gt(0)").remove();
+            var i = 0;
+            $.each(json, function (key, data) {
+                $(function () {
+                    i += 1;
+                    var index = 1;
+                    newRow = "<tr id='trajax'>" +
+                        "<th scope='row'>" + data.Fuzzie.descricao + "</th>" +
+                        "<th>" + data.qtdepalavrajob + "</th>" +
+                        "<th>" + data.valorporpalavrajob + "</th>" +
+                        "<th>" + data.Usuario.Nome + "</th>" +
+                        "<th><img style='cursor:pointer' onclick='DeleteJobs(" + data.jobid + "," + data.projetoid + ")' id='" + data.jobid + "' src='@Domain.Util.config.UrlImg/icone/ico-delete.png' width='30' title='Delete Job'></th>" +
+                        "<th><img style='cursor:pointer' onclick='ClickSendMail(" + data.jobid + "," + data.projetoid + "," + data.userid + ")' id='send_" + data.jobid + "' src='@Domain.Util.config.UrlImg/icone/ico-send-to-user.png' width='45' title='Send Job'><div align='left' style='display:none; font-size:11px; color:red;' id='showsend_" + data.jobid + "'>E-mail Sent!</div></th>" +
+                        "<th><a href='@Domain.Util.config.UrlSite/work/jobprogress/" + data.jobid + "/" + data.projetoid + "/" + data.userid + "' target='_blank'><img style='cursor:pointer' id='" + data.jobid + "' src='@Domain.Util.config.UrlImg/icone/ico-status-" + data.Status + ".png' width='35' title='" + data.JobStatus.descricao + "'></a></th>" +
+                        "</tr>";
+                    $('#ajaxfind > tbody > tr:last').eq(index - 1).after(newRow);
+                });
+            })
+        }
+
+
+        function ClickSendMail(jobid, projetoid, userid) {
+            $.getJSON('@Url.Action("SendEmail/")' + jobid + "/" + projetoid + "/" + userid, SendEmailCallBack(jobid));
+
+
+        }
+
+        function SendEmailCallBack(jobid) {
+            $("#showsend_" + jobid).css('display', 'block');
+            $("#showsend_" + jobid).show().delay(2000).fadeOut();
+        }
+
+
+
+
+    </script>
+
+
+
+
+}
+
+@{
+    ViewBag.Title = @Domain.Util.config.Title;
+}
+
+
+@using (Html.BeginForm("Job", "Work", FormMethod.Post, new { autocomplete = "on" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-12 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">@ViewBag.PageTopInformation</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Table -->
+                        <div class="row mt-1">
+                            <div class="col-xl-12 mb-5 mb-xl-0">
+                                <div class="card shadow">
+                                    <div class="card-header border-0">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <h3 class="mb-0">Jobs By @ViewBag.JobsBy</h3>
+                                            </div>
+                                            @*<div class="col text-right">
+                                                    <span class="heading-small text-muted mb-4">@Model.Jobs.Count record(s) listed</span>
+                                                </div>*@
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <!-- Projects table -->
+                                        <table class="table align-items-center table-flush" id="ajaxfind">
+                                            <tr>
+                                                <th scope="col">Job</th>
+                                                <th scope="col">Resource</th>
+                                                <th scope="col">Client</th>
+                                                <th scope="col">From</th>
+                                                <th scope="col">To</th>
+                                                <th scope="col">Word Count</th>
+                                                <th scope="col">Unit Price</th>
+                                                <th scope="col">Total Price</th>
+                                                <th scope="col">Progress</th>
+                                                <th scope="col">Last Updade On</th>
+                                            </tr>
+                                            <tbody>
+                                                @{
+                                                    double resultado = 0;
+                                                }
+                                                @foreach (var item in Model.Jobs)
+                                                {
+                                                    resultado = item.valorporpalavrajob * item.qtdepalavrajob;
+                                                    <tr>
+                                                        <th scope="row">
+                                                           @item.jobid
+                                                        </th>
+                                                        <td>
+                                                            @item.Usuario.Apelido
+                                                        </td>
+                                                        <td>
+                                                            @item.Cliente.Fantasia
+                                                        </td>
+                                                        <td>
+                                                            @Html.Action("GetIdioma", "Work", new { param = item.idiomaidfrom.ToString() })
+                                                        </td>
+                                                        <td>
+                                                            @Html.Action("GetIdioma", "Work", new { param = item.idiomaidto.ToString() })
+                                                        </td>
+                                                        <td>
+                                                            @item.qtdepalavrajob
+                                                        </td>
+                                                        <td>
+                                                            $ @item.valorporpalavrajob
+                                                        </td>
+                                                        <td>
+                                                            $ @String.Format("{0:0.00}", resultado)
+                                                        </td>
+                                                        <td>
+                                                            @{
+                                                                String StrIMG = item.jobstatusid + ".png";
+                                                            }
+
+                                                            <img src="@Domain.Util.config.UrlImg/icone/ico-status-@StrIMG" width="35" title="@item.JobStatus.descricao">
+                                                        </td>
+                                                        <td>
+                                                            @item.Dataalt <br /><br />
+                                                            @{
+                                                                if (item.Dataalt != null)
+                                                                {
+                                                                    <span id="seehistory_@item.jobid" style="cursor:pointer" class="text-indigo" onclick="GetHistory(@item.jobid)">See History</span>
+                                                                    <br />
+                                                                    <div style="text-align:right; display:none" id="hist_@item.jobid">
+                                                                       @Html.Action("GetHistorico", "Work", new { param = item.jobid.ToString() })
+                                                                    </div>
+                                                                }
+                                                            }
+
+                                                        </td>
+                                                    </tr>
+                                                                }
+
+                                            </tbody>
+                                        </table>
+                                        <div class="card-footer py-4">
+                                            <nav aria-label="...">
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Html.Hidden("Jobid", Model.jobid)
+    @Html.Hidden("Menuid", Model.menuid)
+    @Html.Hidden("MenuSubId", Model.menusubid)
+    @Html.Hidden("Clienteid", Model.clienteid)
+    @Html.Hidden("Projetoid", Model.projetoid)
+    @Html.Hidden("IdiomaIdFrom", Model.idiomaidfrom)
+    @Html.Hidden("IdiomaIdTo", Model.idiomaidto)
+
+
+
+
+
+                                                                }

@@ -11,7 +11,7 @@ namespace Domain.ModelView
     public class LoginModelView
     {
         public Int16 loginid { get; set; }
-        public int userid { get; set; }
+        public Int16 userid { get; set; }
         public string email { get; set; }
         public string apelido { get; set; }
         public string origem { get; set; }

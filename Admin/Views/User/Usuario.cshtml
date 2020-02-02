@@ -47,15 +47,14 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.UsuariosTipos)</label>
                                             @Html.DropDownListFor(x => x.usuariotipoid, new SelectList(Model.UsuariosTipos, "usuariotipoid", "descricao"), new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.usuariotipoid)
-
+                                            <span class="text-warning">@Html.ValidationMessageFor(model => model.usuariotipoid)</span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.nome)</label>
-                                            @Html.TextBoxFor(model => model.nome, new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.nome)
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.apelido)</label>
+                                            @Html.TextBoxFor(model => model.apelido, new { @class = "form-control form-control-alternative" })
+                                            <span class="text-warning"> @Html.ValidationMessageFor(model => model.apelido)</span>
                                         </div>
                                     </div>
                                 </div>
@@ -63,17 +62,17 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.apelido)</label>
-                                            @Html.TextBoxFor(model => model.apelido, new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.apelido)
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.nome)</label>
+                                            @Html.TextBoxFor(model => model.nome, new { @class = "form-control form-control-alternative" })
+                                            <span class="text-warning">@Html.ValidationMessageFor(model => model.nome)</span>
                                         </div>
                                     </div>
                                     
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.email)</label>
-                                            @Html.TextBoxFor(model => model.email, new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.email)
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.sobrenome)</label>
+                                            @Html.TextBoxFor(model => model.sobrenome, new { @class = "form-control form-control-alternative" })
+                                            <span class="text-warning"> @Html.ValidationMessageFor(model => model.sobrenome)</span>
                                         </div>
                                     </div>
                                 </div>
@@ -81,15 +80,35 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.senha)</label>
-                                            @Html.TextBoxFor(model => model.senha, new { @class = "form-control form-control-alternative" })
-                                            @Html.ValidationMessageFor(model => model.senha)
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.email) <span class="text-gray" style="font-size:10px;">(UserName for Login)</span></label>
+                                            @Html.TextBoxFor(model => model.email, new { @class = "form-control form-control-alternative" })
+                                            <span class="text-warning">@Html.ValidationMessageFor(model => model.email)</span>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.imagem)</label>
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.senha)</label>
+                                            @Html.PasswordFor(model => model.senha, new { @class = "form-control form-control-alternative" })
+                                            <span class="text-warning"> @Html.ValidationMessageFor(model => model.senha)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                               
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.pais)</label>
+                                            @Html.TextBoxFor(model => model.pais, new { @class = "form-control form-control-alternative" })
+                                            <span class="text-warning"> @Html.ValidationMessageFor(model => model.pais)</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.imagem)</label>
                                             @Html.TextBoxFor(model => Model.imagem, new { type = "file", accept = "image/*", @class = "form-control form-control-alternative" })
                                             @Html.ValidationMessageFor(model => model.imagem)<br />
                                             <div style="font-size: small; color: #999">Dimensões: 160 x 160 (use fotos de no máximo 100k)</div>
@@ -108,6 +127,34 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.recebeemails) </label>
+                                            <div class="inputgrande">
+                                                @if (Model.recebeemails == 1)
+                                                {
+                                                    Model.recebeemailb = true;
+                                                }
+                                                else
+                                                {
+                                                    Model.recebeemailb = false;
+                                                }
+                                                @Html.CheckBoxFor(model => model.recebeemailb)
+                                               <br />
+                                                <span class="text-gray" style="font-size:11px">check this if the user is the administrative person</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
                           
                             <!-- Description -->

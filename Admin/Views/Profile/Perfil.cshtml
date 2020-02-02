@@ -1,0 +1,293 @@
+﻿@model Domain.ModelView.UsuarioModelView
+
+
+@{
+    ViewBag.Title = @Domain.Util.config.Title;
+}
+
+@section Scripts {
+
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
+    <script src="@Domain.Util.config.UrlSite/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="@Domain.Util.config.UrlSite/assets/js/argon.min.js?v=1.0.0"></script>
+
+
+    <script type="text/javascript">
+
+        //$(document).ready(function () {
+        //    //$('#dtnasc').mask('99/99/9999');
+        //    var dt = $("#dtnascprev").val();
+        //    var dtformat = dt.substring(0, 10);
+        //    var dia = dtformat.substring(0, 2);
+        //    var mes = dtformat.substring(3, 5);
+        //    var ano = dtformat.substring(6, 10);
+
+        //    $('#dtnasc').val(dia + "/" + mes + "/" + ano);
+        //});
+
+
+    </script>
+}
+
+
+@using (Html.BeginForm("Perfil", "Profile", FormMethod.Post, new { autocomplete = "on", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.Hidden("Menuid", Model.menuid)
+    @Html.Hidden("MenuSubId", Model.menusubid)
+
+    <!-- Main content -->
+    <div class="main-content">
+
+        <div class="header pb-8 pt-1 pt-lg-1 d-flex align-items-center" style="min-height: 0px;">
+            <!-- Mask -->
+            <span class="mask bg-gradient-default opacity-8"></span>
+            <!-- Header container -->
+            <div class="container-fluid d-flex align-items-center">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="display-2 text-white">Hello, @Model.apelido</h1>
+                        <p class="text-white mt-0 mb-5">This is your profile page. Here you can edit it.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page content -->
+        <div class="container-fluid mt--7">
+            <div class="row">
+                <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+                    <div class="card card-profile shadow">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-3 order-lg-2">
+                                <div class="card-profile-image">
+                                    <a href="#">
+                                        <img alt="Image placeholder" class="rounded-circle" src="@Domain.Util.config.UrlImg/usuario/@Html.Action("ImagemHeader", "LayoutMenu")">
+                                    </a>
+
+                                    @*<a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <div class="media align-items-center">
+                                                <span class="avatar avatar-sm rounded-circle">
+                                                    <img alt="Image placeholder" src="@Domain.Util.config.UrlImg/usuario/@Html.Action("ImagemHeader", "LayoutMenu")">
+                                                </span>
+                                                <div class="media-body ml-2 d-none d-lg-block">
+                                                    <span class="mb-0 text-sm  font-weight-bold">@Html.Action("ApelidoHeader", "LayoutMenu")</span>
+                                                </div>
+                                            </div>
+                                        </a>*@
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                            <div class="d-flex justify-content-between">
+                                @*<a href="#" class="btn btn-sm btn-info mr-4">Connect</a>
+                                    <a href="#" class="btn btn-sm btn-default float-right">Message</a>*@
+                            </div>
+                        </div>
+                        <div class="card-body pt-0 pt-md-4">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                                        @foreach (var item in Model.JobStatus)
+                                        {
+                                            <div>
+                                                <span class="heading">@item.Status</span>
+                                                <span class="description">@item.descricao</span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <h3>
+                                    @Model.nome @Model.sobrenome<span class="font-weight-light">, @ViewBag.Niver</span>
+                                </h3>
+                                <div class="h5 font-weight-300">
+                                    <i class="ni location_pin mr-2"></i>@Model.cidade, @Model.pais
+                                </div>
+                                <div class="h5 mt-5">
+                                    <i class="ni business_briefcase-24 mr-2"></i>@Model.formacao
+                                </div>
+                                <div class="h5 mt-4">
+                                    <i class="ni business_briefcase-24 mr-2"></i>@Model.curso
+                                </div>
+                                <div>
+                                    <i class="ni education_hat mr-2"></i>@Model.instituicao
+                                </div>
+                                <hr class="my-4" />
+                                <p>@Model.apelido — @Model.about</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8 order-xl-1">
+                    <div class="card bg-secondary shadow">
+                        <div class="card-header bg-white border-0">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h3 class="mb-0">My account</h3>
+                                </div>
+                                @*<div class="col-4 text-right">
+                                        <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+                                    </div>*@
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <h6 class="heading-small text-muted mb-4">User information</h6>
+                                <div class="pl-lg-4">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.email)</label>
+                                                @Html.TextBoxFor(model => model.email, new { @class = "form-control form-control-alternative", @placeholder = "jesse@example.com" })
+                                                @Html.ValidationMessageFor(model => model.email, "", new { @class = "badge badge-warning" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-name">@Html.LabelFor(model => model.apelido)</label>
+                                                @Html.TextBoxFor(model => model.apelido, new { @class = "form-control form-control-alternative", @placeholder = "Nick Name" })
+                                                @Html.ValidationMessageFor(model => model.apelido, "", new { @class = "badge badge-warning" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-first-name">@Html.LabelFor(model => model.nome)</label>
+                                                @Html.TextBoxFor(model => model.nome, new { @class = "form-control form-control-alternative", @placeholder = "Lucky" })
+                                                @Html.ValidationMessageFor(model => model.nome, "", new { @class = "badge badge-warning" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-last-name">@Html.LabelFor(model => model.sobrenome)</label>
+                                                @Html.TextBoxFor(model => model.sobrenome, new { @class = "form-control form-control-alternative", @placeholder = "Jesse" })
+                                                @Html.ValidationMessageFor(model => model.sobrenome, "", new { @class = "badge badge-warning" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-4" />
+                                <!-- Address -->
+                                <h6 class="heading-small text-muted mb-4">Contact information</h6>
+                                <div class="pl-lg-4">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-address">@Html.LabelFor(model => model.endereco)</label>
+                                                @Html.TextBoxFor(model => model.endereco, new { @class = "form-control form-control-alternative", @placeholder = "Home Adress" })
+                                                @Html.ValidationMessageFor(model => model.endereco, "", new { @class = "badge badge-warning" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-city">@Html.LabelFor(model => model.cidade)</label>
+                                                @Html.TextBoxFor(model => model.cidade, new { @class = "form-control form-control-alternative", @placeholder = "City" })
+                                                @Html.ValidationMessageFor(model => model.cidade, "", new { @class = "badge badge-warning" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-country">@Html.LabelFor(model => model.pais)</label>
+                                                @Html.TextBoxFor(model => model.pais, new { @class = "form-control form-control-alternative", @placeholder = "Country" })
+                                                @Html.ValidationMessageFor(model => model.pais, "", new { @class = "badge badge-warning" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-country">@Html.LabelFor(model => model.CEP)</label>
+                                                @Html.TextBoxFor(model => model.CEP, new { @class = "form-control form-control-alternative", @placeholder = "Postal Code" })
+                                                @Html.ValidationMessageFor(model => model.CEP, "", new { @class = "badge badge-warning" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-4" />
+                                <!-- Description -->
+                                <h6 class="heading-small text-muted mb-4">About me</h6>
+                                <div class="pl-lg-4">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            @*<div class="form-group">
+                                                <label class="form-control-label" for="input-dtnasc">@Html.LabelFor(model => model.dtnasc)</label>
+                                                <div class="input-group input-group-alternative">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                                    </div>
+                                                    <input class="form-control datepicker" placeholder="Select date" type="text" id="dtnasc">
+                                                </div>
+
+                                            </div>*@
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-institution">@Html.LabelFor(model => model.dtnasc)</label>
+                                                    @Html.TextBoxFor(model => model.dtnasc, new { @class = "form-control datepicker", @placeholder = "Formation" })
+                                                    @Html.ValidationMessageFor(model => model.dtnasc, "", new { @class = "badge badge-warning" })
+                                                </div>
+                                            </div>
+
+
+
+                                            
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-institution">@Html.LabelFor(model => model.formacao)</label>
+                                                @Html.TextBoxFor(model => model.formacao, new { @class = "form-control form-control-alternative", @placeholder = "Formation" })
+                                                @Html.ValidationMessageFor(model => model.formacao, "", new { @class = "badge badge-warning" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-course">@Html.LabelFor(model => model.curso)</label>
+                                                @Html.TextBoxFor(model => model.curso, new { @class = "form-control form-control-alternative", @placeholder = "Course" })
+                                                @Html.ValidationMessageFor(model => model.curso, "", new { @class = "badge badge-warning" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-institution">@Html.LabelFor(model => model.instituicao)</label>
+                                                @Html.TextBoxFor(model => model.instituicao, new { @class = "form-control form-control-alternative", @placeholder = "Institution" })
+                                                @Html.ValidationMessageFor(model => model.instituicao, "", new { @class = "badge badge-warning" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label>@Html.LabelFor(model => model.about)</label>
+                                                @Html.TextAreaFor(model => model.about, new { @class = "form-control form-control-alternative", @placeholder = "A few words about you ..." })
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="text-right">
+                                    <button name="button" class="btn btn-primary mt-4" value="register">Save</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer -->
+            <p></p><p></p>
+        </div>
+    </div>
+
+
+}

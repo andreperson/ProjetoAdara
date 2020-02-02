@@ -1,0 +1,237 @@
+﻿@model Domain.ModelView.AjudaModelView
+
+
+@{
+    ViewBag.Title = @Domain.Util.config.Title;
+}
+
+@section Scripts {
+    <link type="text/css" href="@Domain.Util.config.UrlSite/assets/css/argon.css?v=1.0.0" rel="stylesheet">
+    <script src="@Domain.Util.config.UrlSite/Scripts/jsmask/lib/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="@Domain.Util.config.UrlSite/Scripts/jsmask/dist/jquery.maskedinput.min.js" type="text/javascript"></script>
+    <script src="@Domain.Util.config.UrlSite/Scripts/jqueryenterdesable.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        //$('input:checkbox').change(function () {
+        //    //tipoid
+        //    if (this.checked == false) {
+        //        var ckname = this.name;
+        //        var tpindex = ckname.indexOf("&_")
+        //        var tpid = this.name.substr(3, tpindex - 3);
+
+        //        //menuid
+        //        var mnid = this.name.substr(tpindex + 2, 10);
+
+        //        if (mnid == "1") {
+        //            this.checked = true;
+        //        }
+
+        //    }
+
+        //});
+
+
+
+        //**********************************************
+        //fim submit
+
+
+    </script>
+}
+
+
+
+@using (Html.BeginForm("AjudaEdit", "Help", FormMethod.Post, new { autocomplete = "on" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-8 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">@ViewBag.PageTopInformation</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <h6 class="heading-small text-muted mb-4">@ViewBag.Acao</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            @ViewBag.MenuDescricao | @ViewBag.MenuSubDescricao
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">@Html.LabelFor(model => model.titulo)</label>
+                                            @Html.TextBoxFor(model => model.titulo, new { @class = "form-control form-control-alternative" })
+                                            @Html.ValidationMessageFor(model => model.titulo)
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">@Html.LabelFor(model => model.descricao)</label>
+                                            @Html.TextAreaFor(model => model.descricao, new { @class = "form-control form-control-alternative", @cols = "150", @rows = "8", @style = "width:100%;" })
+                                            @Html.ValidationMessageFor(model => model.descricao)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button name="button" class="btn btn-primary mt-4" value="register">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Hidden("helpid", Model.helpid)
+        @Html.Hidden("Menuid", Model.menuid)
+        @Html.Hidden("MenuSubId", Model.menusubid)
+        @Html.Hidden("menuid_click", Model.menuid_click)
+        @Html.Hidden("menusubid_click", Model.menusubid_click)
+
+
+        <!-- Table -->
+        <div class="row mt-5">
+            <div class="col-xl-12 mb-5 mb-xl-0">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Register</h3>
+                            </div>
+                            <div class="col text-right">
+                                <span class="heading-small text-muted mb-4">@Model.Ajudas.Count record(s) listed</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Menu | Sub</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">View</th>
+                                    <th scope="col">Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Ajudas)
+                                {
+                                    <tr>
+                                        <th scope="row">
+                                            @item.Menus.descricao | @item.MenusSub.descricao
+                                        </th>
+                                        <td>
+                                            @item.titulo
+                                        </td>
+                                        <td>
+                                            @if (item.descricao.Length > 70)
+                                            {
+                                                @item.descricao.Substring(0, 70).ToString()<span>...</span>;
+                                            }
+                                            else
+                                            {
+                                                @item.descricao;
+                                            }
+
+                                        </td>
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/Help/AjudaView/@Model.menuid_click/@Model.menusubid_click/@Model.menusubid">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-open.png" title="edit help" width="30" />
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="@Domain.Util.config.UrlSite/Help/AjudaEdit/@Model.menuid_click/@Model.menusubid_click/@Model.menusubid">
+                                                <img src="@Domain.Util.config.UrlImg/icone/ico-edit.png" title="view help" width="30" />
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <div class="card-footer py-4">
+                            <nav aria-label="...">
+                                @*<ul class="pagination justify-content-end mb-0">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">
+                                                <i class="fas fa-angle-left"></i>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active">
+                                            <a class="page-link" href="#">1</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">
+                                                <i class="fas fa-angle-right"></i>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    </ul>*@
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p></p><p></p>
+        @*<!-- End Table -->
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="row align-items-center justify-content-xl-between">
+                    <div class="col-xl-6">
+                        <div class="copyright text-center text-xl-left text-muted">
+                            &copy; 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>*@
+    </div>
+
+
+}

@@ -14,8 +14,8 @@ namespace Domain.ModelView
     {
         public Int16 clientetipoid { get; set; }
 
-        [Required(ErrorMessage = "Descricao")]
-        [Display(Name = "Descricao")]
+        [Required(ErrorMessage = "Description")]
+        [Display(Name = "Description")]
         public string descricao { get; set; }
 
         public int status { get; set; }

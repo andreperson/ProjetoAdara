@@ -12,30 +12,68 @@ namespace Domain.ModelView
 {
     public class UsuarioModelView
     {
-        public int userid { get; set; }
+        public Int16 userid { get; set; }
         public int usuariotipoid { get; set; }
 
-        [Required(ErrorMessage = "Senha")]
-        [Display(Name = "Senha")]
+        [Required(ErrorMessage = "Password")]
+        [Display(Name = "Password")]
         public string senha { get; set; }
 
-        [Required(ErrorMessage = "Nome")]
-        [Display(Name = "Nome")]
+        [Required(ErrorMessage = "Firlst Name")]
+        [Display(Name = "First Name")]
         public string nome { get; set; }
 
-        [Required(ErrorMessage = "Apelido")]
-        [Display(Name = "Apelido")]
+        [Required(ErrorMessage = "Last Nome")]
+        [Display(Name = "Last Nome")]
+        public string sobrenome { get; set; }
+
+        [Required(ErrorMessage = "Nick Name")]
+        [Display(Name = "Nick Name")]
         public string apelido { get; set; }
 
-        [Display(Name = "Imagem")]
+        [Display(Name = "Birth Date")]
+        public string dtnasc { get; set; }
+
+        [Display(Name = "Course")]
+        public string curso { get; set; }
+
+        [Display(Name = "Institution")]
+        public string instituicao{ get; set; }
+
+        [Display(Name = "Formation")]
+        public string formacao { get; set; }
+
+        [Display(Name = "Adress")]
+        public string endereco { get; set; }
+
+        [Display(Name = "City")]
+        public string cidade { get; set; }
+
+        [Required(ErrorMessage = "Country")]
+        [Display(Name = "Country")]
+        public string pais { get; set; }
+
+        [Display(Name = "CEP")]
+        public string CEP { get; set; }
+
+        [Display(Name = "About me")]
+        public string about { get; set; }
+
+
+        [Display(Name = "Image")]
         public HttpPostedFileBase imagem { get; set; }
 
-        [Display(Name = "Arquivo Imagem")]
+        [Display(Name = "Image File")]
         public string arquivoimagem { get; set; }
 
         [Required(ErrorMessage = "E-mail")]
         [Display(Name = "E-mail")]
         public string email { get; set; }
+
+        [Display(Name = "Receive E-mails")]
+        public int recebeemails { get; set; }
+        public bool recebeemailb { get; set; }
+
         public Int16 menuid { get; set; }
         public Int16 menusubid { get; set; }
         public int status { get; set; }
@@ -47,6 +85,7 @@ namespace Domain.ModelView
 
         public List<User> Usuarios { get; set; }
         public List<UsuarioTipo> UsuariosTipos { get; set; }
-        
+        public List<JobStatus> JobStatus { get; set; }
+
     }
 }

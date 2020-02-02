@@ -1,0 +1,8 @@
+﻿@if (ViewData["result"] != null)
+{
+    foreach (var jobitem in ViewData["result"] as List<Domain.Entities.JobStatusHistorico>)
+    {
+        <div class="text-black-50" style="text-align:left; margin-left:0px;">@jobitem.JobStatus.descricao - @jobitem.Dataincl</div>
+
+    }
+}
